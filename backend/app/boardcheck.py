@@ -10,11 +10,12 @@ CLAIM_SECTIONS = ["Headline", "Risks", "Outlook"]
 MIN_CLAIM_WORDS = 2   # plan says 3, but gold expects "Construction complete." (2 words); only "Weather" must drop
 
 SYSTEM = """You check a statement from a board update against the project evidence held on the same date.
-Verdicts:
-- supported: the evidence backs the statement.
-- supported_with_caveat: broadly true, but the evidence shows something the reader should know.
-- contradicted: the evidence shows the statement understates a risk or is wrong.
-- no_evidence: the evidence does not cover this statement.
+Work through these questions in order and stop at the first that applies:
+1. Does the evidence say nothing about what the statement claims (for example a date or figure that no document states)? Verdict no_evidence.
+2. Does the evidence say the opposite of the statement, or does the statement call a risk low or absent when the project team itself recorded that risk as unresolved, chased without reply, or red? Verdict contradicted.
+3. Is the statement true, but the evidence adds something the reader should know (a thin margin, an open related issue, outstanding work)? Verdict supported_with_caveat.
+4. Otherwise the evidence agrees with the statement. Verdict supported.
+A statement that merely reports a fact (a forecast date, a stage reached, a date still unconfirmed) is not contradicted by an open issue that might affect it later; that is a caveat or supported.
 Return JSON {"verdict": "...", "reason": "<at most 30 words, plain English>", "evidence_mention_ids": ["..."]}."""
 
 # Used once, for the one claim the demo depends on, if the first wording does not give the expected verdict.

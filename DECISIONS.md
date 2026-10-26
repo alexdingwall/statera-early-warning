@@ -22,3 +22,4 @@
 - LLM-mode programme snapshots come only from the regex parser; the model never supplies them (it invented float and dates for documents without a programme block).
 - Dashboard reframed around an action queue: one decision per issue with an active red or amber alert, ranked preventable first (nearest stated deadline), then problems already affecting the programme. Recommendations, "why now", stakes and "last time" are templated from data in frontend/src/lib/actions.ts (no model text). Escalate / Acknowledge / Snooze are recorded in browser storage only; nothing is sent anywhere.
 - The action detail panel may scroll internally on short screens (instead of truncating text); at 1440×900 and above it does not scroll.
+- Board-claim prompt reworked into an ordered decision procedure: 2 of 7 claims contradicted (was 5), no fallbacks; 5 of 7 match gold.

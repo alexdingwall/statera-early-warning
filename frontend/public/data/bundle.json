@@ -282,17 +282,18 @@
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
+            "ash-wk19#1",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-1",
-          "reason": "DNO final connection works are unresolved and flagged as critical, indicating construction is not complete.",
+          "reason": "Construction is complete, but DNO connection is unresolved and could delay the project.",
           "section": "Headline",
           "span": [
             107,
             129
           ],
           "text": "Construction complete.",
-          "verdict": "contradicted"
+          "verdict": "supported_with_caveat"
         },
         {
           "evidence_mention_ids": [
@@ -303,29 +304,31 @@
             "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-2",
-          "reason": "The forecast date is still 2025-11-14, but the DNO connection works are unresolved and could delay the schedule.",
+          "reason": "Energisation forecast matches baseline, but DNO connection works is unresolved and could impact the schedule.",
           "section": "Headline",
           "span": [
             130,
             186
           ],
           "text": "Energisation forecast 14/11/2025, in line with baseline.",
-          "verdict": "contradicted"
+          "verdict": "supported_with_caveat"
         },
         {
           "evidence_mention_ids": [
             "ash-wk12#1",
-            "ash-wk19#2"
+            "ash-wk19#2",
+            "ash-wk19#1",
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-3",
-          "reason": "Evidence shows DNO final connection works are unresolved and could delay the start date beyond 01/12/2025.",
+          "reason": "Evidence shows DNO connection is unresolved and could delay the start date.",
           "section": "Headline",
           "span": [
             187,
             229
           ],
           "text": "Capacity market delivery start 01/12/2025.",
-          "verdict": "contradicted"
+          "verdict": "supported_with_caveat"
         },
         {
           "evidence_mention_ids": [
@@ -333,23 +336,24 @@
             "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-4",
-          "reason": "Evidence shows DNO connection works date is not confirmed and has been chased multiple times with no response.",
+          "reason": "DNO connection date is unconfirmed, but the issue is open and has been chased multiple times.",
           "section": "Risks",
           "span": [
             438,
             482
           ],
           "text": "DNO connection works date not yet confirmed.",
-          "verdict": "supported"
+          "verdict": "supported_with_caveat"
         },
         {
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
+            "ash-wk19#1",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-5",
-          "reason": "The statement claims low risk and imminent confirmation, but ASH-001 shows ongoing delays and red alerts since June 2.",
+          "reason": "Evidence shows ASH-001 is unresolved and marked red, contradicting the low risk statement.",
           "section": "Risks",
           "span": [
             483,
@@ -366,7 +370,7 @@
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-6",
-          "reason": "The statement suggests the project is slightly over budget, but the evidence shows no direct budget-related issues, though the DNO delay could impact the schedule.",
+          "reason": "Statement is supported, but DNO connection works are unresolved and could impact programme.",
           "section": "Outlook",
           "span": [
             552,
@@ -377,13 +381,10 @@
         },
         {
           "evidence_mention_ids": [
-            "ash-wk12#1",
-            "ash-wk19#2",
-            "ash-wk19#1",
-            "ash-wk19#3"
+            "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-7",
-          "reason": "DNO final connection works are unresolved and have triggered red alerts, indicating significant risk.",
+          "reason": "Evidence shows ASH-001 is unresolved and marked red, contradicting 'no material concerns'.",
           "section": "Outlook",
           "span": [
             588,
@@ -1707,7 +1708,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T20:55:14+00:00",
+    "generated_at": "2026-10-26T21:03:56+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v2",
     "source": "llm",
