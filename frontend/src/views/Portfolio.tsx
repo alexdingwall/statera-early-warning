@@ -1,6 +1,6 @@
 import { AlertOctagon, AlertTriangle, CheckCircle2, MinusCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
 import { buildActions } from "@/lib/actions"
@@ -18,7 +18,8 @@ export function Portfolio() {
   const actions = useStore((s) => s.actions)
   const all = useMemo(() => buildActions(bundle, asOf), [bundle, asOf])
   const [tab, setTab] = useState<"todo" | "done">("todo")
-  const [sel, setSel] = useState<string | null>(null)
+  const [params] = useSearchParams()
+  const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
   const [page, setPage] = useState(0)
 
   const todo = all.filter((i) => !actions[i.issue.id])
@@ -100,7 +101,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
   const snap = latestSnapshot(bundle, p.id, asOf)
 
   return (
-    <Link to={`/project/${p.id}`} className={cn("block rounded-lg border bg-surface px-3 py-2 hover:bg-bg", st?.divergent ? "border-red" : "border-line")}>
+    <Link to={`/project/${p.id}`} className={cn("block rounded-lg border bg-surface px-3 py-1.5 hover:bg-bg", st?.divergent ? "border-red" : "border-line")}>
       <div className="flex items-center justify-between">
         <span className="flex items-center gap-2">
           <span className="size-2.5 rounded-full" style={{ background: PROJECT_COLOUR[p.id] }} aria-hidden />
@@ -110,7 +111,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
       </div>
       {docs.length > 0 && (
         <>
-          <div className="mt-1.5 flex items-center gap-2">
+          <div className="mt-1 flex items-center gap-2">
             <ReportedPill status={st?.reported_status} />
             <EvidencePill status={st?.evidence_status} />
           </div>

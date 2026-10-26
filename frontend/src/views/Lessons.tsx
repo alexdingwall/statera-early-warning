@@ -68,7 +68,7 @@ export function LessonsView({ project }: { project: string }) {
                     <span className="text-muted-ink"> at <span className="capitalize">{prior.project}</span> ({fmtDate(prior.first_seen)}) </span>
                     <Pill tone={m.confidence === "high" ? "info" : "grey"} className="h-5">{m.confidence === "high" ? "High" : "Medium"}</Pill>
                   </p>
-                  <p className="line-clamp-2 text-muted-ink">{m.explanation}</p>
+                  <p className="text-muted-ink">{m.explanation}</p>
                 </li>
               )
             })}

@@ -1,7 +1,7 @@
 import { BellOff, Check, ChevronRight, History, Megaphone } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useStore } from "@/store"
-import { ageText, categoryLabel, fmtDate } from "@/lib/format"
+import { ageText, categoryLabel, fmtDate, STATUS_WORDS } from "@/lib/format"
 import { STATE_WORDS, type ActionItem, type ActionState } from "@/lib/actions"
 import { SeverityIcon, btn, btnPrimary } from "@/components/ui-bits"
 
@@ -39,20 +39,18 @@ function Block({ title, children }: { title: string; children: React.ReactNode }
 
 export function ActionDetail({ item }: { item: ActionItem }) {
   const asOf = useStore((s) => s.asOf)
-  const bundle = useStore((s) => s.bundle)!
   const openDrawer = useStore((s) => s.openDrawer)
   const { issue } = item
-  const cp = issue.counterparty ? bundle.counterparties[issue.counterparty]?.label : null
   const latest = issue.mentions.filter((m) => m.date <= asOf).slice(-1)[0]
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-3 overflow-hidden p-4">
+    <div className="flex h-full min-h-0 flex-col gap-2.5 overflow-y-auto p-3.5">
       <div className="flex items-start gap-2">
         <span className="mt-0.5"><SeverityIcon severity={item.severity} size={18} /></span>
         <div className="min-w-0 flex-1">
           <h2 className="text-[16px] font-semibold leading-snug">{issue.title}</h2>
           <p className="text-[12px] text-muted-ink">
-            <span className="capitalize">{item.project}</span> · {categoryLabel(issue.category)}{cp ? ` · ${cp}` : ""} · {ageText(issue.first_seen, asOf)}
+            <span className="capitalize">{item.project}</span> · {categoryLabel(issue.category)} · {ageText(issue.first_seen, asOf)}
           </p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-0.5 text-[12px]">
@@ -66,13 +64,15 @@ export function ActionDetail({ item }: { item: ActionItem }) {
       <div className="shrink-0 rounded-md border border-blue-500/40 bg-blue-500/5 p-3">
         <h3 className="mb-1 text-[12px] font-semibold text-[#0B6DA6]">Recommended action</h3>
         <p className="text-[15px] font-semibold leading-snug">{item.action}</p>
-        <p className="mt-1 text-[12px] text-muted-ink">
-          {item.owner ? `Suggested owner: ${item.owner}` : ""}{item.decideBy ? ` · decide by ${fmtDate(item.decideBy)}` : ""}
-        </p>
-        <div className="mt-2.5"><ActionButtons item={item} /></div>
+        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+          <ActionButtons item={item} />
+          <p className="text-[12px] text-muted-ink">
+            {item.owner ? `Suggested owner: ${item.owner}` : ""}{item.decideBy ? ` · decide by ${fmtDate(item.decideBy)}` : ""}
+          </p>
+        </div>
       </div>
 
-      <div className="grid shrink-0 grid-cols-2 gap-5 text-[13px]">
+      <div className="grid shrink-0 grid-cols-[3fr_2fr] gap-5 text-[13px]">
         <Block title="Why now">
           <ul className="list-disc space-y-0.5 pl-4">
             {item.why.slice(0, 3).map((w) => <li key={w}>{w}</li>)}
@@ -86,13 +86,30 @@ export function ActionDetail({ item }: { item: ActionItem }) {
       </div>
 
       {item.lastTime && (
-        <div className="shrink-0 rounded-md bg-bg p-3 text-[13px]">
-          <h3 className="mb-0.5 flex items-center gap-1 text-[12px] font-semibold text-muted-ink"><History size={13} aria-hidden />{item.lastTime.kind === "incident" ? "Last time" : "Lesson from Netherwood"}</h3>
-          <p className="line-clamp-2">{item.lastTime.text}</p>
-          {item.lastTime.lesson && <p className="mt-0.5 font-medium text-[#8A5A12]">{item.lastTime.lesson}</p>}
+        <div className="shrink-0 rounded-md bg-bg px-3 py-2 text-[13px]">
+          <div className="mb-0.5 flex items-center justify-between">
+            <h3 className="flex items-center gap-1 text-[12px] font-semibold text-muted-ink"><History size={13} aria-hidden />{item.lastTime.kind === "incident" ? "Last time" : "Lesson from Netherwood"}</h3>
+            {item.lastTime.prior && (
+              <Link to={`/project/${item.lastTime.prior.project}?issue=${item.lastTime.prior.id}`} className="text-[12px] text-[#0B6DA6] hover:underline">
+                Open the earlier issue at <span className="capitalize">{item.lastTime.prior.project}</span>
+              </Link>
+            )}
+          </div>
+          <p>{item.lastTime.text}</p>
+          {item.lastTime.prior && (
+            <ul className="mt-1 space-y-0.5 text-[12px]">
+              {item.lastTime.prior.events.map((e) => (
+                <li key={e.docId + e.date}>
+                  <span className="num text-muted-ink">{fmtDate(e.date)} · </span>
+                  <button className="text-[#0B6DA6] hover:underline" onClick={() => openDrawer({ docId: e.docId, span: e.span })}>{e.docTitle}</button>
+                  <span className="text-muted-ink"> · {STATUS_WORDS[e.status] ?? e.status}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+          {item.lastTime.lesson && <p className="mt-1 font-medium text-[#8A5A12]">{item.lastTime.lesson}</p>}
         </div>
       )}
-
     </div>
   )
 }

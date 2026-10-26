@@ -20,7 +20,13 @@ export interface ActionItem {
   daysLeft: number | null
   why: string[]
   stakes: string[]
-  lastTime: { kind: "incident" | "lesson"; text: string; lesson: string | null } | null
+  lastTime: {
+    kind: "incident" | "lesson"
+    text: string
+    lesson: string | null
+    /** The earlier issue, so the UI can link to it, and what was recorded about it and when. */
+    prior?: { id: string; project: string; events: { date: string; docId: string; docTitle: string; status: string; span: [number, number] | null }[] }
+  } | null
   alerts: Alert[]
   /** True when the issue has already affected the programme: a recovery decision, not a prevention one. */
   affecting: boolean
@@ -86,6 +92,10 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       let lastTime: ActionItem["lastTime"] = null
       if (prior && m) lastTime = {
         kind: "incident",
+        prior: {
+          id: prior.id, project: prior.project,
+          events: mentionsUpTo(prior, asOf).map((x) => ({ date: x.date, docId: x.doc_id, docTitle: docById(b, x.doc_id).title, status: x.status, span: x.quote_span })),
+        },
         text: `${prior.title} at ${cap(prior.project)} (${fmtDate(prior.first_seen)}). ${m.explanation}`,
         lesson: hit ? `Agreed afterwards: ${hit.lesson.action.toLowerCase()} (owner ${hit.lesson.owner}). Status: ${hit.lesson.status.toLowerCase()}.` : null,
       }
