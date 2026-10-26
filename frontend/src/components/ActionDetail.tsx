@@ -20,10 +20,13 @@ export function ActionButtons({ item, compact }: { item: ActionItem; compact?: b
   }
   const size = compact ? "h-7 text-[12px]" : ""
   return (
+    <div>
     <div className="flex gap-2">
-      <button className={`${btnPrimary} ${size}`} onClick={() => set("escalated")}><Megaphone size={14} aria-hidden />Escalate</button>
+      <button title="Records your decision on this device only. Nothing is sent." className={`${btnPrimary} ${size}`} onClick={() => set("escalated")}><Megaphone size={14} aria-hidden />Mark as escalated</button>
       <button className={`${btn} ${size}`} onClick={() => set("acknowledged")}><Check size={14} aria-hidden />Acknowledge</button>
       <button className={`${btn} ${size}`} onClick={() => set("snoozed")}><BellOff size={14} aria-hidden />Snooze</button>
+    </div>
+    {!compact && <p className="mt-1 text-[12px] text-muted-ink">Saved on this device only. Nothing is sent to anyone.</p>}
     </div>
   )
 }

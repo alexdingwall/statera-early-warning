@@ -15,6 +15,7 @@ function Stat({ label, value, note }: { label: string; value: string; note: stri
 export function Evaluation() {
   const bundle = useStore((s) => s.bundle)!
   const ev = bundle.evaluation
+  const title = (goldId: string) => bundle.issues.find((i) => i.gold_id === goldId)?.title ?? goldId
   const lt = ev.lead_time
   const gtDate = lt.ground_truth_date
   const lead = bundle.issues.find((i) => i.id === lt.issue_id)
@@ -77,7 +78,7 @@ export function Evaluation() {
                 {ev.cross_project.detail.map((d) => (
                   <li key={d.issue} className="flex items-center gap-1.5">
                     {d.found ? <CheckCircle2 size={13} className="text-green" aria-hidden /> : <XCircle size={13} className="text-red" aria-hidden />}
-                    {d.issue} to {d.prior}: {d.found ? "found" : "not found"}
+                    {title(d.issue)} matched to earlier {title(d.prior)}: {d.found ? "found" : "not found"}
                   </li>
                 ))}
               </ul>

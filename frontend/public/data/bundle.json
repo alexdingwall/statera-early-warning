@@ -62,7 +62,7 @@
       "title": "DNO final connection works confirmation"
     },
     {
-      "explanation": "Raised in 2 documents in a row since 21 Mar 2025 and still open. Waiting on DNO (regional grid company). 1 chases recorded.",
+      "explanation": "Raised in 2 documents in a row since 21 Mar 2025 and still open. Waiting on DNO (regional grid company). At least 2 chases recorded.",
       "fired_on": "2025-05-16",
       "id": "ALR-ASH-001-PERSISTENCE-amber",
       "issue_id": "ASH-001",
@@ -124,7 +124,7 @@
       "title": "DNO final connection works confirmation"
     },
     {
-      "explanation": "Raised in 2 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). 3 chases recorded.",
+      "explanation": "Raised in 2 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). At least 3 chases recorded.",
       "fired_on": "2025-06-12",
       "id": "ALR-DRU-007-PERSISTENCE-amber",
       "issue_id": "DRU-007",
@@ -175,7 +175,7 @@
       "title": "Hedgerow removal timing"
     },
     {
-      "explanation": "Raised in 3 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). 4 chases recorded.",
+      "explanation": "Raised in 3 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). At least 4 chases recorded.",
       "fired_on": "2025-06-13",
       "id": "ALR-DRU-007-PERSISTENCE-red",
       "issue_id": "DRU-007",
@@ -185,7 +185,7 @@
       "title": "Missing swept path analysis"
     },
     {
-      "explanation": "Raised in 2 documents in a row since 12 Jun 2025 and still open. Waiting on Landowner (Drumgarve).",
+      "explanation": "Raised in 2 documents in a row since 12 Jun 2025 and still open. Waiting on Landowner (Drumgarve). At least 1 chases recorded.",
       "fired_on": "2025-06-13",
       "id": "ALR-DRU-008-PERSISTENCE-amber",
       "issue_id": "DRU-008",
@@ -282,29 +282,26 @@
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
-            "ash-wk19#1",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-1",
-          "reason": "Construction is complete, but DNO connection is unresolved and could delay the project.",
+          "reason": "Evidence shows DNO final connection works are unresolved and impacting the project.",
           "section": "Headline",
           "span": [
             107,
             129
           ],
           "text": "Construction complete.",
-          "verdict": "supported_with_caveat"
+          "verdict": "contradicted"
         },
         {
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
-            "ash-wk19#1",
-            "ash-wk19#3",
-            "ash-wk19#2"
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-2",
-          "reason": "Energisation forecast matches baseline, but DNO connection works is unresolved and could impact the schedule.",
+          "reason": "Energisation date matches baseline, but DNO connection works are unresolved and impacting the critical path.",
           "section": "Headline",
           "span": [
             130,
@@ -317,11 +314,10 @@
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
-            "ash-wk19#1",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-3",
-          "reason": "Evidence shows DNO connection is unresolved and could delay the start date.",
+          "reason": "Evidence shows DNO confirmation is unresolved and could delay the start date.",
           "section": "Headline",
           "span": [
             187,
@@ -336,7 +332,7 @@
             "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-4",
-          "reason": "DNO connection date is unconfirmed, but the issue is open and has been chased multiple times.",
+          "reason": "DNO date not confirmed, but no evidence of a confirmed date. Open issue with ongoing chases.",
           "section": "Risks",
           "span": [
             438,
@@ -348,12 +344,10 @@
         {
           "evidence_mention_ids": [
             "ash-wk12#1",
-            "ash-wk19#2",
-            "ash-wk19#1",
-            "ash-wk19#3"
+            "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-5",
-          "reason": "Evidence shows ASH-001 is unresolved and marked red, contradicting the low risk statement.",
+          "reason": "Evidence shows unresolved DNO confirmation with red alerts and no response, contradicting low risk claim.",
           "section": "Risks",
           "span": [
             483,
@@ -370,7 +364,7 @@
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-6",
-          "reason": "Statement is supported, but DNO connection works are unresolved and could impact programme.",
+          "reason": "DNO delay is unresolved and could impact programme, but statement is otherwise accurate.",
           "section": "Outlook",
           "span": [
             552,
@@ -381,10 +375,12 @@
         },
         {
           "evidence_mention_ids": [
-            "ash-wk19#2"
+            "ash-wk12#1",
+            "ash-wk19#2",
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-7",
-          "reason": "Evidence shows ASH-001 is unresolved and marked red, contradicting 'no material concerns'.",
+          "reason": "DNO final connection works confirmation is unresolved and marked red, contradicting 'no material concerns'.",
           "section": "Outlook",
           "span": [
             588,
@@ -1708,7 +1704,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T21:10:54+00:00",
+    "generated_at": "2026-10-26T21:26:26+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v2",
     "source": "llm",

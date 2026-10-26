@@ -49,8 +49,9 @@ def persistence_alerts(issue: Issue, doc_types: dict[str, str], labels: dict[str
             text = f"Raised in {n} documents in a row since {fmt(streak[0].date)} and still open."
             if any(s.awaiting_third_party for s in streak) and issue.counterparty:
                 text += f" Waiting on {labels.get(issue.counterparty, issue.counterparty)}."
-            if m.chase_count is not None:
-                text += f" {m.chase_count} chases recorded."
+            chases = max((s.chase_count for s in streak if s.chase_count is not None), default=None)
+            if chases is not None:
+                text += f" At least {chases} chases recorded."
             alerts.append(Alert(
                 id=f"ALR-{issue.id}-PERSISTENCE-{level}", issue_id=issue.id, project=issue.project,
                 rule="PERSISTENCE", severity=level, fired_on=m.date, title=issue.title,

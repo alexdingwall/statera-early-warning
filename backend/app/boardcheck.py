@@ -113,7 +113,7 @@ def evidence_pack(res, board_doc) -> tuple[str, list[str]]:
         ms = [m for m in sorted_mentions(issue) if m.date <= as_of and m.doc_id != board_doc.id]
         if not ms:
             continue
-        lines.append(f"Issue {issue.id}: {issue.title}")
+        lines.append(f"Issue: {issue.title}")
         for m in ms:
             ids.append(m.id)
             chase = f", chases {m.chase_count}" if m.chase_count is not None else ""
@@ -123,7 +123,7 @@ def evidence_pack(res, board_doc) -> tuple[str, list[str]]:
     act = [a for a in active_alerts([a for a in res.alerts if a.project == board_doc.project], p_issues, as_of) if a.severity != "info"]
     if act:
         lines.append("Active alerts:")
-        lines += [f"  {a.severity} {a.rule} {a.issue_id} since {a.fired_on.isoformat()}" for a in act]
+        lines += [f"  {a.severity} {a.rule} on \"{a.title}\" since {a.fired_on.isoformat()}" for a in act]
     snaps = [s for s in res.snapshots if s.project == board_doc.project and s.date <= as_of]
     if snaps:
         lines.append("Programme snapshots:")

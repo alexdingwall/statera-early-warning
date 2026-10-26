@@ -24,3 +24,4 @@
 - The action detail panel may scroll internally on short screens (instead of truncating text); at 1440×900 and above it does not scroll.
 - Board-claim prompt reworked into an ordered decision procedure: 2 of 7 claims contradicted (was 5), no fallbacks; 5 of 7 match gold.
 - Watch notes (backend/app/watch.py): shown from the first incident of a counterparty and category on another project until this project raises the same kind of issue with that counterparty. Which counterparties a project uses is treated as known from the start, as the mapping is hand-entered. No model calls.
+- Chase counts show the highest figure any report states ("At least N"), because later reports often say only "chased again". Board-check evidence names issues by title, not internal id.

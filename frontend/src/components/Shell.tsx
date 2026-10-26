@@ -67,7 +67,7 @@ export function Shell() {
   }, [dates])
 
   const recent = alertsFired(bundle, asOf).filter((a) => a.fired_on > addDays(asOf, -14)).length
-  const badge = bundle.meta.source === "gold" ? "Gold labels" : `Cached run · ${bundle.meta.model}`
+  const badge = bundle.meta.source === "gold" ? "Gold labels" : "Pre-computed run"
 
   return (
     <>

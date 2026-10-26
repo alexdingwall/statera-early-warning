@@ -49,7 +49,8 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       let n = 0
       while (n < ms.length && ms[ms.length - 1 - n].status === "open") n++
       const firstOpen = n ? ms[ms.length - n].date : issue.first_seen
-      const chase = [...ms].reverse().find((m) => m.chase_count !== null)?.chase_count ?? null
+      const counts = ms.map((m) => m.chase_count).filter((c): c is number => c !== null)
+      const chase = counts.length ? Math.max(...counts) : null   // the highest count any report states; later reports may only say "chased again"
 
       const cpLabel = issue.counterparty && issue.counterparty !== "internal" ? (b.counterparties[issue.counterparty]?.label ?? issue.counterparty).replace(/\s*\(.*\)$/, "") : null
       const waiting = !!latest?.awaiting_third_party && !!cpLabel
@@ -64,13 +65,13 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const target = cpLabel ? `Escalate formally to ${cpLabel}` : "Assign an owner and a date"
       let action: string
       if (impact) action = `Agree a recovery plan${cpLabel ? ` with ${cpLabel}` : ""} and update the forecast now. This issue has already affected the programme.`
-      else if (upcoming) action = `${target} before ${fmtDate(upcoming.deadline!)} (${daysLeft} days left, from the ${fmtDate(upcoming.declared_on)} report).`
+      else if (upcoming) action = `${target} before ${fmtDate(upcoming.deadline!)} (${daysLeft === 0 ? "due today" : `${daysLeft} days left`}, from the ${fmtDate(upcoming.declared_on)} report).`
       else if (passed) action = `${target} now. The deadline set in the report (${fmtDate(passed.deadline!)}) has passed and this is still open.`
       else action = `${target}. It has been raised in ${Math.max(n, 2)} reports and is still open.${cpLabel ? " Ask for a written answer and a named contact." : ""}`
 
       const why: string[] = []
       if (n >= 2 && !impact) why.push(`Raised in ${n} reports in a row since ${fmtDate(firstOpen)}.`)
-      if (chase !== null) why.push(`${chase} ${chase === 1 ? "chase" : "chases"} recorded${waiting ? `, waiting on ${cpLabel}` : ""}.`)
+      if (chase !== null) why.push(`At least ${chase} ${chase === 1 ? "chase" : "chases"} recorded${waiting ? `, waiting on ${cpLabel}` : ""}.`)
       const t = upcoming ?? passed
       if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text}”.`)
       if (impact) why.push(`Already affecting the programme (${docById(b, latest.doc_id).title}, ${fmtDate(impact.fired_on)}).`)
