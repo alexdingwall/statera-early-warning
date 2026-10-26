@@ -1,0 +1,86 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2024-12-31: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-net-snags",
+    "user": "Document date: 2024-12-31\nProject: netherwood\nDocument type: commissioning_summary\n\n---\nNetherwood - commissioning snag summary\n\nDecember 2024 (compiled retrospectively - weekly records\nincomplete for Oct/Nov)\n\nEnergisation achieved 09/12/2024, against a baseline of\n30/09/2024. Total slip approximately 10 weeks.\n\nPrincipal causes, in order of impact:\n\n1. Planning condition discharge (6 weeks). Construction traffic\n   management plan delayed by the civils contractor. Start on\n   site pushed accordingly.\n\n2. Transformer delivery (3 weeks). Supplier revised lead time\n   after order placed.\n\n3. Commissioning snags (1 week). Various, mostly minor. Notable:\n   PCS firmware was not updated consistently across all units\n   during snagging - one unit was offline during the update window\n   and was missed. This was not picked up at handover.\n\nLESSONS\nThe first two causes were both visible months in advance and\nneither was formally escalated until they had already bitten. Our\nweekly reports recorded them as \"issues\" from early on but there\nis no mechanism that turns a repeated issue into an escalation.\n\nHandover documentation to Operations was incomplete. The firmware\npoint above was known to the commissioning team and did not make\nit into the handover pack.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "planning",
+        "chase_count": null,
+        "counterparty_role": "civils contractor",
+        "description": "Construction traffic management plan delayed by the civils contractor, pushing start on site.",
+        "evidence_quote": "Planning condition discharge (6 weeks). Construction traffic management plan delayed by the civils contractor. Start on site pushed accordingly.",
+        "programme_impact": "realised",
+        "status": "materialised",
+        "title": "Planning condition discharge delay",
+        "triggers": [
+          {
+            "condition_text": "Construction traffic management plan delayed by the civils contractor.",
+            "deadline_date": "2024-12-31"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "procurement_supplier",
+        "chase_count": null,
+        "counterparty_role": "transformer supplier",
+        "description": "Supplier revised lead time after order placed, causing a 3-week delay.",
+        "evidence_quote": "Transformer delivery (3 weeks). Supplier revised lead time after order placed.",
+        "programme_impact": "realised",
+        "status": "materialised",
+        "title": "Transformer delivery delay",
+        "triggers": [
+          {
+            "condition_text": "Transformer delivery (3 weeks). Supplier revised lead time after order placed.",
+            "deadline_date": "2024-12-31"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "commissioning",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "PCS firmware was not updated consistently across all units during snagging, resulting in one unit being offline during the update window and missed at handover.",
+        "evidence_quote": "PCS firmware was not updated consistently across all units during snagging - one unit was offline during the update window and was missed. This was not picked up at handover.",
+        "programme_impact": "realised",
+        "status": "materialised",
+        "title": "Inconsistent PCS firmware update",
+        "triggers": [
+          {
+            "condition_text": "Various, mostly minor. Notable: PCS firmware was not updated consistently across all units during snagging - one unit was offline during the update window and was missed. This was not picked up at handover.",
+            "deadline_date": "2024-12-31"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Handover documentation to Operations was incomplete, with the firmware issue not included in the handover pack despite being known to the commissioning team.",
+        "evidence_quote": "Handover documentation to Operations was incomplete. The firmware point above was known to the commissioning team and did not make it into the handover pack.",
+        "programme_impact": "realised",
+        "status": "materialised",
+        "title": "Incomplete handover documentation",
+        "triggers": [
+          {
+            "condition_text": "Handover documentation to Operations was incomplete. The firmware point above was known to the commissioning team and did not make it into the handover pack.",
+            "deadline_date": "2024-12-31"
+          }
+        ]
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2024-09-30",
+      "float_days": 10,
+      "forecast_energisation": "2024-12-09"
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2025-05-16: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-ash-wk19",
+    "user": "Document date: 2025-05-16\nProject: ashfield\nDocument type: weekly_report\n\n---\n# Ashfield BESS - Weekly Progress\n\n**Week ending:** 16 May 2025\n**PM:** J. Patel\n\n## Programme\n- Baseline energisation: 14/11/2025\n- Current forecast: 14/11/2025\n- Float remaining: 4 days\n\n## Progress\n- Containers delivered wk18, offload complete, all six positioned\n- HV switchgear installed\n- Civils complete\n\n## Issues\n- Container offload required a second crane visit (access road\n  width). Cost variation submitted by the contractor, approx £8k.\n- **Still no DNO date for the final connection works.** Chased\n  again 09/05. Verbal indication of \"late summer\" but nothing in\n  writing. Raised with the connections manager.\n- Snagging on the switchroom cable entries - contractor to return.\n\n## Next\nCommissioning prep, await DNO.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "cost",
+        "chase_count": null,
+        "counterparty_role": "contractor",
+        "description": "Container offload required a second crane visit due to access road width.",
+        "evidence_quote": "Container offload required a second crane visit (access road width).",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Container offload required second crane visit",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": true,
+        "category": "planning",
+        "chase_count": 1,
+        "counterparty_role": "DNO",
+        "description": "The DNO has not provided a date for the final connection works, which is critical for the programme.",
+        "evidence_quote": "Still no DNO date for the final connection works. Chased again 09/05.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "No DNO date for final connection works",
+        "triggers": [
+          {
+            "condition_text": "within N weeks",
+            "deadline_date": "2025-08-16"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "planning",
+        "chase_count": null,
+        "counterparty_role": "contractor",
+        "description": "Snagging on the switchroom cable entries remains unresolved, requiring the contractor to return.",
+        "evidence_quote": "Snagging on the switchroom cable entries - contractor to return.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Snagging on switchroom cable entries",
+        "triggers": []
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2025-11-14",
+      "float_days": 4,
+      "forecast_energisation": "2025-11-14"
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2025-06-30: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-ash-board-jun",
+    "user": "Document date: 2025-06-30\nProject: ashfield\nDocument type: board_update\n\n---\n# Ashfield - Monthly update to the board\n\n**Period:** June 2025\n**Author:** Project delivery\n\n## Headline\n\nConstruction complete. Energisation forecast 14/11/2025, in line\nwith baseline. Capacity market delivery start 01/12/2025.\n\n## Budget\n\n£0.4m above baseline (1.2%), driven by:\n- Second crane mobilisation (£8k)\n- Civils weather delays (£22k)\n- Additional cable containment (£61k)\n- Contingency drawdown, various (£309k)\n\n## Risks\n\n- DNO connection works date not yet confirmed. Low risk, expected\n  to be confirmed shortly.\n- Weather\n\n## Outlook\n\nOn programme, slightly over budget. No material concerns.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": true,
+        "category": "contractor_performance",
+        "chase_count": null,
+        "counterparty_role": "DNO",
+        "description": "DNO connection works date not yet confirmed.",
+        "evidence_quote": "DNO connection works date not yet confirmed. Low risk, expected to be confirmed shortly.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "DNO connection works delayed",
+        "triggers": [
+          {
+            "condition_text": "expected to be confirmed shortly",
+            "deadline_date": "2025-06-30"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "weather",
+        "chase_count": null,
+        "counterparty_role": "civils contractor",
+        "description": "Civils weather delays have contributed to the budget overrun.",
+        "evidence_quote": "Civils weather delays (£22k)",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Civils weather delays",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "cost",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Additional cable containment has contributed to the budget overrun.",
+        "evidence_quote": "Additional cable containment (£61k)",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Additional cable containment costs",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "cost",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Contingency drawdown has contributed to the budget overrun.",
+        "evidence_quote": "Contingency drawdown, various (£309k)",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Contingency drawdown costs",
+        "triggers": []
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2025-11-14",
+      "float_days": 0,
+      "forecast_energisation": "2025-11-14"
+    }
+  }
+}

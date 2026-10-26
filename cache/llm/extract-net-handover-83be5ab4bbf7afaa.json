@@ -1,0 +1,102 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2025-01-20: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-net-handover",
+    "user": "Document date: 2025-01-20\nProject: netherwood\nDocument type: handover_status\n\n---\nNETHERWOOD - HANDOVER TO OPERATIONS\nStatus as at 20/01/2025\n\nEnergisation: 09/12/2024\nHandover meeting: 18/12/2024\nStatus: INCOMPLETE\n\nOutstanding items:\n\n- As-built drawings: issued but not verified against site. Two\n  discrepancies already found by Operations in the cable route.\n- O&M manuals: received for PCS and HVAC, outstanding for the BMS.\n- Commissioning records: partial. Some test sheets missing.\n- Firmware versions: not formally recorded at handover. Operations\n  have since found at least one PCS on an earlier version than the\n  rest of the site.\n- Spares inventory: not provided.\n- Training: two sessions delivered, a third outstanding.\n\nCOMMENT\nOperations have accepted the site into service because commercially\nwe needed to start delivering, but the handover is not complete and\nthe outstanding items are now competing with live operational work\nfor attention.\n\nThis is the third site in a row where handover has been signed off\nas \"complete with exceptions\" and the exceptions have then taken\nmonths to close out.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "As-built drawings have discrepancies in cable routes, identified by Operations.",
+        "evidence_quote": "As-built drawings: issued but not verified against site. Two discrepancies already found by Operations in the cable route.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "As-built drawings discrepancies",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "O&M manuals for the BMS are outstanding, while PCS and HVAC manuals have been received.",
+        "evidence_quote": "O&M manuals: received for PCS and HVAC, outstanding for the BMS.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "O&M manuals incomplete",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Commissioning records are partial, with some test sheets missing.",
+        "evidence_quote": "Commissioning records: partial. Some test sheets missing.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Commissioning records incomplete",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Firmware versions for PCS are not formally recorded, with at least one PCS found on an earlier version.",
+        "evidence_quote": "Firmware versions: not formally recorded at handover. Operations have since found at least one PCS on an earlier version than the rest of the site.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Firmware versions not recorded",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Spares inventory has not been provided as part of the handover.",
+        "evidence_quote": "Spares inventory: not provided.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Spares inventory not provided",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Three training sessions are required, with only two delivered.",
+        "evidence_quote": "Training: two sessions delivered, a third outstanding.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Training sessions incomplete",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "handover",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Handover was signed off as 'complete with exceptions', but the exceptions remain unresolved and are now competing with live operational work.",
+        "evidence_quote": "This is the third site in a row where handover has been signed off as 'complete with exceptions' and the exceptions have then taken months to close out.",
+        "programme_impact": "none_stated",
+        "status": "open",
+        "title": "Handover incomplete despite sign-off",
+        "triggers": []
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2024-12-09",
+      "float_days": 0,
+      "forecast_energisation": "2024-12-09"
+    }
+  }
+}

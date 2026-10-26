@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2024-12-31): Inconsistent PCS firmware update. PCS firmware was not updated consistently across all units during snagging, resulting in one unit being offline during the update window and missed at handover.\nNew mention (2025-01-20): Firmware versions not recorded. Firmware versions for PCS are not formally recorded, with at least one PCS found on an earlier version."
+  },
+  "response": {
+    "reason": "Both issues relate to inconsistent PCS firmware recording and version tracking.",
+    "same": true
+  }
+}

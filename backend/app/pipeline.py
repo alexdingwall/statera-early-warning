@@ -78,7 +78,7 @@ def _derive(res: Result) -> None:
     labels = {k: v["label"] for k, v in data.counterparties["entities"].items()}
     window = data.replay_window
 
-    res.matches = crossproject.compute(res.issues, res.source)
+    res.matches = crossproject.compute(res.issues, res.source, labels)
     res.alerts = rules.compute(
         res.issues, res.triggers, res.matches,
         {k: d.doc_type for k, d in docs.items()}, {k: d.title for k, d in docs.items()},

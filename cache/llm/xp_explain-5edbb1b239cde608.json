@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-06-12): Condition 9 landscaping and screening. Additional detail on species selection was requested but no response has been received since 02/05.\nEarlier incident (Netherwood, 2024-12-31): Planning condition discharge delay. Construction traffic management plan delayed by the civils contractor, pushing start on site. Outcome recorded: Construction traffic management plan delayed by the civils contractor, pushing start on site."
+  },
+  "response": {
+    "explanation": "The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current issue with the landscaping species selection request not being addressed."
+  }
+}

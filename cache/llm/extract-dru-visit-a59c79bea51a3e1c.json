@@ -1,0 +1,86 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2025-05-30: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-dru-visit",
+    "user": "Document date: 2025-05-30\nProject: drumgarve\nDocument type: site_visit\n\n---\nDrumgarve site visit - notes\n30 May 2025\n\nPre-construction walkover with the civils contractor and the\nlandowner.\n\nPoints noted:\n\n- Access track from the B-road is narrower than the drawings\n  indicate at two pinch points. Will not accommodate a container\n  delivery without widening. Contractor says \"we'll manage\" - I\n  am not convinced. Same issue caused a second crane visit at\n  Ashfield.\n\n- Drainage: standing water at the northern end of the site after\n  recent rain. Ground investigation report did not flag this.\n  Worth a second look before foundation design is finalised.\n\n- Landowner raised the hedgerow removal timing. Nesting season\n  restrictions may affect the planned start date. Not currently\n  in the programme risk register.\n\n- Contractor has not yet provided the swept path analysis for the\n  traffic management condition. Chased on site.\n\nGeneral impression: site is workable but there are three or four\nthings here that are not in the risk register and should be.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "site_access",
+        "chase_count": 0,
+        "counterparty_role": "civils contractor",
+        "description": "Access track from the B-road is narrower than the drawings indicate at two pinch points. Will not accommodate a container delivery without widening.",
+        "evidence_quote": "Access track from the B-road is narrower than the drawings indicate at two pinch points. Will not accommodate a container delivery without widening.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Narrow access track",
+        "triggers": [
+          {
+            "condition_text": "Not currently in the risk register",
+            "deadline_date": "2025-06-30"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "site_access",
+        "chase_count": 0,
+        "counterparty_role": "landowner",
+        "description": "Standing water at the northern end of the site after recent rain. Ground investigation report did not flag this.",
+        "evidence_quote": "Standing water at the northern end of the site after recent rain. Ground investigation report did not flag this.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Standing water on site",
+        "triggers": [
+          {
+            "condition_text": "Worth a second look before foundation design is finalised",
+            "deadline_date": "2025-06-30"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "site_access",
+        "chase_count": 0,
+        "counterparty_role": "landowner",
+        "description": "Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.",
+        "evidence_quote": "Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Hedgerow removal timing",
+        "triggers": [
+          {
+            "condition_text": "Not currently in the risk register",
+            "deadline_date": "2025-06-30"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "site_access",
+        "chase_count": 1,
+        "counterparty_role": "contractor",
+        "description": "Contractor has not yet provided the swept path analysis for the traffic management condition. Chased on site.",
+        "evidence_quote": "Contractor has not yet provided the swept path analysis for the traffic management condition. Chased on site.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Missing swept path analysis",
+        "triggers": [
+          {
+            "condition_text": "Chased on site",
+            "deadline_date": "2025-06-30"
+          }
+        ]
+      }
+    ],
+    "programme": {
+      "baseline_energisation": null,
+      "float_days": null,
+      "forecast_energisation": null
+    }
+  }
+}

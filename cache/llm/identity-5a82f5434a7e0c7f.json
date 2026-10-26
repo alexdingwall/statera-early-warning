@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2024-12-31): Planning condition discharge delay. Construction traffic management plan delayed by the civils contractor, pushing start on site.\nNew mention (2025-02-05): Repeated issues not escalated. Early warnings about planning condition delay and transformer lead time were not escalated due to lack of a formal escalation trigger."
+  },
+  "response": {
+    "reason": "First issue is about delay, second is about escalation failure of prior issues.",
+    "same": false
+  }
+}

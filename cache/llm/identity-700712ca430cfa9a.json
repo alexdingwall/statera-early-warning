@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-03-21): DNO final connection confirmation pending. DNO have not yet confirmed the date for the final connection works. Chased twice. No response since 06/03.\nNew mention (2025-07-04): DNO connection works date confirmed. DNO confirmed the connection works date as 10/11/2025, leaving no contingency before the 14/11 energisation date."
+  },
+  "response": {
+    "reason": "Same issue with DNO connection date confirmation and energisation timeline.",
+    "same": true
+  }
+}

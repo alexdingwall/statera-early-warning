@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-02-07): Transformer supplier lead time extension. Main transformer lead time has been revised from 38 weeks to 54 weeks, pushing delivery from September 2025 to January 2026.\nNew mention (2025-05-30): Hedgerow removal timing. Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date."
+  },
+  "response": {
+    "reason": "Different issues: transformer lead time vs hedgerow removal timing.",
+    "same": false
+  }
+}

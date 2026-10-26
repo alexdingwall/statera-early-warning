@@ -1,0 +1,69 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.\n- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.\n- title: at most 10 words, neutral wording, no project name.\n- description: one or two plain sentences.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date 2025-07-04: a month name means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-ash-wk27",
+    "user": "Document date: 2025-07-04\nProject: ashfield\nDocument type: weekly_report\n\n---\nAshfield weekly - week ending 04/07/2025\n\nPM: J. Patel\n\nPROGRAMME\nBaseline energisation 14/11/2025\nCurrent forecast 28/11/2025 - FORECAST SLIPPED 14 DAYS\nFloat: zero, now in delay\n\nPROGRESS\nMechanical and electrical installation complete. Site is\neffectively ready for energisation.\n\nISSUES\nDNO have now confirmed the connection works date: 10/11/2025.\nThis leaves no contingency before the 14/11 energisation date and\nthe works themselves are quoted at 5-10 working days.\n\nThis has been flagged in weekly reports since March. The date was\nnever confirmed and we did not escalate it formally. In hindsight\nwe should have, in week 12.\n\nCommercial implication: we have a capacity market agreement with\na delivery start of 01/12/2025. A 14 day slip takes us to 28/11,\nwhich is inside the window but with nothing spare. Any further\nslip and we are exposed.\n\nACTIONS\n- Formal escalation to DNO account manager (done 03/07)\n- Reviewing whether any commissioning activity can be brought\n  forward\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "contractor_performance",
+        "chase_count": null,
+        "counterparty_role": "DNO",
+        "description": "DNO confirmed the connection works date as 10/11/2025, leaving no contingency before the 14/11 energisation date.",
+        "evidence_quote": "DNO have now confirmed the connection works date: 10/11/2025. This leaves no contingency before the 14/11 energisation date and the works themselves are quoted at 5-10 working days.",
+        "programme_impact": "realised",
+        "status": "open",
+        "title": "DNO connection works date confirmed",
+        "triggers": [
+          {
+            "condition_text": "A 14 day slip takes us to 28/11, which is inside the window but with nothing spare.",
+            "deadline_date": "2025-11-28"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "planning",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "The baseline energisation date of 14/11/2025 has slipped to 28/11/2025, with no float remaining.",
+        "evidence_quote": "Current forecast 28/11/2025 - FORECAST SLIPPED 14 DAYS",
+        "programme_impact": "realised",
+        "status": "open",
+        "title": "Energisation date slipped by 14 days",
+        "triggers": [
+          {
+            "condition_text": "Any further slip and we are exposed.",
+            "deadline_date": "2025-11-28"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "contractor_performance",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "A 14-day slip would bring the delivery start date inside the capacity market agreement window with no spare time.",
+        "evidence_quote": "Commercial implication: we have a capacity market agreement with a delivery start of 01/12/2025. A 14 day slip takes us to 28/11, which is inside the window but with nothing spare. Any further slip and we are exposed.",
+        "programme_impact": "realised",
+        "status": "open",
+        "title": "Capacity market agreement risk",
+        "triggers": [
+          {
+            "condition_text": "A 14 day slip takes us to 28/11, which is inside the window but with nothing spare.",
+            "deadline_date": "2025-11-28"
+          }
+        ]
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2025-11-14",
+      "float_days": 0,
+      "forecast_energisation": "2025-11-28"
+    }
+  }
+}

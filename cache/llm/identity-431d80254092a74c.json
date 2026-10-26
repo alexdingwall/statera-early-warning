@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2024-12-31): Planning condition discharge delay. Construction traffic management plan delayed by the civils contractor, pushing start on site.\nNew mention (2025-01-20): As-built drawings discrepancies. As-built drawings have discrepancies in cable routes, identified by Operations."
+  },
+  "response": {
+    "reason": "Different issues: traffic management vs. as-built drawing discrepancies.",
+    "same": false
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2024-12-31): Incomplete handover documentation. Handover documentation to Operations was incomplete, with the firmware issue not included in the handover pack despite being known to the commissioning team.\nNew mention (2025-01-20): O&M manuals incomplete. O&M manuals for the BMS are outstanding, while PCS and HVAC manuals have been received."
+  },
+  "response": {
+    "reason": "Both refer to incomplete documentation for handover to Operations.",
+    "same": true
+  }
+}

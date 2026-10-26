@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-05-30): Hedgerow removal timing. Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.\nNew mention (2025-06-12): Condition 9 landscaping and screening. Additional detail on species selection was requested but no response has been received since 02/05."
+  },
+  "response": {
+    "reason": "Different issues: hedgerow timing vs. landscaping species selection",
+    "same": false
+  }
+}

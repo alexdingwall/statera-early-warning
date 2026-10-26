@@ -5,3 +5,10 @@
 - pytest `pythonpath = ["."]` in backend/pyproject.toml so tests import `app`.
 - Frontend: added dev dependency `@types/node` (needed for the `@/` alias in vite.config.ts). shadcn init added its own dependencies (radix-ui, class-variance-authority, tailwind-merge, tw-animate-css, @fontsource-variable/geist); the Geist font will be replaced by Montserrat and Inter in Phase 6.
 - TypeScript `baseUrl` omitted (deprecated); `paths` alone resolves `@/*`.
+- Board claim splitting keeps fragments of 2+ words (plan says under 3 words are dropped), because gold expects the 2-word claim "Construction complete." and only the 1-word "Weather" should drop.
+- Gold-mode programme snapshots are read deterministically from each document's programme block with regexes (gold.yaml holds no programme values).
+- Embeddings (cross-project matching) are used in gold mode too, read from the committed cache, so a gold rebuild on a machine with an empty cache needs Ollama for embeddings only.
+- Identity: one mention per issue per document is enforced first-come in document order, not by highest score as the plan words it.
+- Duplicate alert ids (two triggers staging the same stage on one issue) get a numeric suffix.
+- Gold build also shows two extra cross-project matches beyond the three expected (DRU-COND9 to NET-PLANNING, ASH-SNAG to NET-FIRMWARE), neither on the no-match list.
+- Phase 2 code was committed together with Phase 3.

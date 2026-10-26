@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2024-12-31): Transformer delivery delay. Supplier revised lead time after order placed, causing a 3-week delay.\nNew mention (2025-01-20): Training sessions incomplete. Three training sessions are required, with only two delivered."
+  },
+  "response": {
+    "reason": "Different issues: delivery delay vs. incomplete training sessions.",
+    "same": false
+  }
+}
