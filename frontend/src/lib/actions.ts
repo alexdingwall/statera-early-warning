@@ -29,6 +29,7 @@ export interface ActionItem {
   stakes: string[]
   lastTime: {
     kind: "incident" | "lesson"
+    matchId?: string
     text: string
     lesson: string | null
     /** The earlier issue, so the UI can link to it, and what was recorded about it and when. */
@@ -104,7 +105,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const hit = lessons.find((l) => l.items.some((x) => x.issue?.id === issue.id))
       let lastTime: ActionItem["lastTime"] = null
       if (prior && m) lastTime = {
-        kind: "incident",
+        kind: "incident", matchId: m.id,
         prior: {
           id: prior.id, project: prior.project,
           events: mentionsUpTo(prior, asOf).map((x) => ({ date: x.date, docId: x.doc_id, docTitle: docById(b, x.doc_id).title, status: x.status, span: x.quote_span })),

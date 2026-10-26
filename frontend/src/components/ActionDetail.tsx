@@ -5,6 +5,9 @@ import { ageText, categoryLabel, fmtDate, STATUS_WORDS } from "@/lib/format"
 import { STATE_WORDS, type ActionItem, type ActionState } from "@/lib/actions"
 import { SeverityIcon, btn, btnPrimary } from "@/components/ui-bits"
 import { IssueTabs } from "@/components/IssueTabs"
+import { readFb, writeFb } from "@/lib/feedback"
+import { useState } from "react"
+import { cn } from "@/lib/utils"
 
 export function ActionButtons({ item, compact }: { item: ActionItem; compact?: boolean }) {
   const rec = useStore((s) => s.actions[item.issue.id])
@@ -109,10 +112,27 @@ export function ActionDetail({ item }: { item: ActionItem }) {
             </ul>
           )}
           {item.lastTime.lesson && <p className="mt-1 font-medium text-[#8A5A12]">{item.lastTime.lesson}</p>}
+          {item.lastTime.matchId && <Relevance id={item.lastTime.matchId} />}
         </div>
       )}
 
       <IssueTabs issue={issue} />
+    </div>
+  )
+}
+
+function Relevance({ id }: { id: string }) {
+  const [v, setV] = useState<string | null>(() => readFb(id))
+  return (
+    <div className="mt-1.5 flex items-center gap-2 text-[12px]">
+      <span className="text-muted-ink">Is this a fair comparison?</span>
+      {(["relevant", "not relevant"] as const).map((k) => (
+        <button key={k} aria-pressed={v === k} onClick={() => { writeFb(id, k); setV(k) }}
+          className={cn("rounded-md border px-2 py-0.5", v === k ? "border-navy-900 bg-navy-900 text-white" : "border-line bg-surface hover:bg-bg")}>
+          {k === "relevant" ? "Yes" : "No"}
+        </button>
+      ))}
+      <span className="text-muted-ink">Saved here only. A full version would learn from it.</span>
     </div>
   )
 }
