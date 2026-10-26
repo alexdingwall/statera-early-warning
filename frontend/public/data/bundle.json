@@ -285,7 +285,7 @@
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-1",
-          "reason": "Evidence shows DNO final connection works are unresolved and impacting the project timeline.",
+          "reason": "DNO final connection works are unresolved and flagged as critical, indicating construction is not complete.",
           "section": "Headline",
           "span": [
             107,
@@ -298,8 +298,9 @@
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
+            "ash-wk19#1",
             "ash-wk19#3",
-            "ash-wk19#1"
+            "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-2",
           "reason": "The forecast date is still 2025-11-14, but the DNO connection works are unresolved and could delay the schedule.",
@@ -348,7 +349,7 @@
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-5",
-          "reason": "The statement understates the risk as ASH-001 remains unresolved and has triggered red alerts multiple times.",
+          "reason": "The statement claims low risk and imminent confirmation, but ASH-001 shows ongoing delays and red alerts since June 2.",
           "section": "Risks",
           "span": [
             483,
@@ -362,11 +363,10 @@
             "ash-wk12#1",
             "ash-wk19#2",
             "ash-wk19#1",
-            "ash-wk19#3",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-6",
-          "reason": "The statement is broadly true, but the evidence shows the DNO connection issue is a significant risk that could impact the programme.",
+          "reason": "The statement suggests the project is slightly over budget, but the evidence shows no direct budget-related issues, though the DNO delay could impact the schedule.",
           "section": "Outlook",
           "span": [
             552,
@@ -379,10 +379,11 @@
           "evidence_mention_ids": [
             "ash-wk12#1",
             "ash-wk19#2",
+            "ash-wk19#1",
             "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-7",
-          "reason": "Evidence shows DNO connection works are unresolved and impacting the critical path, contradicting 'No material concerns.'",
+          "reason": "DNO final connection works are unresolved and have triggered red alerts, indicating significant risk.",
           "section": "Outlook",
           "span": [
             588,
@@ -1037,12 +1038,12 @@
           "date": "2025-02-07",
           "description": "This is the second transformer lead time extension from this supplier in 14 months.",
           "doc_id": "dru-transformer",
-          "evidence_quote": "his is the second transformer lead time\nextension from this supplier in 14 months (",
+          "evidence_quote": "this is the second transformer lead time\nextension from this supplier in 14 months",
           "id": "dru-transformer#3",
           "programme_impact": "potential",
           "quote_span": [
-            842,
-            925
+            841,
+            923
           ],
           "quote_valid": true,
           "status": "open"
@@ -1081,11 +1082,11 @@
           "date": "2025-05-16",
           "description": "The DNO has not provided a date for the final connection works, causing delays.",
           "doc_id": "ash-wk19",
-          "evidence_quote": "till no DNO date for the final connection works.** Chased\n  again 09/05",
+          "evidence_quote": "Still no DNO date for the final connection works.** Chased\n  again 09/05",
           "id": "ash-wk19#2",
           "programme_impact": "potential",
           "quote_span": [
-            456,
+            455,
             527
           ],
           "quote_valid": true,
@@ -1706,7 +1707,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T20:31:45+00:00",
+    "generated_at": "2026-10-26T20:55:14+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v2",
     "source": "llm",

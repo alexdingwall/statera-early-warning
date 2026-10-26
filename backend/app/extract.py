@@ -75,19 +75,33 @@ def _norm_with_map(text: str) -> tuple[str, list[int]]:
 
 
 def locate_quote(text: str, quote: str) -> tuple[int, int] | None:
-    """Span of the quote in the original text: exact (whitespace-normalised) or fuzzy >= 90."""
+    """Span of the quote in the original text.
+
+    Exact match first (whitespace-normalised, then ignoring case); otherwise a fuzzy match (>= 90) whose
+    edges are snapped to whole words, so a highlight never starts or ends in the middle of a word.
+    """
     ntext, idx = _norm_with_map(text)
     nquote = " ".join(quote.split())
     if not nquote:
         return None
     pos = ntext.find(nquote)
     if pos < 0:
+        pos = ntext.lower().find(nquote.lower())
+    if pos >= 0:
+        start, end = pos, pos + len(nquote)
+    else:
         al = fuzz.partial_ratio_alignment(nquote, ntext)
         if al is None or al.score < 90:
             return None
         start, end = al.dest_start, al.dest_end
-    else:
-        start, end = pos, pos + len(nquote)
+        while start > 0 and ntext[start - 1].isalnum() and ntext[start].isalnum():
+            start -= 1
+        while end < len(ntext) and ntext[end - 1].isalnum() and ntext[end].isalnum():
+            end += 1
+        while start < end and not ntext[start].isalnum():
+            start += 1
+        while end > start and not (ntext[end - 1].isalnum() or ntext[end - 1] in ".,;:!?%\"')"):
+            end -= 1
     if end <= start:
         return None
     return idx[start], idx[end - 1] + 1
