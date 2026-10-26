@@ -1,8 +1,8 @@
-import { BellOff, Check, History, Megaphone } from "lucide-react"
+import { BellOff, Check, History, Megaphone, RotateCcw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useStore } from "@/store"
 import { ageText, categoryLabel, fmtDate, STATUS_WORDS } from "@/lib/format"
-import { STATE_WORDS, type ActionItem, type ActionState } from "@/lib/actions"
+import { decisionFor, STATE_WORDS, type ActionItem, type ActionState } from "@/lib/actions"
 import { SeverityIcon, btn, btnPrimary } from "@/components/ui-bits"
 import { IssueTabs } from "@/components/IssueTabs"
 import { readFb, writeFb } from "@/lib/feedback"
@@ -10,8 +10,11 @@ import { useState } from "react"
 import { cn } from "@/lib/utils"
 
 export function ActionButtons({ item, compact }: { item: ActionItem; compact?: boolean }) {
-  const rec = useStore((s) => s.actions[item.issue.id])
+  const bundle = useStore((s) => s.bundle)!
+  const saved = useStore((s) => s.actions[item.issue.id])
   const asOf = useStore((s) => s.asOf)
+  const dec = decisionFor(bundle, item, saved, asOf)
+  const rec = dec.handled ? dec.rec : null
   const setAction = useStore((s) => s.setAction)
   const set = (state: ActionState) => setAction(item.issue.id, { state, on: asOf })
   if (rec) {
@@ -25,6 +28,7 @@ export function ActionButtons({ item, compact }: { item: ActionItem; compact?: b
   const size = compact ? "h-7 text-[12px]" : ""
   return (
     <div>
+    {dec.reopened && <p className="mb-1.5 flex items-start gap-1.5 text-[13px] font-medium text-[#8A5A12]"><RotateCcw size={14} className="mt-[3px] shrink-0" aria-hidden />{dec.reopened}</p>}
     <div className="flex gap-2">
       <button title="Records your decision on this device only. Nothing is sent." className={`${btnPrimary} ${size}`} onClick={() => set("escalated")}><Megaphone size={14} aria-hidden />Mark as escalated</button>
       <button className={`${btn} ${size}`} onClick={() => set("acknowledged")}><Check size={14} aria-hidden />Acknowledge</button>

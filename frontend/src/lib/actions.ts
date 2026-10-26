@@ -3,7 +3,7 @@
  * Everything here is derived from the bundle and the as-of date by plain rules (no model text),
  * so each recommendation can be traced to the data behind it.
  */
-import { daysBetween, fmtDate } from "@/lib/format"
+import { daysBetween, fmtDate, ruleWords } from "@/lib/format"
 import {
   activeAlertsOn, docById, isOpenStatus, issuesSeen, issueStatusOn, latestSnapshot, lessonsAsOf, matchesFor, mentionsUpTo, sevRank, triggersFor,
 } from "@/lib/selectors"
@@ -149,3 +149,29 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
 
 export type ActionState = "escalated" | "acknowledged" | "snoozed"
 export const STATE_WORDS: Record<ActionState, string> = { escalated: "Escalated", acknowledged: "Acknowledged", snoozed: "Snoozed" }
+
+export interface Decision {
+  /** The saved decision, if it exists on the date being viewed (a decision made later has not happened yet). */
+  rec: { state: ActionState; on: string } | null
+  /** Still in force: nothing new has come in since it was made. */
+  handled: boolean
+  /** Why it came back to the queue. */
+  reopened: string | null
+}
+
+/** A decision stands until something new arrives on the issue: a later report, a new warning, or a snoozed deadline getting close. */
+export function decisionFor(b: Bundle, item: ActionItem, rec: { state: ActionState; on: string } | undefined, asOf: string): Decision {
+  if (!rec || rec.on > asOf) return { rec: null, handled: false, reopened: null }
+  const verb = rec.state === "escalated" ? "escalated" : rec.state === "acknowledged" ? "acknowledged" : "snoozed"
+  const newer = mentionsUpTo(item.issue, asOf).filter((m) => m.date > rec.on)
+  if (newer.length) {
+    const m = newer[newer.length - 1]
+    return { rec, handled: false, reopened: `New since you ${verb} this on ${fmtDate(rec.on)}: ${docById(b, m.doc_id).title} (${fmtDate(m.date)}).` }
+  }
+  const fresh = item.alerts.filter((a) => a.fired_on > rec.on).sort((x, y) => x.fired_on.localeCompare(y.fired_on)).pop()
+  if (fresh) return { rec, handled: false, reopened: `New warning since you ${verb} this on ${fmtDate(rec.on)}: ${ruleWords(fresh.rule, fresh.severity).toLowerCase()} (${fmtDate(fresh.fired_on)}).` }
+  if (rec.state === "snoozed" && item.daysLeft !== null && item.daysLeft <= 7) {
+    return { rec, handled: false, reopened: `Snoozed on ${fmtDate(rec.on)}, but the report's deadline is ${item.daysLeft === 0 ? "today" : `${item.daysLeft} days away`}.` }
+  }
+  return { rec, handled: true, reopened: null }
+}

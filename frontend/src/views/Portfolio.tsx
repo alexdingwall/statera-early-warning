@@ -1,11 +1,11 @@
 import { AlertOctagon, AlertTriangle, CheckCircle2, MinusCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
-import { Link, useSearchParams } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
 import { watchOn } from "@/lib/watch"
-import { buildActions, TIER_WORDS } from "@/lib/actions"
-import { docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
+import { buildActions, decisionFor, TIER_WORDS } from "@/lib/actions"
+import { changesSince, docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
 import { ActionDetail } from "@/components/ActionDetail"
 import { EvidencePill, Pager, Panel, PROJECT_COLOUR, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { cn } from "@/lib/utils"
@@ -23,8 +23,17 @@ export function Portfolio() {
   const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
   const [page, setPage] = useState(0)
 
-  const todo = all.filter((i) => !actions[i.issue.id])
-  const done = all.filter((i) => actions[i.issue.id])
+  const dec = (i: (typeof all)[number]) => decisionFor(bundle, i, actions[i.issue.id], asOf)
+  const navigate = useNavigate()
+  const news = useMemo(() => changesSince(bundle, asOf), [bundle, asOf])
+  const newIds = new Set(news.items.map((n) => n.issueId))
+  const isNew = (i: (typeof all)[number]) => newIds.has(i.issue.id) || i.also.some((a) => newIds.has(a.id))
+  const openNew = (issueId: string, project: string) => {
+    const hit = all.find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
+    if (hit) { setTab("todo"); setSel(hit.issue.id) } else navigate(`/project/${project}?issue=${issueId}`)
+  }
+  const todo = all.filter((i) => !dec(i).handled)
+  const done = all.filter((i) => dec(i).handled)
   const list = tab === "todo" ? todo : done
   const pages = Math.max(1, Math.ceil(list.length / PAGE))
   useEffect(() => setPage(0), [tab, asOf])
@@ -37,6 +46,18 @@ export function Portfolio() {
       <div className="grid shrink-0 grid-cols-3 gap-3">
         {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} />)}
       </div>
+
+      {news.items.length > 0 && (
+        <div className="flex shrink-0 flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="New since the previous report">
+          <span className="font-semibold">{news.from ? `New since ${fmtDate(news.from)}` : "New"}</span>
+          {news.items.slice(0, 4).map((n) => (
+            <button key={n.issueId + n.text} onClick={() => openNew(n.issueId, n.project)} className="text-left hover:underline">
+              <span className="capitalize text-muted-ink">{n.project}</span> · {n.text}
+            </button>
+          ))}
+          {news.items.length > 4 && <span className="text-muted-ink">and {news.items.length - 4} more</span>}
+        </div>
+      )}
 
       <div className="flex min-h-0 flex-1 gap-3">
         <Panel className="flex w-[38%] shrink-0 flex-col">
@@ -55,11 +76,11 @@ export function Portfolio() {
                   className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected?.issue.id === i.issue.id && "bg-accent")}>
                   <SeverityIcon severity={i.severity} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-medium">{i.issue.title}</span>
-                    <span className="block truncate text-[12px] text-muted-ink">
+                    <span className="block truncate text-[13px] font-medium">{i.issue.title}{isNew(i) && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
+                    <span className="block text-[12px] text-muted-ink">
                       <span className="capitalize">{i.project}</span>
                       {" · "}
-                      {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}
+                      {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}{dec(i).reopened ? " · back: new information" : ""}
                     </span>
                   </span>
                   <span className="size-2 shrink-0 rounded-full" style={{ background: PROJECT_COLOUR[i.project] }} aria-hidden />

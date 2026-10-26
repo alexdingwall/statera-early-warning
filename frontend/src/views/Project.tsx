@@ -7,7 +7,7 @@ import { docsUpTo, latestSnapshot, phaseOn, statusOn } from "@/lib/selectors"
 import { EvidencePill, Panel, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
 import { ActionDetail } from "@/components/ActionDetail"
-import { buildActions, TIER_WORDS, type ActionItem, type Tier } from "@/lib/actions"
+import { buildActions, decisionFor, TIER_WORDS, type ActionItem, type Tier } from "@/lib/actions"
 import { watchOn } from "@/lib/watch"
 import { cn } from "@/lib/utils"
 
@@ -105,7 +105,7 @@ export function Project() {
                     {TIER_WORDS[t]} <span className="num font-normal">{list.length}</span>
                   </summary>
                   <ul>
-                    {list.map((i) => <Row key={i.issue.id} item={i} selected={selected?.issue.id === i.issue.id} handled={!!actions[i.issue.id]} onPick={() => setParams({ issue: i.issue.id })} />)}
+                    {list.map((i) => <Row key={i.issue.id} item={i} selected={selected?.issue.id === i.issue.id} handled={decisionFor(bundle, i, actions[i.issue.id], asOf).handled} reopened={!!decisionFor(bundle, i, actions[i.issue.id], asOf).reopened} onPick={() => setParams({ issue: i.issue.id })} />)}
                   </ul>
                 </details>
               )
@@ -122,7 +122,7 @@ export function Project() {
   )
 }
 
-function Row({ item, selected, handled, onPick }: { item: ActionItem; selected: boolean; handled: boolean; onPick: () => void }) {
+function Row({ item, selected, handled, reopened, onPick }: { item: ActionItem; selected: boolean; handled: boolean; reopened: boolean; onPick: () => void }) {
   const asOf = useStore((s) => s.asOf)
   const when = item.tier === "past" ? "past incident"
     : item.daysLeft !== null ? `report says by ${fmtDate(item.decideBy!)} (${item.daysLeft === 0 ? "due today" : `${item.daysLeft} days`})`
@@ -134,7 +134,7 @@ function Row({ item, selected, handled, onPick }: { item: ActionItem; selected: 
         <span className="w-4 shrink-0">{item.severity !== "info" && <SeverityIcon severity={item.severity} />}</span>
         <span className="min-w-0 flex-1">
           <span className="block text-[13px] font-medium leading-snug">{item.issue.title}</span>
-          <span className="block text-[12px] text-muted-ink">{when}{item.also.length ? ` · +${item.also.length} related` : ""}{handled ? " · handled" : ""}</span>
+          <span className="block text-[12px] text-muted-ink">{when}{item.also.length ? ` · +${item.also.length} related` : ""}{handled ? " · handled" : reopened ? " · back in the queue: new information" : ""}</span>
         </span>
       </button>
     </li>
