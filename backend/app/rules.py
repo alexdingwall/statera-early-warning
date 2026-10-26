@@ -130,6 +130,11 @@ def compute(issues: dict[str, Issue], triggers: list[Trigger], matches: list[Mat
     alerts += prior_incident_alerts(issues, matches)
 
     alerts = [a for a in alerts if a.fired_on <= window_end]
+    # Two triggers in different documents can stage the identical alert (same issue, rule, stage and day).
+    unique: dict[tuple, Alert] = {}
+    for a in alerts:
+        unique.setdefault((a.issue_id, a.rule, a.severity, a.stage_days, a.fired_on), a)
+    alerts = list(unique.values())
     # Two triggers can stage the same alert id (same issue, same stage): keep ids unique.
     seen: dict[str, int] = {}
     for a in sorted(alerts, key=lambda a: (a.fired_on, a.id)):

@@ -13,3 +13,7 @@
 - Gold build also shows two extra cross-project matches beyond the three expected (DRU-COND9 to NET-PLANNING, ASH-SNAG to NET-FIRMWARE), neither on the no-match list.
 - Phase 2 code was committed together with Phase 3.
 - Demo bundle is the LLM build: it passes the plan's gates (first ASH-DNO alert 5 May 2025, "Low risk" claim contradicted with no fallback, 2 of 3 expected matches found). Known weaknesses are shown on the Evaluation page: over-extraction (precision 68%), category accuracy 46%, trigger dates 25%, DRU-ACCESS to ASH-CRANE not matched, and the two Drumgarve matches are medium rather than high confidence.
+- Frontend: shadcn generated `cn` imports from an unrelated npm package named `cn`; replaced with a local clsx-based `cn` in src/lib/utils.ts and removed that package and the Geist font package. Class conflicts are not merged (no tailwind-merge), so overrides rely on class order.
+- Dashboard: Taste inspector (--app) left only defended findings: the plan-mandated uppercase "Project delivery" label, blank space inside stretched cards at 1440×900 (fixed-density views are not padded), and no h1 at 768/390px (the plan asks for a simple "Best viewed on a larger screen." message, not a mobile layout).
+- Identical staged alerts (same issue, rule, stage and day, from triggers in different documents) are merged in rules.compute.
+- Deep links for demos and screenshots: `#/path?asof=2025-06-30&gt=1`.

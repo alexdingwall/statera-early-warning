@@ -61,29 +61,9 @@
       "title": "Transformer supplier lead time extension"
     },
     {
-      "explanation": "Similar to Contractor performance not shared between projects at Netherwood (5 Feb 2025). The Netherwood incident is relevant because the civils contractor's delay was not shared with Drumgarve, potentially affecting their transformer delivery timeline.",
-      "fired_on": "2025-02-07",
-      "id": "ALR-DRU-001-PRIOR_INCIDENT-NET-011",
-      "issue_id": "DRU-001",
-      "project": "drumgarve",
-      "rule": "PRIOR_INCIDENT",
-      "severity": "info",
-      "title": "Transformer supplier lead time extension"
-    },
-    {
       "explanation": "Similar to Transformer delivery delay at Netherwood (31 Dec 2024). The earlier delay from the same supplier in Netherwood shows unreliable lead times, similar to the current issue in Drumgarve.",
       "fired_on": "2025-02-07",
       "id": "ALR-DRU-002-PRIOR_INCIDENT-NET-002",
-      "issue_id": "DRU-002",
-      "project": "drumgarve",
-      "rule": "PRIOR_INCIDENT",
-      "severity": "info",
-      "title": "Transformer supplier reliability concerns"
-    },
-    {
-      "explanation": "Similar to Contractor performance not shared between projects at Netherwood (5 Feb 2025). The earlier incident shows the civils contractor's delay at Netherwood wasn't shared with Drumgarve, affecting their planning.",
-      "fired_on": "2025-02-07",
-      "id": "ALR-DRU-002-PRIOR_INCIDENT-NET-011",
       "issue_id": "DRU-002",
       "project": "drumgarve",
       "rule": "PRIOR_INCIDENT",
@@ -115,16 +95,6 @@
       "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current snagging issue requiring contractor intervention.",
       "fired_on": "2025-05-16",
       "id": "ALR-ASH-004-PRIOR_INCIDENT-NET-001",
-      "issue_id": "ASH-004",
-      "project": "ashfield",
-      "rule": "PRIOR_INCIDENT",
-      "severity": "info",
-      "title": "Snagging on switchroom cable entries"
-    },
-    {
-      "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood shows that issues were not escalated due to lack of a formal trigger, similar to the current snagging issue at Ashfield requiring contractor return.",
-      "fired_on": "2025-05-16",
-      "id": "ALR-ASH-004-PRIOR_INCIDENT-NET-010",
       "issue_id": "ASH-004",
       "project": "ashfield",
       "rule": "PRIOR_INCIDENT",
@@ -272,16 +242,6 @@
       "title": "Condition 9 landscaping and screening"
     },
     {
-      "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood on 2025-02-05 involved unescalated early warnings about planning condition delays, similar to the current issue at Drumgarve where species selection details were not responded to.",
-      "fired_on": "2025-06-12",
-      "id": "ALR-DRU-007-PRIOR_INCIDENT-NET-010",
-      "issue_id": "DRU-007",
-      "project": "drumgarve",
-      "rule": "PRIOR_INCIDENT",
-      "severity": "info",
-      "title": "Condition 9 landscaping and screening"
-    },
-    {
       "explanation": "On 12 Jun 2025 the report said: \"8 weeks elapsed against a statutory 8 week determination\". That point is 18 days away (30 Jun 2025) and the issue is still open.",
       "fired_on": "2025-06-12",
       "id": "ALR-DRU-007-TRIGGER-28",
@@ -347,17 +307,6 @@
       "explanation": "The deadline set in the report on 21 Mar 2025 (30 Jun 2025) has been reached and the issue is still open.",
       "fired_on": "2025-06-30",
       "id": "ALR-ASH-002-TRIGGER-0",
-      "issue_id": "ASH-002",
-      "project": "ashfield",
-      "rule": "TRIGGER",
-      "severity": "red",
-      "stage_days": 0,
-      "title": "DNO final connection confirmation pending"
-    },
-    {
-      "explanation": "The deadline set in the report on 30 Jun 2025 (30 Jun 2025) has been reached and the issue is still open.",
-      "fired_on": "2025-06-30",
-      "id": "ALR-ASH-002-TRIGGER-0-2",
       "issue_id": "ASH-002",
       "project": "ashfield",
       "rule": "TRIGGER",
@@ -473,16 +422,6 @@
       "title": "Energisation date slipped by 14 days"
     },
     {
-      "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). The earlier delay in Netherwood due to the civils contractor delaying the construction traffic management plan may be relevant as it similarly affected the start date, potentially impacting the energisation date in Ashfield.",
-      "fired_on": "2025-07-04",
-      "id": "ALR-ASH-007-PRIOR_INCIDENT-NET-001",
-      "issue_id": "ASH-007",
-      "project": "ashfield",
-      "rule": "PRIOR_INCIDENT",
-      "severity": "info",
-      "title": "Energisation date slipped by 14 days"
-    },
-    {
       "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood shows that not escalating early warnings about delays led to issues, similar to the current Ashfield energisation date slip.",
       "fired_on": "2025-07-04",
       "id": "ALR-ASH-007-PRIOR_INCIDENT-NET-010",
@@ -552,7 +491,7 @@
             "ash-wk19#1"
           ],
           "id": "CLM-ash-board-jun-1",
-          "reason": "Construction is not complete; DNO connection is pending and float is at 0 days.",
+          "reason": "Construction is not complete; multiple issues remain unresolved, including DNO connection and weather delays.",
           "section": "Headline",
           "span": [
             107,
@@ -562,9 +501,13 @@
           "verdict": "contradicted"
         },
         {
-          "evidence_mention_ids": [],
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2",
+            "ash-wk19#3"
+          ],
           "id": "CLM-ash-board-jun-2",
-          "reason": "Forecast shows no float left, contradicting the 'in line with baseline' statement.",
+          "reason": "Forecasted energisation date is at risk due to unresolved DNO connection issues.",
           "section": "Headline",
           "span": [
             130,
@@ -577,11 +520,10 @@
           "evidence_mention_ids": [
             "ash-wk12#2",
             "ash-wk19#2",
-            "ash-wk19#3",
-            "ash-wk12#1"
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-3",
-          "reason": "Evidence shows DNO connection issues are delaying the project, pushing delivery beyond 01/12/2025.",
+          "reason": "Evidence shows DNO connection delay risks pushing delivery past 01/12/2025.",
           "section": "Headline",
           "span": [
             187,
@@ -596,7 +538,7 @@
             "ash-wk19#2"
           ],
           "id": "CLM-ash-board-jun-4",
-          "reason": "Evidence shows DNO connection date is still pending, contradicting the statement that it is 'not yet confirmed'.",
+          "reason": "Evidence shows DNO connection confirmation is still pending, contradicting the statement that it is 'not yet confirmed'.",
           "section": "Risks",
           "span": [
             438,
@@ -622,14 +564,13 @@
         },
         {
           "evidence_mention_ids": [
-            "ash-wk19#2",
-            "ash-wk19#3",
             "ash-wk12#2",
+            "ash-wk19#2",
             "ash-wk19#1",
-            "ash-wk12#1"
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-6",
-          "reason": "The programme is on schedule but with no float left, indicating potential risk.",
+          "reason": "The programme is on schedule with no float, but the DNO issue is causing delays and risks.",
           "section": "Outlook",
           "span": [
             552,
@@ -641,10 +582,11 @@
         {
           "evidence_mention_ids": [
             "ash-wk12#2",
-            "ash-wk19#2"
+            "ash-wk19#2",
+            "ash-wk19#3"
           ],
           "id": "CLM-ash-board-jun-7",
-          "reason": "Evidence shows DNO connection delay is ongoing and has triggered red alerts, contradicting 'no material concerns'.",
+          "reason": "Evidence shows DNO connection delay risks and active red alerts contradict 'no material concerns'.",
           "section": "Outlook",
           "span": [
             588,
@@ -1240,7 +1182,7 @@
     },
     {
       "category": "procurement_supplier",
-      "counterparty": "drumgarve:transformer_supplier",
+      "counterparty": "transformer_supplier_nd",
       "description": "Main transformer lead time has been revised from 38 weeks to 54 weeks, pushing delivery from September 2025 to January 2026.",
       "first_seen": "2025-02-07",
       "gold_id": "DRU-TRANSFORMER",
@@ -1268,7 +1210,7 @@
     },
     {
       "category": "procurement_supplier",
-      "counterparty": "drumgarve:transformer_supplier",
+      "counterparty": "transformer_supplier_nd",
       "description": "This is the second transformer lead time extension from this supplier in 14 months, indicating unreliable lead times.",
       "first_seen": "2025-02-07",
       "id": "DRU-002",
@@ -1800,16 +1742,17 @@
   ],
   "matches": [
     {
-      "confidence": "medium",
+      "confidence": "high",
       "explanation": "The earlier incident shows that revising lead time after an order caused a delay, similar to the current situation with the Drumgarve transformer.",
       "id": "XP-DRU-001-NET-002",
       "issue_id": "DRU-001",
       "prior_issue_id": "NET-002",
       "reasons": [
+        "Same counterparty: Transformer supplier (Netherwood, Drumgarve)",
         "Same category: procurement supplier",
         "Similar wording"
       ],
-      "score": 0.764
+      "score": 0.964
     },
     {
       "confidence": "medium",
@@ -1824,16 +1767,17 @@
       "score": 0.65
     },
     {
-      "confidence": "medium",
+      "confidence": "high",
       "explanation": "The earlier delay from the same supplier in Netherwood shows unreliable lead times, similar to the current issue in Drumgarve.",
       "id": "XP-DRU-002-NET-002",
       "issue_id": "DRU-002",
       "prior_issue_id": "NET-002",
       "reasons": [
+        "Same counterparty: Transformer supplier (Netherwood, Drumgarve)",
         "Same category: procurement supplier",
         "Similar wording"
       ],
-      "score": 0.747
+      "score": 0.947
     },
     {
       "confidence": "medium",
@@ -1934,7 +1878,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T19:57:22+00:00",
+    "generated_at": "2026-10-26T20:05:36+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v1",
     "source": "llm",
@@ -2132,7 +2076,6 @@
       "divergent": true,
       "evidence_reasons": [
         "ALR-ASH-002-TRIGGER-0",
-        "ALR-ASH-002-TRIGGER-0-2",
         "ALR-ASH-002-TRIGGER-28",
         "ALR-ASH-002-TRIGGER-28-2"
       ],
@@ -2149,7 +2092,6 @@
         "ALR-ASH-002-IMPACT-red",
         "ALR-ASH-002-PERSISTENCE-red",
         "ALR-ASH-002-TRIGGER-0",
-        "ALR-ASH-002-TRIGGER-0-2",
         "ALR-ASH-002-TRIGGER-28",
         "ALR-ASH-002-TRIGGER-28-2",
         "ALR-ASH-007-IMPACT-red",
@@ -2168,7 +2110,6 @@
         "ALR-ASH-002-IMPACT-red",
         "ALR-ASH-002-PERSISTENCE-red",
         "ALR-ASH-002-TRIGGER-0",
-        "ALR-ASH-002-TRIGGER-0-2",
         "ALR-ASH-002-TRIGGER-28",
         "ALR-ASH-002-TRIGGER-28-2",
         "ALR-ASH-002-TRIGGER-28-3",

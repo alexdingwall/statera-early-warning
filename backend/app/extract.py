@@ -85,7 +85,7 @@ def parse_iso(s: str | None) -> date | None:
 def map_counterparty(data: Data, project: str, role: str | None) -> str | None:
     if not role or not role.strip():
         return None
-    r = role.lower().strip()
+    r = role.lower().replace("_", " ").strip()
     cp = data.counterparties
     for rule in cp["rules"]:
         if r in rule["roles"] and rule["project"] in ("*", project):
