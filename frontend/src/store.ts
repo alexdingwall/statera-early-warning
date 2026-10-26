@@ -53,7 +53,8 @@ export const useStore = create<State>((set) => ({
   load: async () => {
     try {
       // When the local backend is running it holds the latest build, including any report added since the site was built.
-      const live = await fetch(`${API}/api/bundle`, { signal: AbortSignal.timeout(800) }).then((r) => (r.ok ? r.json() : null)).catch(() => null)
+      const local = ["localhost", "127.0.0.1"].includes(window.location.hostname)   // a public copy must not poke at visitors' machines
+      const live = !local ? null : await fetch(`${API}/api/bundle`, { signal: AbortSignal.timeout(800) }).then((r) => (r.ok ? r.json() : null)).catch(() => null)
       const res = live ? null : await fetch(`${import.meta.env.BASE_URL}data/bundle.json`)
       if (res && !res.ok) throw new Error(`HTTP ${res.status}`)
       const bundle = (live ?? (await res!.json())) as Bundle

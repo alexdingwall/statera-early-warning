@@ -38,6 +38,7 @@ export function AddReport() {
   const ok = !!(f.text.trim() && f.project && f.date && f.title.trim() && f.file)
 
   useEffect(() => {
+    if (!["localhost", "127.0.0.1"].includes(window.location.hostname)) { setOnline(false); return }
     fetch(`${API}/api/health`, { signal: AbortSignal.timeout(1500) }).then((r) => setOnline(r.ok)).catch(() => setOnline(false))
   }, [])
 

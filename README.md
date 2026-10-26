@@ -2,7 +2,7 @@
 
 A proof of concept for Statera. Project reports record issues, but each report is a snapshot, so a request that goes unanswered week after week never turns into an escalation. Early Warning reads the documents, gives each issue an identity over time, raises explainable alerts, links new issues to similar incidents on other projects, and checks a board paper against the evidence held on its date. A replay bar shows exactly what the system knew on any date, using only documents dated on or before it.
 
-Hosted copy: _add the Vercel URL here after the first deploy_.
+Hosted copy (read-only, kept out of search engines; the documents are synthetic): https://statera-early-warning.vercel.app
 
 ## Run the dashboard
 
