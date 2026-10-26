@@ -2,20 +2,20 @@ import { useEffect, useMemo, useState } from "react"
 import { Check } from "lucide-react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
-import { ageText, categoryLabel, daysBetween, fmtDate, ruleWords, STATUS_WORDS } from "@/lib/format"
-import { activeAlertsOn, bySeverityThenNewest, docsUpTo, isOpenStatus, issueStatusOn, issuesSeen, latestSnapshot, matchesFor, mentionsUpTo, phaseOn, sevRank, statusOn, triggersFor } from "@/lib/selectors"
-import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon, SeverityPill } from "@/components/ui-bits"
+import { ageText, categoryLabel, daysBetween, fmtDate, STATUS_WORDS } from "@/lib/format"
+import { activeAlertsOn, docsUpTo, isOpenStatus, issueStatusOn, issuesSeen, latestSnapshot, matchesFor, mentionsUpTo, phaseOn, sevRank, statusOn, triggersFor } from "@/lib/selectors"
+import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
 import { ActionButtons } from "@/components/ActionDetail"
 import { watchOn } from "@/lib/watch"
 import { Eye } from "lucide-react"
 import { buildActions } from "@/lib/actions"
-import { IssueTimeline } from "@/components/IssueTimeline"
+import { IssueStory } from "@/components/IssueStory"
 import { cn } from "@/lib/utils"
 import type { Issue } from "@/types"
 
 const PAGE = 8
-type Tab = "evidence" | "alerts" | "seen" | "triggers"
+type Tab = "story" | "evidence" | "seen"
 
 export function Project() {
   const { id } = useParams()
@@ -24,7 +24,7 @@ export function Project() {
   const [params, setParams] = useSearchParams()
   const [filter, setFilter] = useState<"open" | "all">("open")
   const [page, setPage] = useState(0)
-  const [tab, setTab] = useState<Tab>("evidence")
+  const [tab, setTab] = useState<Tab>("story")
 
   const project = bundle.projects.find((p) => p.id === id)
   const docs = docsUpTo(bundle, asOf, id)
@@ -175,10 +175,9 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
   const action = buildActions(bundle, asOf).find((a) => a.issue.id === issue.id)
 
   const tabs: { id: Tab; label: string; n: number }[] = [
+    { id: "story", label: "What happened", n: ms.length + alerts.length },
     { id: "evidence", label: "Evidence", n: ms.length },
-    { id: "alerts", label: "Alerts", n: alerts.length },
     { id: "seen", label: "Seen before", n: matches.length },
-    { id: "triggers", label: "Triggers", n: triggers.length },
   ]
 
   return (
@@ -196,9 +195,6 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
           <div className="mt-1.5"><ActionButtons item={action} compact /></div>
         </div>
       )}
-      <div className="px-4 pt-1">
-        <IssueTimeline issue={issue} asOf={asOf} alerts={alerts} triggers={triggers} docs={docs} />
-      </div>
       <div role="tablist" className="sticky top-0 z-10 flex shrink-0 gap-1 border-b border-line bg-surface px-3">
         {tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => setTab(t.id)}
@@ -227,40 +223,8 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
             {evRows.length > EV && <Pager page={evPage} pages={Math.ceil(evRows.length / EV)} onPage={setEvPage} total={evRows.length} label="mentions" />}
           </>
         )}
-        {tab === "alerts" && (
-          alerts.length === 0 ? <p className="text-muted-ink">No alerts have fired for this issue as of {fmtDate(asOf)}.</p> : (
-            <ul className="space-y-1.5">
-              {[...alerts].sort(bySeverityThenNewest).slice(0, 4).map((a) => (
-                <li key={a.id} className="flex items-start gap-2">
-                  <SeverityPill severity={a.severity} />
-                  <span className="min-w-0">
-                    <span className="font-medium">{ruleWords(a.rule, a.severity)}</span>
-                    <span className="num text-muted-ink"> · {fmtDate(a.fired_on)}</span>
-                    <span className="block text-[12px] text-muted-ink">{a.explanation}</span>
-                  </span>
-                </li>
-              ))}
-            </ul>
-          )
-        )}
+        {tab === "story" && <IssueStory issue={issue} asOf={asOf} alerts={alerts} triggers={triggers} docs={docs} />}
         {tab === "seen" && <SeenBefore issue={issue} />}
-        {tab === "triggers" && (
-          triggers.length === 0 ? <p className="text-muted-ink">No staged triggers declared in the reports so far.</p> : (
-            <ul className="space-y-1.5">
-              {triggers.slice(0, 3).map((t) => {
-                const left = t.deadline ? daysBetween(asOf, t.deadline) : null
-                return (
-                  <li key={t.id}>
-                    <span className="block">“{t.condition_text}”</span>
-                    <span className="num text-[12px] text-muted-ink">
-                      Declared {fmtDate(t.declared_on)} · {t.deadline ? `deadline ${fmtDate(t.deadline)}, ${left! >= 0 ? `${left} days remaining` : `passed ${-left!} days ago`}` : "no date could be set"}
-                    </span>
-                  </li>
-                )
-              })}
-            </ul>
-          )
-        )}
       </div>
     </div>
   )
