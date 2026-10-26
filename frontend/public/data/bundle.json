@@ -1706,7 +1706,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T20:31:29+00:00",
+    "generated_at": "2026-10-26T20:31:45+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v2",
     "source": "llm",
