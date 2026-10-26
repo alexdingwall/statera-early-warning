@@ -33,7 +33,12 @@ function readActions(): Record<string, ActionRecord> {
   try { return JSON.parse(localStorage.getItem("ew-actions") ?? "{}") } catch { return {} }
 }
 
-export const DEFAULT_AS_OF = "2025-03-21"
+export const DEFAULT_AS_OF = "2024-12-31"   // until the data loads; then the first report
+
+const DATE = /^\d{4}-\d{2}-\d{2}$/
+function savedAsOf(): string | null {
+  try { const v = sessionStorage.getItem("ew-asof"); return v && DATE.test(v) ? v : null } catch { return null }
+}
 
 export const useStore = create<State>((set) => ({
   bundle: null,
@@ -63,14 +68,18 @@ export const useStore = create<State>((set) => ({
       const asof = q.get("asof")
       set({
         bundle,
-        ...(asof && /^\d{4}-\d{2}-\d{2}$/.test(asof) ? { asOf: asof } : {}),
+        // A link's date wins, then the date this tab was last on (survives a refresh), else the first report
+        asOf: asof && DATE.test(asof) ? asof : savedAsOf() ?? bundle.documents.filter((d) => !d.replay_excluded).map((d) => d.date).sort()[0] ?? DEFAULT_AS_OF,
         ...(q.get("gt") === "1" ? { groundTruth: true } : {}),
       })
     } catch (e) {
       set({ error: `Could not load data/bundle.json (${String(e)})` })
     }
   },
-  setAsOf: (asOf) => set({ asOf }),
+  setAsOf: (asOf) => {
+    try { sessionStorage.setItem("ew-asof", asOf) } catch { /* storage unavailable */ }
+    set({ asOf })
+  },
   setBundle: (bundle) => set({ bundle }),
   setGroundTruth: (groundTruth) => set({ groundTruth }),
   setPlaying: (playing) => set({ playing }),

@@ -12,6 +12,7 @@ import { Key } from "@/components/Key"
 import { OutcomeBanner } from "@/components/OutcomeBanner"
 
 const JUMPS = [
+  { label: "Start: the first report (31 Dec 2024)", date: "2024-12-31" },
   { label: "Ashfield first raises DNO date (21 Mar 2025)", date: "2025-03-21" },
   { label: "First warning (5 May 2025)", date: "2025-05-05" },
   { label: "Drumgarve site visit (30 May 2025)", date: "2025-05-30" },
