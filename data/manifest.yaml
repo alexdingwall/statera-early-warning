@@ -1,0 +1,112 @@
+documents:
+  - id: net-snags
+    file: "netherwood commissioning snags 2024.txt"
+    project: netherwood
+    doc_type: commissioning_summary
+    date: 2024-12-31
+    date_note: "Document says December 2024, compiled retrospectively. End of month assumed."
+    author: null
+    title: "Netherwood commissioning snag summary"
+    replay_excluded: false
+  - id: net-handover
+    file: "Netherwood handover pack - status.txt"
+    project: netherwood
+    doc_type: handover_status
+    date: 2025-01-20
+    author: null
+    title: "Netherwood handover to Operations status"
+    replay_excluded: false
+  - id: net-lessons
+    file: "netherwood_lessons_learned.md"
+    project: netherwood
+    doc_type: lessons_learned
+    date: 2025-02-05
+    author: null
+    title: "Netherwood lessons learned workshop"
+    replay_excluded: false
+  - id: dru-transformer
+    file: "Drumgarve_transformer_leadtime_Feb2025.txt"
+    project: drumgarve
+    doc_type: procurement_issue
+    date: 2025-02-07
+    author: "Procurement"
+    title: "Drumgarve transformer lead time issue"
+    replay_excluded: false
+  - id: ash-wk12
+    file: "ASHFIELD_weekly_progress_wk12_2025.txt"
+    project: ashfield
+    doc_type: weekly_report
+    date: 2025-03-21
+    author: "J. Patel"
+    title: "Ashfield weekly report, week 12"
+    replay_excluded: false
+  - id: ash-wk19
+    file: "ashfield_weekly_wk19.md"
+    project: ashfield
+    doc_type: weekly_report
+    date: 2025-05-16
+    author: "J. Patel"
+    title: "Ashfield weekly report, week 19"
+    replay_excluded: false
+  - id: dru-visit
+    file: "drumgarve_site_visit_2025-05-30.txt"
+    project: drumgarve
+    doc_type: site_visit
+    date: 2025-05-30
+    author: null
+    title: "Drumgarve pre-construction site visit"
+    replay_excluded: false
+  - id: dru-planning
+    file: "drumgarve_planning_conditions.md"
+    project: drumgarve
+    doc_type: planning_status
+    date: 2025-06-12
+    author: "A. Lindqvist"
+    title: "Drumgarve planning condition discharge status"
+    replay_excluded: false
+  - id: dru-wk24
+    file: "drumgarve weekly wk24.txt"
+    project: drumgarve
+    doc_type: weekly_report
+    date: 2025-06-13
+    author: "M. Reilly"
+    title: "Drumgarve weekly report, week 24"
+    replay_excluded: false
+  - id: ash-board-jun
+    file: "ashfield_monthly_board_update_June.md"
+    project: ashfield
+    doc_type: board_update
+    date: 2025-06-30
+    date_note: "Period is June 2025, no issue date given. End of month assumed."
+    author: "Project delivery"
+    title: "Ashfield board update, June 2025"
+    replay_excluded: false
+  - id: ash-wk27
+    file: "ashfield-weekly-wk27.txt"
+    project: ashfield
+    doc_type: weekly_report
+    date: 2025-07-04
+    author: "J. Patel"
+    title: "Ashfield weekly report, week 27"
+    replay_excluded: false
+  - id: ash-dno-corr
+    file: "ASH_grid_correspondence_summary.txt"
+    project: ashfield
+    doc_type: correspondence_summary
+    date: 2025-07-10
+    author: "J. Patel"
+    title: "Ashfield DNO correspondence summary"
+    replay_excluded: true
+    excluded_reason: "Compiled retrospectively with hindsight. Used only as ground truth, never as replay input."
+
+replay_window:
+  start: 2024-12-01
+  end: 2025-07-31
+
+ground_truth_events:
+  - id: gt-ash-escalation
+    project: ashfield
+    issue_id: ASH-DNO
+    date: 2025-07-03
+    label: "Formal escalation to DNO account manager"
+    source_doc: ash-dno-corr

@@ -1,0 +1,31 @@
+DRUMGARVE BESS - PROCUREMENT ISSUE
+
+Date raised: 2025-02-07
+Raised by: Procurement
+Project: Drumgarve (40MW)
+
+Main transformer lead time has been revised by the supplier from
+38 weeks to 54 weeks. Notified by email 05/02, no advance warning.
+
+This pushes delivery from September 2025 to January 2026.
+
+IMPACT
+Energisation forecast moves from Nov 2025 to Mar 2026, a slip of
+approximately 16 weeks. Drumgarve does not currently hold a
+capacity market agreement so the direct revenue exposure is lower
+than it would be at Ashfield, but we lose a winter of trading
+revenue.
+
+OPTIONS CONSIDERED
+1. Accept the revised date
+2. Source from an alternative supplier - lead times quoted
+   between 45 and 60 weeks, so no benefit
+3. Second-hand / ex-stock unit - one identified, specification
+   does not match
+
+RECOMMENDATION
+Accept and replan. Also: this is the second transformer lead time
+extension from this supplier in 14 months (see Netherwood, Dec
+2023). We should stop treating their quoted lead times as firm
+and build contingency into the programme at the point of order,
+not when they tell us.

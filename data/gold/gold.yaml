@@ -1,0 +1,171 @@
+issues:
+  # ---------------- Ashfield ----------------
+  - id: ASH-DNO
+    project: ashfield
+    title: "DNO final connection works date not confirmed"
+    category: grid_connection
+    counterparty: dno
+    mentions:
+      - doc: ash-wk12
+        status: open
+        awaiting_third_party: true
+        chase_count: 2
+        programme_impact: potential
+        triggers:
+          - condition: "Not currently on the critical path but will become so if it slips past June"
+            deadline: 2025-06-30
+      - { doc: ash-wk19, status: open, awaiting_third_party: true, chase_count: null, programme_impact: potential, triggers: [] }
+      - { doc: ash-board-jun, status: open, awaiting_third_party: true, chase_count: null, programme_impact: none_stated, triggers: [] }
+      - { doc: ash-wk27, status: materialised, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+  - id: ASH-WEATHER
+    project: ashfield
+    title: "Weather delay to plinth 5-6 foundation pours"
+    category: weather
+    counterparty: null
+    mentions:
+      - { doc: ash-wk12, status: open, awaiting_third_party: false, chase_count: null, programme_impact: potential, triggers: [] }
+      - { doc: ash-wk19, status: resolved, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+  - id: ASH-CRANE
+    project: ashfield
+    title: "Second crane visit needed due to access road width"
+    category: site_access
+    counterparty: ashfield_contractor
+    mentions:
+      - { doc: ash-wk19, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+  - id: ASH-SNAG
+    project: ashfield
+    title: "Switchroom cable entry snagging outstanding"
+    category: commissioning
+    counterparty: ashfield_contractor
+    mentions:
+      - { doc: ash-wk19, status: open, awaiting_third_party: true, chase_count: null, programme_impact: none_stated, triggers: [] }
+
+  # ---------------- Drumgarve ----------------
+  - id: DRU-TRANSFORMER
+    project: drumgarve
+    title: "Main transformer lead time extended from 38 to 54 weeks"
+    category: procurement_supplier
+    counterparty: transformer_supplier_nd
+    mentions:
+      - { doc: dru-transformer, status: materialised, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+      - { doc: dru-wk24, status: materialised, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+  - id: DRU-COND14
+    project: drumgarve
+    title: "Swept path analysis for traffic condition not provided"
+    category: planning
+    counterparty: civils_contractor_nd
+    mentions:
+      - { doc: dru-visit, status: open, awaiting_third_party: true, chase_count: 1, programme_impact: none_stated, triggers: [] }
+      - doc: dru-planning
+        status: open
+        awaiting_third_party: true
+        chase_count: 3
+        programme_impact: potential
+        triggers:
+          - condition: "If the contractor does not provide the analysis within two weeks that date is at risk"
+            deadline: 2025-06-26
+      - doc: dru-wk24
+        status: open
+        awaiting_third_party: true
+        chase_count: 4
+        programme_impact: potential
+        triggers:
+          - condition: "That will change if the transformer date improves or if conditions remain outstanding into the autumn"
+            deadline: 2025-09-01
+  - id: DRU-COND9
+    project: drumgarve
+    title: "Landscaping condition overdue for determination"
+    category: planning
+    counterparty: lpa_drumgarve
+    mentions:
+      - { doc: dru-planning, status: open, awaiting_third_party: true, chase_count: null, programme_impact: none_stated, triggers: [] }
+      - doc: dru-wk24
+        status: open
+        awaiting_third_party: true
+        chase_count: null
+        programme_impact: potential
+        triggers:
+          - condition: "That will change if the transformer date improves or if conditions remain outstanding into the autumn"
+            deadline: 2025-09-01
+  - id: DRU-ACCESS
+    project: drumgarve
+    title: "Access track pinch points too narrow for container delivery"
+    category: site_access
+    counterparty: civils_contractor_nd
+    mentions:
+      - { doc: dru-visit, status: open, awaiting_third_party: false, chase_count: null, programme_impact: potential, triggers: [] }
+      - { doc: dru-wk24, status: open, awaiting_third_party: false, chase_count: null, programme_impact: potential, triggers: [] }
+  - id: DRU-DRAINAGE
+    project: drumgarve
+    title: "Standing water not flagged by ground investigation"
+    category: ground_conditions
+    counterparty: null
+    mentions:
+      - { doc: dru-visit, status: open, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+  - id: DRU-HEDGEROW
+    project: drumgarve
+    title: "Hedgerow nesting season constraint not assessed"
+    category: environmental
+    counterparty: landowner_drumgarve
+    mentions:
+      - { doc: dru-visit, status: open, awaiting_third_party: false, chase_count: null, programme_impact: potential, triggers: [] }
+      - { doc: dru-wk24, status: open, awaiting_third_party: false, chase_count: null, programme_impact: potential, triggers: [] }
+
+  # ---------------- Netherwood ----------------
+  - id: NET-PLANNING
+    project: netherwood
+    title: "Planning condition discharge delayed by civils contractor"
+    category: planning
+    counterparty: civils_contractor_nd
+    mentions:
+      - { doc: net-snags, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+      - { doc: net-lessons, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+  - id: NET-TRANSFORMER
+    project: netherwood
+    title: "Transformer delivery late after supplier revised lead time"
+    category: procurement_supplier
+    counterparty: transformer_supplier_nd
+    mentions:
+      - { doc: net-snags, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+      - { doc: net-lessons, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: realised, triggers: [] }
+  - id: NET-FIRMWARE
+    project: netherwood
+    title: "PCS firmware inconsistent across units, missed at handover"
+    category: commissioning
+    counterparty: internal
+    mentions:
+      - { doc: net-snags, status: occurred, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+      - { doc: net-handover, status: open, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+  - id: NET-HANDOVER
+    project: netherwood
+    title: "Handover to Operations incomplete"
+    category: handover
+    counterparty: internal
+    mentions:
+      - { doc: net-handover, status: open, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+      - { doc: net-lessons, status: open, awaiting_third_party: false, chase_count: null, programme_impact: none_stated, triggers: [] }
+
+expected_cross_project_matches:
+  - { issue: DRU-TRANSFORMER, prior: NET-TRANSFORMER, min_confidence: high }
+  - { issue: DRU-COND14, prior: NET-PLANNING, min_confidence: high }
+  - { issue: DRU-ACCESS, prior: ASH-CRANE, min_confidence: medium }
+expected_no_cross_project_match: [DRU-DRAINAGE, DRU-HEDGEROW, ASH-DNO, ASH-WEATHER]
+
+board_check:
+  doc: ash-board-jun
+  claims:   # verdicts expected when evaluated using documents up to 2025-06-30
+    - { text: "Construction complete.", verdict: supported_with_caveat }
+    - { text: "Energisation forecast 14/11/2025, in line with baseline.", verdict: supported_with_caveat }
+    - { text: "Capacity market delivery start 01/12/2025.", verdict: no_evidence }
+    - { text: "DNO connection works date not yet confirmed.", verdict: supported }
+    - { text: "Low risk, expected to be confirmed shortly.", verdict: contradicted }
+    - { text: "On programme, slightly over budget.", verdict: supported_with_caveat }
+    - { text: "No material concerns.", verdict: contradicted }
+  gold_reasons:
+    "Low risk, expected to be confirmed shortly.": "Open since 21 Mar with repeated unanswered chases and only a verbal 'late summer'. Float fell from 11 to 4 days."
+    "No material concerns.": "An open grid dependency with no written date and 4 days of float is a material concern."
+    "Construction complete.": "Civils complete and containers positioned by 16 May, but switchroom snagging still outstanding."
+    "Energisation forecast 14/11/2025, in line with baseline.": "Forecast matches baseline, but float had fallen to 4 days by 16 May."
+    "On programme, slightly over budget.": "Forecast on baseline but with almost no float left."
+    "DNO connection works date not yet confirmed.": "Consistent with weekly reports."
+    "Capacity market delivery start 01/12/2025.": "No earlier document in the sample states this date."

@@ -1,0 +1,31 @@
+Netherwood - commissioning snag summary
+
+December 2024 (compiled retrospectively - weekly records
+incomplete for Oct/Nov)
+
+Energisation achieved 09/12/2024, against a baseline of
+30/09/2024. Total slip approximately 10 weeks.
+
+Principal causes, in order of impact:
+
+1. Planning condition discharge (6 weeks). Construction traffic
+   management plan delayed by the civils contractor. Start on
+   site pushed accordingly.
+
+2. Transformer delivery (3 weeks). Supplier revised lead time
+   after order placed.
+
+3. Commissioning snags (1 week). Various, mostly minor. Notable:
+   PCS firmware was not updated consistently across all units
+   during snagging - one unit was offline during the update window
+   and was missed. This was not picked up at handover.
+
+LESSONS
+The first two causes were both visible months in advance and
+neither was formally escalated until they had already bitten. Our
+weekly reports recorded them as "issues" from early on but there
+is no mechanism that turns a repeated issue into an escalation.
+
+Handover documentation to Operations was incomplete. The firmware
+point above was known to the commissioning team and did not make
+it into the handover pack.

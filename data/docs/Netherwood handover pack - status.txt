@@ -1,0 +1,28 @@
+NETHERWOOD - HANDOVER TO OPERATIONS
+Status as at 20/01/2025
+
+Energisation: 09/12/2024
+Handover meeting: 18/12/2024
+Status: INCOMPLETE
+
+Outstanding items:
+
+- As-built drawings: issued but not verified against site. Two
+  discrepancies already found by Operations in the cable route.
+- O&M manuals: received for PCS and HVAC, outstanding for the BMS.
+- Commissioning records: partial. Some test sheets missing.
+- Firmware versions: not formally recorded at handover. Operations
+  have since found at least one PCS on an earlier version than the
+  rest of the site.
+- Spares inventory: not provided.
+- Training: two sessions delivered, a third outstanding.
+
+COMMENT
+Operations have accepted the site into service because commercially
+we needed to start delivering, but the handover is not complete and
+the outstanding items are now competing with live operational work
+for attention.
+
+This is the third site in a row where handover has been signed off
+as "complete with exceptions" and the exceptions have then taken
+months to close out.

@@ -1,0 +1,31 @@
+Ashfield weekly - week ending 04/07/2025
+
+PM: J. Patel
+
+PROGRAMME
+Baseline energisation 14/11/2025
+Current forecast 28/11/2025 - FORECAST SLIPPED 14 DAYS
+Float: zero, now in delay
+
+PROGRESS
+Mechanical and electrical installation complete. Site is
+effectively ready for energisation.
+
+ISSUES
+DNO have now confirmed the connection works date: 10/11/2025.
+This leaves no contingency before the 14/11 energisation date and
+the works themselves are quoted at 5-10 working days.
+
+This has been flagged in weekly reports since March. The date was
+never confirmed and we did not escalate it formally. In hindsight
+we should have, in week 12.
+
+Commercial implication: we have a capacity market agreement with
+a delivery start of 01/12/2025. A 14 day slip takes us to 28/11,
+which is inside the window but with nothing spare. Any further
+slip and we are exposed.
+
+ACTIONS
+- Formal escalation to DNO account manager (done 03/07)
+- Reviewing whether any commissioning activity can be brought
+  forward

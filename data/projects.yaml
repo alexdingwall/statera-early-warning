@@ -1,0 +1,30 @@
+projects:
+  - id: ashfield
+    name: Ashfield
+    capacity: "50 MW / 100 MWh"
+    pm: "J. Patel"
+    baseline_energisation: 2025-11-14
+    commercial_date: 2025-12-01
+    commercial_label: "Capacity market delivery start"
+    phases:
+      - { from: 2024-12-01, phase: "Construction" }
+      - { from: 2025-05-16, phase: "Commissioning preparation" }
+  - id: drumgarve
+    name: Drumgarve
+    capacity: "40 MW"
+    pm: "M. Reilly"
+    baseline_energisation: 2025-11-30
+    commercial_date: null
+    commercial_label: "No capacity market agreement. Winter trading revenue at risk."
+    phases:
+      - { from: 2024-12-01, phase: "Pre-construction" }
+  - id: netherwood
+    name: Netherwood
+    capacity: null
+    pm: null
+    baseline_energisation: 2024-09-30
+    actual_energisation: 2024-12-09
+    commercial_date: null
+    commercial_label: "Energised 9 Dec 2024. In operation, handover incomplete."
+    phases:
+      - { from: 2024-12-01, phase: "Operational, handover open" }

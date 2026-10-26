@@ -1,0 +1,20 @@
+entities:
+  dno:                     { label: "DNO (regional grid company)" }
+  civils_contractor_nd:    { label: "Civils contractor (Netherwood, Drumgarve)" }
+  transformer_supplier_nd: { label: "Transformer supplier (Netherwood, Drumgarve)" }
+  ashfield_contractor:     { label: "Ashfield contractor" }
+  lpa_drumgarve:           { label: "Local planning authority (Drumgarve)" }
+  landowner_drumgarve:     { label: "Landowner (Drumgarve)" }
+  internal:                { label: "Internal" }
+
+rules:   # first match wins; project "*" means any project
+  - { roles: ["dno", "distribution network operator", "connections manager", "account manager"], project: "*", entity: dno }
+  - { roles: ["civils contractor", "contractor"], project: netherwood, entity: civils_contractor_nd }
+  - { roles: ["civils contractor", "contractor"], project: drumgarve, entity: civils_contractor_nd }
+  - { roles: ["civils contractor", "contractor"], project: ashfield, entity: ashfield_contractor }
+  - { roles: ["transformer supplier", "supplier"], project: netherwood, entity: transformer_supplier_nd }
+  - { roles: ["transformer supplier", "supplier"], project: drumgarve, entity: transformer_supplier_nd }
+  - { roles: ["lpa", "local planning authority", "local authority"], project: drumgarve, entity: lpa_drumgarve }
+  - { roles: ["landowner"], project: drumgarve, entity: landowner_drumgarve }
+  - { roles: ["internal", "operations", "procurement", "development"], project: "*", entity: internal }
+fallback: "{project}:{role}"   # unknown roles become project-scoped entities
