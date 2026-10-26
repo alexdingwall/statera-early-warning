@@ -26,6 +26,7 @@ const NAV = [
   { to: "/board", label: "Board check" },
   { to: "/evaluation", label: "Evaluation" },
   { to: "/sources", label: "Sources" },
+  { to: "/add", label: "Add a report" },
 ]
 
 export function Shell() {
@@ -59,7 +60,7 @@ export function Shell() {
       else if (e.key === "ArrowRight") { e.preventDefault(); step(1) }
       else if (e.key === " ") { e.preventDefault(); const s = useStore.getState(); s.setPlaying(!s.playing) }
       else if (e.key === "g" || e.key === "G") { const s = useStore.getState(); s.setGroundTruth(!s.groundTruth) }
-      else if (/^[1-8]$/.test(e.key)) navigate(NAV[Number(e.key) - 1].to)
+      else if (/^[1-9]$/.test(e.key)) navigate(NAV[Number(e.key) - 1].to)
     }
     window.addEventListener("keydown", onKey)
     return () => window.removeEventListener("keydown", onKey)
@@ -94,7 +95,7 @@ export function Shell() {
                 <span>← → previous or next document</span>
                 <span>Space play or pause</span>
                 <span>G show what actually happened</span>
-                <span>1 to 8 jump to a sidebar item</span>
+                <span>1 to 9 jump to a sidebar item</span>
                 <span>Esc close the document drawer</span>
               </TooltipContent>
             </Tooltip>

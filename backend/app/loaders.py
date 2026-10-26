@@ -20,6 +20,7 @@ class Document:
     text: str
     date_note: str | None = None
     excluded_reason: str | None = None
+    uploaded: bool = False
 
 
 @dataclass
@@ -53,7 +54,7 @@ def load_all() -> Data:
             id=m["id"], file=m["file"], project=m["project"], doc_type=m["doc_type"],
             date=m["date"], author=m.get("author"), title=m["title"],
             replay_excluded=m["replay_excluded"], text=path.read_text(encoding="utf-8"),
-            date_note=m.get("date_note"), excluded_reason=m.get("excluded_reason"),
+            date_note=m.get("date_note"), excluded_reason=m.get("excluded_reason"), uploaded=bool(m.get("uploaded")),
         ))
     ids = [d.id for d in docs]
     if len(set(ids)) != len(ids):

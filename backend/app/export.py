@@ -25,6 +25,8 @@ def build_bundle(res: Result) -> dict:
             row["date_note"] = d.date_note
         if d.excluded_reason:
             row["excluded_reason"] = d.excluded_reason
+        if d.uploaded:
+            row["uploaded"] = True
         docs.append(row)
 
     projects = []

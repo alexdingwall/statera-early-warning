@@ -30,6 +30,7 @@ export interface Doc {
   text: string
   replay_excluded: boolean
   excluded_reason?: string
+  uploaded?: boolean
 }
 
 export interface Mention {

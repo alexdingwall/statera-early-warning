@@ -9,6 +9,7 @@ import { Alerts } from "@/views/Alerts"
 import { Board } from "@/views/Board"
 import { Evaluation } from "@/views/Evaluation"
 import { Sources } from "@/views/Sources"
+import { AddReport } from "@/views/AddReport"
 
 export default function App() {
   const { bundle, error, load } = useStore()
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="board" element={<Board />} />
             <Route path="evaluation" element={<Evaluation />} />
             <Route path="sources" element={<Sources />} />
+            <Route path="add" element={<AddReport />} />
           </Route>
         </Routes>
       </HashRouter>

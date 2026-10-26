@@ -3,6 +3,8 @@ import type { Bundle } from "@/types"
 
 import type { ActionState } from "@/lib/actions"
 
+export const API = "http://localhost:8000"
+
 export interface ActionRecord { state: ActionState; on: string }
 
 export interface DrawerState {
@@ -23,6 +25,7 @@ interface State {
   setAsOf: (d: string) => void
   setGroundTruth: (v: boolean) => void
   setPlaying: (v: boolean) => void
+  setBundle: (b: Bundle) => void
   openDrawer: (d: DrawerState | null) => void
 }
 
@@ -49,9 +52,11 @@ export const useStore = create<State>((set) => ({
     }),
   load: async () => {
     try {
-      const res = await fetch(`${import.meta.env.BASE_URL}data/bundle.json`)
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
-      const bundle = (await res.json()) as Bundle
+      // When the local backend is running it holds the latest build, including any report added since the site was built.
+      const live = await fetch(`${API}/api/bundle`, { signal: AbortSignal.timeout(800) }).then((r) => (r.ok ? r.json() : null)).catch(() => null)
+      const res = live ? null : await fetch(`${import.meta.env.BASE_URL}data/bundle.json`)
+      if (res && !res.ok) throw new Error(`HTTP ${res.status}`)
+      const bundle = (live ?? (await res!.json())) as Bundle
       // Deep links for demos and screenshots: #/path?asof=2025-06-30&gt=1
       const q = new URLSearchParams(window.location.hash.split("?")[1] ?? "")
       const asof = q.get("asof")
@@ -65,6 +70,7 @@ export const useStore = create<State>((set) => ({
     }
   },
   setAsOf: (asOf) => set({ asOf }),
+  setBundle: (bundle) => set({ bundle }),
   setGroundTruth: (groundTruth) => set({ groundTruth }),
   setPlaying: (playing) => set({ playing }),
   openDrawer: (drawer) => set({ drawer }),
