@@ -78,7 +78,7 @@ export function Board() {
                       <li key={i}>
                         <button onClick={() => openDrawer({ docId: e.docId, span: e.span })} className="grid w-full grid-cols-[84px_1fr] gap-x-2 rounded-sm px-1 py-0.5 text-left text-[13px] hover:bg-bg">
                           <span className="num text-muted-ink">{fmtDate(e.date)}</span>
-                          <span className="min-w-0"><span className="font-medium">{d.title}</span>{e.quote && <span className="line-clamp-1 text-[12px] text-muted-ink">“{e.quote.replace(/\*\*/g, "")}”</span>}</span>
+                          <span className="min-w-0"><span className="font-medium">{d.title}</span>{e.quote && <span className="block text-[12px] text-muted-ink">“{e.quote.replace(/\*\*/g, "")}”</span>}</span>
                         </button>
                       </li>
                     )

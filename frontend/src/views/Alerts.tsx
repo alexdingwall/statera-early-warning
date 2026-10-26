@@ -4,9 +4,8 @@ import { useStore } from "@/store"
 import { fmtDate, ruleWords } from "@/lib/format"
 import { alertsFired } from "@/lib/selectors"
 import { Pager, Panel, PROJECT_COLOUR, SeverityPill } from "@/components/ui-bits"
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 
-const PAGE = 10
+const PAGE = 8
 const sel = "h-8 rounded-md border border-line bg-surface px-2 text-[13px]"
 
 export function Alerts() {
@@ -45,7 +44,7 @@ export function Alerts() {
           {["PERSISTENCE", "TRIGGER", "IMPACT", "PRIOR_INCIDENT"].map((r) => <option key={r} value={r}>{ruleWords(r, "amber")}</option>)}
         </select>
       </div>
-      <div className="min-h-0 flex-1 overflow-hidden px-2">
+      <div className="min-h-0 flex-1 overflow-y-auto px-2">
         <table className="w-full table-fixed text-[13px]">
           <thead>
             <tr className="h-8 border-b border-line text-left text-[12px] font-medium text-muted-ink">
@@ -62,15 +61,10 @@ export function Alerts() {
               <tr key={a.id} onClick={() => navigate(`/project/${a.project}?issue=${a.issue_id}`)} className="h-[38px] cursor-pointer border-b border-line/60 hover:bg-bg">
                 <td className="num px-2">{fmtDate(a.fired_on)}</td>
                 <td className="px-2"><span className="mr-1.5 inline-block size-2 rounded-full" style={{ background: PROJECT_COLOUR[a.project] }} />{a.project.charAt(0).toUpperCase() + a.project.slice(1)}</td>
-                <td className="truncate px-2">{a.title}</td>
-                <td className="truncate px-2">{ruleWords(a.rule, a.severity)}</td>
+                <td className="px-2 py-1">{a.title}</td>
+                <td className="px-2 py-1">{ruleWords(a.rule, a.severity)}</td>
                 <td className="px-2"><SeverityPill severity={a.severity} /></td>
-                <td className="px-2">
-                  <Tooltip>
-                    <TooltipTrigger render={<span className="block truncate text-muted-ink" tabIndex={0} />}>{a.explanation}</TooltipTrigger>
-                    <TooltipContent className="max-w-md">{a.explanation}</TooltipContent>
-                  </Tooltip>
-                </td>
+                <td className="px-2 py-1 text-[12px] text-muted-ink">{a.explanation}</td>
               </tr>
             ))}
             {rows.length === 0 && <tr><td colSpan={6} className="px-2 py-4 text-muted-ink">No alerts match these filters as of {fmtDate(asOf)}.</td></tr>}
