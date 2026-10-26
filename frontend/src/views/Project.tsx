@@ -42,7 +42,7 @@ export function Project() {
   const hasDecisions = decide > 0
 
   return (
-    <div className="flex h-full flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <Panel className="flex shrink-0 items-center gap-6 px-4 py-2.5">
         <div className="min-w-0">
           <h1 className="font-heading text-[18px] font-semibold leading-tight">{project.name}</h1>
@@ -92,8 +92,8 @@ export function Project() {
       ) : view === "lessons" ? (
         <LessonsView project={project.id} />
       ) : (
-        <div className="flex min-h-0 flex-1 gap-3">
-          <Panel className="flex w-[38%] shrink-0 flex-col overflow-y-auto px-2 py-2">
+        <div className="flex items-start gap-3">
+          <Panel className="sticky top-0 flex max-h-[calc(100dvh-9rem)] w-[38%] shrink-0 flex-col self-start overflow-y-auto px-2 py-2">
             <p className="px-2 pb-1 text-[12px] text-muted-ink">{decide ? `${decide} to decide` : "Nothing to decide"} · {items.length} {items.length === 1 ? "issue" : "issues"} in all</p>
             {TIERS.map((t) => {
               const list = byTier(t)
@@ -113,7 +113,7 @@ export function Project() {
             {items.length === 0 && <p className="px-2 py-3 text-[13px] text-muted-ink">No issues yet.</p>}
           </Panel>
 
-          <Panel className="min-w-0 flex-1 overflow-hidden">
+          <Panel className="min-w-0 flex-1">
             {selected ? <ActionDetail item={selected} /> : <p className="p-4 text-[13px] text-muted-ink">No issue selected.</p>}
           </Panel>
         </div>

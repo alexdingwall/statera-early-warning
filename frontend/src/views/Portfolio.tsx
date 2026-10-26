@@ -41,7 +41,7 @@ export function Portfolio() {
   const rows = list.slice(page * PAGE, page * PAGE + PAGE)
 
   return (
-    <div className="flex h-full flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <h1 className="sr-only">Portfolio</h1>
       <div className="grid shrink-0 grid-cols-3 gap-3">
         {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} />)}
@@ -59,8 +59,8 @@ export function Portfolio() {
         </div>
       )}
 
-      <div className="flex min-h-0 flex-1 gap-3">
-        <Panel className="flex w-[38%] shrink-0 flex-col">
+      <div className="flex items-start gap-3">
+        <Panel className="sticky top-0 flex w-[38%] shrink-0 flex-col">
           <div className="flex h-11 shrink-0 items-center gap-1 px-3">
             <h2 className="mr-auto text-[14px] font-semibold">Needs a decision</h2>
             {([["todo", `To do ${todo.length}`], ["done", `Handled ${done.length}`]] as const).map(([k, label]) => (
@@ -96,7 +96,7 @@ export function Portfolio() {
           <Pager page={page} pages={pages} onPage={setPage} total={list.length} label={list.length === 1 ? "item" : "items"} />
         </Panel>
 
-        <Panel className="min-w-0 flex-1 overflow-hidden">
+        <Panel className="min-w-0 flex-1">
           {selected ? <ActionDetail item={selected} /> : (
             <div className="p-6 text-[14px] text-muted-ink">
               {tab === "todo" ? "No open decisions. Move the date forward to see how the picture changes." : "Handled items appear here."}

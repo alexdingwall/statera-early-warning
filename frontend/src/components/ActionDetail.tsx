@@ -55,7 +55,7 @@ export function ActionDetail({ item }: { item: ActionItem }) {
   const latest = issue.mentions.filter((m) => m.date <= asOf).slice(-1)[0]
 
   return (
-    <div className="flex h-full min-h-0 flex-col gap-2.5 overflow-y-auto p-3.5">
+    <div className="flex flex-col gap-2.5 p-3.5">
       <div className="flex items-start gap-2">
         <span className="mt-0.5"><SeverityIcon severity={item.severity} size={18} /></span>
         <div className="min-w-0 flex-1">

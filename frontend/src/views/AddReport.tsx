@@ -74,7 +74,7 @@ export function AddReport() {
   }
 
   return (
-    <Panel className="h-full overflow-y-auto p-5">
+    <Panel className="p-5">
       <h1 className="font-heading text-[18px] font-semibold">Add a report</h1>
       <p className="mt-0.5 max-w-[640px] text-[13px] text-muted-ink">
         The local model reads the report, matches its issues to the ones already tracked, and everything is recalculated.
