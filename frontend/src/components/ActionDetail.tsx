@@ -67,7 +67,7 @@ export function ActionDetail({ item }: { item: ActionItem }) {
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <ActionButtons item={item} />
           <p className="text-[12px] text-muted-ink">
-            {item.owner ? `Suggested owner: ${item.owner}` : ""}{item.decideBy ? ` · decide by ${fmtDate(item.decideBy)}` : ""}
+            {item.owner ? `Suggested owner: ${item.owner}` : ""}{item.decideBy ? ` · date stated in report: ${fmtDate(item.decideBy)}` : ""}
           </p>
         </div>
       </div>

@@ -64,7 +64,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const target = cpLabel ? `Escalate formally to ${cpLabel}` : "Assign an owner and a date"
       let action: string
       if (impact) action = `Agree a recovery plan${cpLabel ? ` with ${cpLabel}` : ""} and update the forecast now. This issue has already affected the programme.`
-      else if (upcoming) action = `${target} before ${fmtDate(upcoming.deadline!)} (${daysLeft} days left).`
+      else if (upcoming) action = `${target} before ${fmtDate(upcoming.deadline!)} (${daysLeft} days left, from the ${fmtDate(upcoming.declared_on)} report).`
       else if (passed) action = `${target} now. The deadline set in the report (${fmtDate(passed.deadline!)}) has passed and this is still open.`
       else action = `${target}. It has been raised in ${Math.max(n, 2)} reports and is still open.${cpLabel ? " Ask for a written answer and a named contact." : ""}`
 

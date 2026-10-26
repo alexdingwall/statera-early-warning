@@ -57,7 +57,7 @@ export function Portfolio() {
                     <span className="block truncate text-[12px] text-muted-ink">
                       <span className="capitalize">{i.project}</span>
                       {" · "}
-                      {i.daysLeft !== null ? `decide by ${fmtDate(i.decideBy!)} (${i.daysLeft} days)` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "decide now"}
+                      {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft} days)` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "decide now"}
                     </span>
                   </span>
                   <span className="size-2 shrink-0 rounded-full" style={{ background: PROJECT_COLOUR[i.project] }} aria-hidden />
