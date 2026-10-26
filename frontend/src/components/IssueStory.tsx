@@ -32,7 +32,7 @@ export function IssueStory({ issue, asOf, alerts, triggers, docs }: { issue: Iss
     rows.push({
       date: t.deadline, order: 2, key: t.id, icon: <Flag size={13} className="text-navy-600" aria-hidden />, future: left > 0,
       title: `Deadline set in the report: ${left > 0 ? `${left} days away` : left === 0 ? "today" : `passed ${-left} days ago`}`,
-      detail: `Stated on ${fmtDate(t.declared_on)}: “${t.condition_text}”`,
+      detail: `Stated on ${fmtDate(t.declared_on)}: “${t.condition_text.replace(/[.\s]+$/, "")}”`,
     })
   }
   const gtEvent = gt ? bundle.ground_truth_events.find((e) => e.issue_id === issue.id && e.date <= asOf) : undefined

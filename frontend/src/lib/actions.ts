@@ -73,7 +73,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       if (n >= 2 && !impact) why.push(`Raised in ${n} reports in a row since ${fmtDate(firstOpen)}.`)
       if (chase !== null) why.push(`At least ${chase} ${chase === 1 ? "chase" : "chases"} recorded${waiting ? `, waiting on ${cpLabel}` : ""}.`)
       const t = upcoming ?? passed
-      if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text}”.`)
+      if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text.replace(/[.\s]+$/, "")}”.`)
       if (impact) why.push(`Already affecting the programme (${docById(b, (ms.find((m) => m.date === impact.fired_on) ?? latest).doc_id).title}, ${fmtDate(impact.fired_on)}).`)
       if (!why.length) why.push(alerts[0].explanation)
 
