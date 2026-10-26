@@ -1,9 +1,9 @@
 import { useMemo } from "react"
-import { Eye } from "lucide-react"
+import { AlertOctagon, Eye } from "lucide-react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { daysBetween, fmtDate } from "@/lib/format"
-import { docsUpTo, latestSnapshot, phaseOn, statusOn } from "@/lib/selectors"
+import { docById, docsUpTo, latestSnapshot, phaseOn, statusOn, topReasons } from "@/lib/selectors"
 import { EvidencePill, Panel, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
 import { ActionDetail } from "@/components/ActionDetail"
@@ -18,6 +18,7 @@ export function Project() {
   const bundle = useStore((s) => s.bundle)!
   const asOf = useStore((s) => s.asOf)
   const actions = useStore((s) => s.actions)
+  const openDrawer = useStore((s) => s.openDrawer)
   const [params, setParams] = useSearchParams()
 
   const project = bundle.projects.find((p) => p.id === id)
@@ -71,6 +72,35 @@ export function Project() {
           </div>
         </div>
       </Panel>
+
+      {st?.divergent && view === "issues" && (
+        <Panel className="shrink-0 border-red/50 px-4 py-3" aria-label="Reported and evidence disagree">
+          <h2 className="flex items-center gap-1.5 text-[13px] font-semibold text-red"><AlertOctagon size={15} aria-hidden />Reported and evidence disagree</h2>
+          <div className="mt-2 grid grid-cols-2 gap-8 text-[13px]">
+            <div>
+              <h3 className="mb-1 text-[12px] font-semibold text-muted-ink">What the project’s latest report says</h3>
+              <p className="font-medium">{snap?.forecast && snap.baseline ? `On programme: the forecast (${fmtDate(snap.forecast)}) matches the baseline (${fmtDate(snap.baseline)}).` : "On programme."}</p>
+              {st.reported_quote && <p className="mt-0.5 text-[12px] text-muted-ink">“{st.reported_quote}”</p>}
+              {st.reported_source_doc && (
+                <button className="mt-1 text-[12px] text-[#0B6DA6] hover:underline" onClick={() => openDrawer({ docId: st.reported_source_doc! })}>
+                  {docById(bundle, st.reported_source_doc).title} ({fmtDate(docById(bundle, st.reported_source_doc).date)})
+                </button>
+              )}
+            </div>
+            <div>
+              <h3 className="mb-1 text-[12px] font-semibold text-muted-ink">What the evidence shows</h3>
+              <ul className="space-y-1">
+                {topReasons(bundle, asOf, project.id).slice(0, 3).map((r) => (
+                  <li key={r.alert.id}>
+                    <button className="font-medium text-[#0B6DA6] hover:underline" onClick={() => setParams({ issue: r.issue.id })}>{r.issue.title}</button>
+                    <span className="text-muted-ink"> ({r.alert.severity}): {r.alert.explanation}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </Panel>
+      )}
 
       {watch.length > 0 && view === "issues" && (
         <Panel className="shrink-0 border-blue-500/40 px-4 py-2.5" aria-label="Watch notes">

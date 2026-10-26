@@ -5,7 +5,7 @@ import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
 import { buildActions, decisionFor, TIER_WORDS, type ActionItem } from "@/lib/actions"
 import { watchOn } from "@/lib/watch"
-import { changesSince, docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
+import { changesSince, docsUpTo, headlineFor, latestSnapshot, statusOn, topReasons } from "@/lib/selectors"
 import { ActionDetail } from "@/components/ActionDetail"
 import { EvidencePill, Pager, Panel, PROJECT_COLOUR, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { cn } from "@/lib/utils"
@@ -26,6 +26,7 @@ export function Portfolio() {
   const [params] = useSearchParams()
   const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
   const [page, setPage] = useState(0)
+  const [flash, setFlash] = useState<string | null>(null)   // the row a button just took you to
 
   const dec = (i: (typeof all)[number]) => decisionFor(bundle, i, actions[i.issue.id], asOf)
   const navigate = useNavigate()
@@ -34,7 +35,11 @@ export function Portfolio() {
   const isNew = (i: (typeof all)[number]) => newIds.has(i.issue.id) || i.also.some((a) => newIds.has(a.id))
   const openNew = (issueId: string, project: string) => {
     const hit = all.find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
-    if (hit) { setTab("todo"); setSel(hit.issue.id) } else navigate(`/project/${project}?issue=${issueId}`)
+    if (hit) {
+      setTab("todo"); setSel(hit.issue.id)
+      setFlash(hit.issue.id); window.setTimeout(() => setFlash(null), 1600)
+      window.setTimeout(() => document.getElementById("detail-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50)
+    } else navigate(`/project/${project}?issue=${issueId}`)
   }
   /** One button per project saying what kind of "new" it is, folded the way the queue folds related issues. */
   const summary = useMemo(() => {
@@ -126,14 +131,14 @@ export function Portfolio() {
             {rows.map((i, n) => (
               <li key={i.issue.id}>
                 {(n === 0 || rows[n - 1].tier !== i.tier) && <h3 className="px-2 pb-0.5 pt-1 text-[12px] font-semibold text-muted-ink">{TIER_WORDS[i.tier]}</h3>}
-                <QueueRow item={i} selected={selected?.issue.id === i.issue.id} isNew={isNew(i)} reopened={!!dec(i).reopened} onPick={() => setSel(i.issue.id)} />
+                <QueueRow item={i} selected={selected?.issue.id === i.issue.id} flash={flash === i.issue.id} isNew={isNew(i)} reopened={!!dec(i).reopened} onPick={() => setSel(i.issue.id)} />
               </li>
             ))}
             {tab === "todo" && radar.length > 0 && (
               <>
                 <li><h3 className="px-2 pb-0.5 pt-2 text-[12px] font-semibold text-muted-ink">On the radar: a deadline is set, or it has happened before</h3></li>
                 {radar.map((i) => (
-                  <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
+                  <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} flash={flash === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
                 ))}
               </>
             )}
@@ -146,7 +151,7 @@ export function Portfolio() {
           <Pager page={page} pages={pages} onPage={setPage} total={list.length} label={list.length === 1 ? "item" : "items"} />
         </Panel>
 
-        <Panel className="min-w-0 flex-1">
+        <Panel className="min-w-0 flex-1" id="detail-panel">
           {selected ? <ActionDetail item={selected} /> : (
             <div className="p-6 text-[14px] text-muted-ink">
               {tab === "todo" ? "No open decisions. Move the date forward to see how the picture changes." : "Handled items appear here."}
@@ -173,6 +178,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
   const head = headlineFor(bundle, p.id, asOf)
   const snap = latestSnapshot(bundle, p.id, asOf)
   const watching = watchOn(bundle, asOf, p.id).length
+  const lead = topReasons(bundle, asOf, p.id)[0]
 
   return (
     <Link to={`/project/${p.id}`} className={cn("block rounded-lg border bg-surface px-3 py-1.5 hover:bg-bg", st?.divergent ? "border-red" : "border-line")}>
@@ -189,8 +195,9 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
             <ReportedPill status={st?.reported_status} />
             <EvidencePill status={st?.evidence_status} />
           </div>
-          <p className={cn("mt-1 flex items-center gap-1.5 truncate text-[12px]", st?.divergent ? "font-medium text-red" : "text-muted-ink")}>
-            {TONE_ICON[head.tone]}<span className="truncate">{st?.divergent ? "Reported and evidence disagree" : head.text}</span>
+          <p className={cn("mt-1 flex items-start gap-1.5 text-[12px]", st?.divergent ? "font-medium text-red" : "text-muted-ink")}>
+            <span className="mt-px">{TONE_ICON[head.tone]}</span>
+            <span>{st?.divergent && lead ? `The report says on programme, but ${lead.issue.title} is ${lead.alert.severity}` : head.text}</span>
           </p>
         </>
       )}
@@ -198,10 +205,10 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
   )
 }
 
-function QueueRow({ item: i, selected, isNew, reopened, onPick }: { item: ActionItem; selected: boolean; isNew: boolean; reopened: boolean; onPick: () => void }) {
+function QueueRow({ item: i, selected, flash, isNew, reopened, onPick }: { item: ActionItem; selected: boolean; flash: boolean; isNew: boolean; reopened: boolean; onPick: () => void }) {
   return (
     <button onClick={onPick} aria-current={selected}
-      className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected && "bg-accent")}>
+      className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected && "bg-accent", flash && "ring-2 ring-blue-500")}>
       <span className="w-4 shrink-0">{i.severity !== "info" && <SeverityIcon severity={i.severity} />}</span>
       <span className="min-w-0 flex-1">
         <span className="block text-[13px] font-medium">{i.issue.title}{isNew && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
