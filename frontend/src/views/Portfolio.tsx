@@ -3,6 +3,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
+import { watchOn } from "@/lib/watch"
 import { buildActions } from "@/lib/actions"
 import { docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
 import { ActionDetail } from "@/components/ActionDetail"
@@ -99,6 +100,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
   const st = statusOn(bundle, p.id, asOf)
   const head = headlineFor(bundle, p.id, asOf)
   const snap = latestSnapshot(bundle, p.id, asOf)
+  const watching = watchOn(bundle, asOf, p.id).length
 
   return (
     <Link to={`/project/${p.id}`} className={cn("block rounded-lg border bg-surface px-3 py-1.5 hover:bg-bg", st?.divergent ? "border-red" : "border-line")}>
@@ -107,7 +109,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
           <span className="size-2.5 rounded-full" style={{ background: PROJECT_COLOUR[p.id] }} aria-hidden />
           <span className="font-heading text-[14px] font-semibold">{p.name}</span>
         </span>
-        <span className="text-[12px] text-muted-ink">{docs.length ? `${todo} to decide${snap?.float_days != null ? ` · float ${snap.float_days} d` : ""}` : "No documents yet"}</span>
+        <span className="text-[12px] text-muted-ink">{docs.length ? `${todo} to decide${watching ? ` · ${watching} on watch` : ""}${snap?.float_days != null ? ` · float ${snap.float_days} d` : ""}` : `No documents yet${watching ? ` · ${watching} on watch` : ""}`}</span>
       </div>
       {docs.length > 0 && (
         <>

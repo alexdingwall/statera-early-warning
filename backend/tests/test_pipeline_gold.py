@@ -86,3 +86,12 @@ def test_board_check(bundle):
 def test_lead_times(bundle):
     rows = {r["label"]: r["days_earlier"] for r in bundle["evaluation"]["lead_time"]["rows"]}
     assert rows == {"First warning": 59, "First red alert": 31, "Persistence rule alone": 48}
+
+
+def test_watch_notes_come_before_the_projects_own_issue(bundle):
+    got = {(n["project"], n["counterparty"]): (n["from"], n["until"]) for n in bundle["watch"]}
+    assert got == {("drumgarve", "transformer_supplier_nd"): ("2024-12-31", "2025-02-07"),
+                   ("drumgarve", "civils_contractor_nd"): ("2024-12-31", "2025-05-30")}
+    for n in bundle["watch"]:
+        assert all(x["project"] != n["project"] and x["date"] >= n["from"] for x in n["incidents"])
+        assert n["until"] is None or n["until"] > n["from"]

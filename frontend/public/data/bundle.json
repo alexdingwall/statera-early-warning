@@ -1708,7 +1708,7 @@
   ],
   "meta": {
     "embed_model": "nomic-embed-text",
-    "generated_at": "2026-10-26T21:03:56+00:00",
+    "generated_at": "2026-10-26T21:10:54+00:00",
     "model": "qwen3:8b",
     "prompt_version": "v2",
     "source": "llm",
@@ -2016,6 +2016,38 @@
       "declared_on": "2025-06-13",
       "id": "TRG-DRU-001-dru-wk24-1",
       "issue_id": "DRU-001"
+    }
+  ],
+  "watch": [
+    {
+      "category": "planning",
+      "counterparty": "civils_contractor_nd",
+      "from": "2024-12-31",
+      "id": "WATCH-drumgarve-civils_contractor_nd-planning",
+      "incidents": [
+        {
+          "date": "2024-12-31",
+          "issue_id": "NET-001",
+          "project": "netherwood"
+        }
+      ],
+      "project": "drumgarve",
+      "until": "2025-05-30"
+    },
+    {
+      "category": "procurement_supplier",
+      "counterparty": "transformer_supplier_nd",
+      "from": "2024-12-31",
+      "id": "WATCH-drumgarve-transformer_supplier_nd-procurement_supplier",
+      "incidents": [
+        {
+          "date": "2024-12-31",
+          "issue_id": "NET-002",
+          "project": "netherwood"
+        }
+      ],
+      "project": "drumgarve",
+      "until": "2025-02-07"
     }
   ]
 }

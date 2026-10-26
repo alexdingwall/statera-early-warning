@@ -7,6 +7,8 @@ import { activeAlertsOn, bySeverityThenNewest, docsUpTo, isOpenStatus, issueStat
 import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon, SeverityPill } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
 import { ActionButtons } from "@/components/ActionDetail"
+import { watchOn } from "@/lib/watch"
+import { Eye } from "lucide-react"
 import { buildActions } from "@/lib/actions"
 import { IssueTimeline } from "@/components/IssueTimeline"
 import { cn } from "@/lib/utils"
@@ -28,6 +30,7 @@ export function Project() {
   const docs = docsUpTo(bundle, asOf, id)
   const issues = useMemo(() => issuesSeen(bundle, asOf, id), [bundle, asOf, id])
   const alerts = activeAlertsOn(bundle, asOf, id)
+  const watch = watchOn(bundle, asOf, id)
 
   const topSev = (i: Issue) => Math.max(0, ...alerts.filter((a) => a.issue_id === i.id).map((a) => sevRank(a.severity)))
   const sorted = useMemo(
@@ -85,6 +88,21 @@ export function Project() {
           </div>
         </div>
       </Panel>
+
+      {watch.length > 0 && view === "issues" && (
+        <Panel className="shrink-0 border-blue-500/40 px-4 py-2.5" aria-label="Watch notes">
+          <h2 className="flex items-center gap-1.5 text-[13px] font-semibold"><Eye size={15} className="text-blue-600" aria-hidden />Watch: not raised on this project yet</h2>
+          <ul className="mt-1 space-y-1.5">
+            {watch.map((w) => (
+              <li key={w.note.id} className="text-[13px]">
+                <span className="font-medium">{w.title}.</span>{" "}
+                <span className="text-muted-ink">{w.history.map((h) => h.text).join("; ")}.</span>{" "}
+                <span>{w.advice}</span>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      )}
 
       {docs.length === 0 ? (
         <Panel className="p-6 text-[14px] text-muted-ink">No documents for this project as of {fmtDate(asOf)}.</Panel>

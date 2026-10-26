@@ -43,6 +43,7 @@ cd backend && uv run python -m app.cli all --source llm --refresh
 - **Cross-project.** A score from wording similarity, category and shared counterparty links an issue to an earlier incident on another project.
 - **Board check.** The board paper is split into claims by code; each claim is judged against the evidence held on that date. The budget is checked arithmetically.
 - **Action queue.** The main screen lists one decision per issue with an active red or amber alert, ranked by whether it can still be prevented, then severity, then the nearest deadline. The recommended action, suggested owner, why now, stakes and "last time" are templated from data and rules, not written by the model. Decide-by dates are the ones the report itself states.
+- **Watch notes.** Prevention before any alert: if a counterparty has already caused a problem of one kind on another project, and this project uses it and has not raised the same kind of issue yet, a note says what happened and what to do early. Templated, no model. The note stops once the project's own issue appears. At present it fires for Drumgarve's transformer supplier (from 31 Dec 2024, five weeks before the issue appears on 7 Feb) and its civils contractor (until 30 May).
 - **Lessons.** A per-project tab shows the actions agreed after the Netherwood workshop and where each applies. They are hand-entered in `data/lessons.yaml`, not extracted by the model.
 - **Replay.** Documents are processed in date order and everything shown at a date uses only documents dated on or before it. Tests enforce this.
 

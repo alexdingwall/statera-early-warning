@@ -15,6 +15,7 @@ class Result:
     triggers: list[Trigger] = field(default_factory=list)
     alerts: list[Alert] = field(default_factory=list)
     matches: list[Match] = field(default_factory=list)
+    watch: list[dict] = field(default_factory=list)
     snapshots: list[ProgrammeSnapshot] = field(default_factory=list)
     status_timeline: list[dict] = field(default_factory=list)
     board_checks: list[dict] = field(default_factory=list)
@@ -72,13 +73,14 @@ def build(source: str = "llm", data: Data | None = None) -> Result:
 
 def _derive(res: Result) -> None:
     """Everything computed from the issues: matches, alerts, status, board checks."""
-    from . import boardcheck, crossproject
+    from . import boardcheck, crossproject, watch
     data = res.data
     docs = {d.id: d for d in data.documents}
     labels = {k: v["label"] for k, v in data.counterparties["entities"].items()}
     window = data.replay_window
 
     res.matches = crossproject.compute(res.issues, res.source, labels)
+    res.watch = watch.compute(res.issues)
     res.alerts = rules.compute(
         res.issues, res.triggers, res.matches,
         {k: d.doc_type for k, d in docs.items()}, {k: d.title for k, d in docs.items()},

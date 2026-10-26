@@ -182,6 +182,16 @@ export interface Lesson {
   applies_to: { alert_rules?: string[]; counterparty?: string; phase_contains?: string }
 }
 
+export interface WatchNote {
+  id: string
+  project: string
+  counterparty: string
+  category: string
+  from: string
+  until: string | null
+  incidents: { issue_id: string; project: string; date: string }[]
+}
+
 export interface Bundle {
   meta: {
     generated_at: string
@@ -198,6 +208,7 @@ export interface Bundle {
   triggers: Trigger[]
   alerts: Alert[]
   matches: Match[]
+  watch: WatchNote[]
   programme_snapshots: Snapshot[]
   status_timeline: StatusRow[]
   board_checks: BoardCheck[]
