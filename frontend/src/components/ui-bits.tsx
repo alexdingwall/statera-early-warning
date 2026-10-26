@@ -110,4 +110,4 @@ export function Pager({ page, pages, onPage, total, label }: { page: number; pag
 export const btn =
   "inline-flex h-8 items-center justify-center gap-1.5 rounded-md border border-line bg-surface px-3 text-[13px] font-medium text-ink hover:bg-bg"
 export const btnPrimary =
-  "inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-blue-600 px-3 text-[13px] font-medium text-white hover:bg-[#0B6DA6]"
+  "inline-flex h-8 items-center justify-center gap-1.5 rounded-md bg-[#0B6DA6] px-3 text-[13px] font-medium text-white hover:bg-[#095A8A] disabled:opacity-50"
