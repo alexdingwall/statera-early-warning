@@ -26,6 +26,8 @@ interface State {
   setGroundTruth: (v: boolean) => void
   setPlaying: (v: boolean) => void
   setBundle: (b: Bundle) => void
+  toast: { text: string; undo?: () => void } | null
+  showToast: (t: { text: string; undo?: () => void } | null) => void
   openDrawer: (d: DrawerState | null) => void
 }
 
@@ -39,6 +41,8 @@ const DATE = /^\d{4}-\d{2}-\d{2}$/
 function savedAsOf(): string | null {
   try { const v = sessionStorage.getItem("ew-asof"); return v && DATE.test(v) ? v : null } catch { return null }
 }
+
+let toastTimer = 0
 
 export const useStore = create<State>((set) => ({
   bundle: null,
@@ -81,6 +85,12 @@ export const useStore = create<State>((set) => ({
     set({ asOf })
   },
   setBundle: (bundle) => set({ bundle }),
+  toast: null,
+  showToast: (toast) => {
+    window.clearTimeout(toastTimer)
+    set({ toast })
+    if (toast) toastTimer = window.setTimeout(() => set({ toast: null }), 7000)
+  },
   setGroundTruth: (groundTruth) => set({ groundTruth }),
   setPlaying: (playing) => set({ playing }),
   openDrawer: (drawer) => set({ drawer }),

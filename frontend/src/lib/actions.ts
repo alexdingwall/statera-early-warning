@@ -30,6 +30,7 @@ export interface ActionItem {
   lastTime: {
     kind: "incident" | "lesson"
     matchId?: string
+    confidence?: "high" | "medium"
     text: string
     lesson: string | null
     /** The earlier issue, so the UI can link to it, and what was recorded about it and when. */
@@ -105,7 +106,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const hit = lessons.find((l) => l.items.some((x) => x.issue?.id === issue.id))
       let lastTime: ActionItem["lastTime"] = null
       if (prior && m) lastTime = {
-        kind: "incident", matchId: m.id,
+        kind: "incident", matchId: m.id, confidence: m.confidence,
         prior: {
           id: prior.id, project: prior.project,
           events: mentionsUpTo(prior, asOf).map((x) => ({ date: x.date, docId: x.doc_id, docTitle: docById(b, x.doc_id).title, status: x.status, span: x.quote_span })),
@@ -115,7 +116,9 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       }
       else if (hit) lastTime = { kind: "lesson", text: `${hit.lesson.title}. ${hit.lesson.summary}`, lesson: `Agreed afterwards: ${hit.lesson.action.toLowerCase()} (owner ${hit.lesson.owner}). Status: ${hit.lesson.status.toLowerCase()}.` }
 
-      const open = isOpenStatus(status)
+      // Raised only in retrospective reports (a commissioning summary, a lessons workshop): a record, not a live issue
+      const retrospective = ms.length > 0 && ms.every((m) => ["commissioning_summary", "lessons_learned"].includes(docById(b, m.doc_id).doc_type))
+      const open = isOpenStatus(status) && !retrospective
       const tier: Tier = !open ? "past" : !alerts.length ? "watch"
         : impact || passed && !upcoming || (daysLeft !== null && daysLeft <= NOW_WITHIN_DAYS) ? "now" : "prepare"
       if (tier === "watch") action = "Nothing to decide yet. Keep an eye on it."

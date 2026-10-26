@@ -19,8 +19,8 @@ export function Portfolio() {
   const actions = useStore((s) => s.actions)
   const every = useMemo(() => buildActions(bundle, asOf), [bundle, asOf])
   const all = useMemo(() => every.filter((i) => i.tier === "now" || i.tier === "prepare"), [every])
-  /** Open issues whose report has already set a deadline, before any warning has fired. */
-  const radar = useMemo(() => every.filter((i) => i.tier === "watch" && i.daysLeft !== null && i.daysLeft >= 0), [every])
+  /** Open issues with no warning yet, but a deadline already set by the report, or a similar problem on another project. */
+  const radar = useMemo(() => every.filter((i) => i.tier === "watch" && ((i.daysLeft !== null && i.daysLeft >= 0) || i.lastTime?.kind === "incident")), [every])
   const watching = useMemo(() => watchOn(bundle, asOf), [bundle, asOf])
   const [tab, setTab] = useState<"todo" | "done">("todo")
   const [params] = useSearchParams()
@@ -131,7 +131,7 @@ export function Portfolio() {
             ))}
             {tab === "todo" && radar.length > 0 && (
               <>
-                <li><h3 className="px-2 pb-0.5 pt-2 text-[12px] font-semibold text-muted-ink">On the radar: the report has set a deadline</h3></li>
+                <li><h3 className="px-2 pb-0.5 pt-2 text-[12px] font-semibold text-muted-ink">On the radar: a deadline is set, or it has happened before</h3></li>
                 {radar.map((i) => (
                   <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
                 ))}
@@ -208,7 +208,10 @@ function QueueRow({ item: i, selected, isNew, reopened, onPick }: { item: Action
         <span className="block text-[12px] text-muted-ink">
           <span className="capitalize">{i.project}</span>
           {" · "}
-          {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}{reopened ? " · back: new information" : ""}
+          {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})`
+            : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme"
+            : i.tier === "watch" && i.lastTime?.prior ? `a similar problem happened at ${i.lastTime.prior.project.charAt(0).toUpperCase()}${i.lastTime.prior.project.slice(1)} before (${i.lastTime.confidence ?? "medium"} match)`
+            : "no date in the report"}{reopened ? " · back: new information" : ""}
         </span>
       </span>
     </button>

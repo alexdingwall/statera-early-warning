@@ -16,7 +16,14 @@ export function ActionButtons({ item, compact }: { item: ActionItem; compact?: b
   const dec = decisionFor(bundle, item, saved, asOf)
   const rec = dec.handled ? dec.rec : null
   const setAction = useStore((s) => s.setAction)
-  const set = (state: ActionState) => setAction(item.issue.id, { state, on: asOf })
+  const showToast = useStore((s) => s.showToast)
+  const set = (state: ActionState) => {
+    setAction(item.issue.id, { state, on: asOf })
+    showToast({
+      text: `${STATE_WORDS[state]}: ${item.issue.title}. It has moved to Handled and comes back if something new arrives.`,
+      undo: () => { setAction(item.issue.id, null); showToast(null) },
+    })
+  }
   if (rec) {
     return (
       <div className="flex items-center gap-2 text-[13px]">

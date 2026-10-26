@@ -164,7 +164,7 @@ export function Shell() {
                       {isActive && <span className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-teal-400" />}
                       <span className="flex-1">{n.label}</span>
                       {n.project && hasDocs && <StatusDot status={st} />}
-                      {n.to === "/alerts" && <span className="num rounded-sm bg-white/15 px-1.5 text-[12px]" aria-label={`${recent} alerts in the last 14 days`}>{recent}</span>}
+                      {n.to === "/alerts" && <span className="num rounded-sm bg-white/15 px-1.5 text-[12px]" title={`${recent} ${recent === 1 ? "warning" : "warnings"} fired in the 14 days up to this date`} aria-label={`${recent} warnings in the last 14 days`}>{recent}</span>}
                       <span className="sr-only">Shortcut: press {i + 1}</span>
                     </>
                   )}
@@ -179,6 +179,7 @@ export function Shell() {
         </div>
       </div>
       <div className="hidden h-dvh items-center justify-center bg-bg p-8 text-center text-ink max-lg:flex"><h1 className="font-heading text-[20px] font-semibold">Best viewed on a larger screen.</h1></div>
+      <Toast />
       <SourceDrawer />
     </>
   )
@@ -241,6 +242,19 @@ function Track() {
         ))}
         <span className="absolute top-[22px] h-7 w-1.5 -translate-x-1/2 rounded-full bg-blue-600 ring-2 ring-white" style={{ left: pos(asOf) }} />
       </div>
+    </div>
+  )
+}
+
+function Toast() {
+  const toast = useStore((s) => s.toast)
+  const showToast = useStore((s) => s.showToast)
+  if (!toast) return null
+  return (
+    <div role="status" className="fixed bottom-6 left-1/2 z-50 flex max-w-[640px] -translate-x-1/2 items-center gap-4 rounded-lg bg-navy-900 px-4 py-2.5 text-[13px] text-white shadow-lg">
+      <span>{toast.text}</span>
+      {toast.undo && <button onClick={toast.undo} className="shrink-0 font-semibold text-[#8FD0F5] hover:underline">Undo</button>}
+      <button onClick={() => showToast(null)} aria-label="Dismiss" className="shrink-0 text-white/70 hover:text-white">×</button>
     </div>
   )
 }
