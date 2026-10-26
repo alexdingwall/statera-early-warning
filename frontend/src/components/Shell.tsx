@@ -58,7 +58,10 @@ export function Shell() {
       if (useStore.getState().drawer) return
       if (e.key === "ArrowLeft") { e.preventDefault(); step(-1) }
       else if (e.key === "ArrowRight") { e.preventDefault(); step(1) }
-      else if (e.key === " ") { e.preventDefault(); const s = useStore.getState(); s.setPlaying(!s.playing) }
+      else if (e.key === " ") {
+        if (el.closest("button, a, summary, [role=tab]")) return   // Space keeps its normal job on a focused control
+        e.preventDefault(); const s = useStore.getState(); s.setPlaying(!s.playing)
+      }
       else if (e.key === "g" || e.key === "G") { const s = useStore.getState(); s.setGroundTruth(!s.groundTruth) }
       else if (/^[1-9]$/.test(e.key)) navigate(NAV[Number(e.key) - 1].to)
     }
