@@ -42,7 +42,11 @@ cd backend && uv run python -m app.cli all --source llm --refresh
 - **Rules.** Four simple rules, no model: raised in reports in a row; a deadline the report itself sets (staged 8 weeks, 4 weeks and at the deadline); the issue has now affected the programme; seen before on another project. Every explanation is a template, so each alert can be audited.
 - **Cross-project.** A score from wording similarity, category and shared counterparty links an issue to an earlier incident on another project.
 - **Board check.** The board paper is split into claims by code; each claim is judged against the evidence held on that date. The budget is checked arithmetically.
+- **Action queue.** The main screen lists one decision per issue with an active red or amber alert, ranked by whether it can still be prevented, then severity, then the nearest deadline. The recommended action, suggested owner, why now, stakes and "last time" are templated from data and rules, not written by the model. Decide-by dates are the ones the report itself states.
+- **Lessons.** A per-project tab shows the actions agreed after the Netherwood workshop and where each applies. They are hand-entered in `data/lessons.yaml`, not extracted by the model.
 - **Replay.** Documents are processed in date order and everything shown at a date uses only documents dated on or before it. Tests enforce this.
+
+Escalate, Acknowledge and Snooze are stored in the browser only (`localStorage`). Nothing is sent anywhere.
 
 ## Assumptions
 
