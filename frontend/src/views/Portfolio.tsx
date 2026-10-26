@@ -1,4 +1,4 @@
-import { AlertOctagon, AlertTriangle, CheckCircle2, MinusCircle } from "lucide-react"
+import { AlertOctagon, AlertTriangle, CheckCircle2, ChevronRight, MinusCircle } from "lucide-react"
 import { useEffect, useMemo, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
@@ -36,22 +36,37 @@ export function Portfolio() {
     const hit = all.find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
     if (hit) { setTab("todo"); setSel(hit.issue.id) } else navigate(`/project/${project}?issue=${issueId}`)
   }
-  /** One line per project, folded the way the queue folds related issues. */
+  /** One button per project saying what kind of "new" it is, folded the way the queue folds related issues. */
   const summary = useMemo(() => {
-    const lead = (id: string) => every.find((i) => i.issue.id === id || i.also.some((a) => a.id === id))?.issue.id ?? id
-    const by = new Map<string, { project: string; firstId: string; issues: Set<string>; warnings: Set<string>; resolved: Set<string> }>()
+    const itemOf = (id: string) => every.find((i) => i.issue.id === id || i.also.some((a) => a.id === id))
+    type G = { project: string; firstId: string | null; decide: Set<string>; watch: Set<string>; past: Set<string>; warnings: Set<string>; resolved: Set<string> }
+    const by = new Map<string, G>()
     for (const n of news.items) {
-      const g = by.get(n.project) ?? { project: n.project, firstId: lead(n.issueId), issues: new Set(), warnings: new Set(), resolved: new Set() }
+      const g = by.get(n.project) ?? { project: n.project, firstId: null, decide: new Set(), watch: new Set(), past: new Set(), warnings: new Set(), resolved: new Set() }
       by.set(n.project, g)
-      const id = lead(n.issueId)
-      if (n.kind === "issue") g.issues.add(id); else if (n.kind === "warning") g.warnings.add(id); else g.resolved.add(id)
+      const it = itemOf(n.issueId)
+      const id = it?.issue.id ?? n.issueId
+      const actionable = it?.tier === "now" || it?.tier === "prepare"
+      if (n.kind === "warning") g.warnings.add(id)
+      else if (n.kind === "resolved") g.resolved.add(id)
+      else if (actionable) g.decide.add(id)
+      else if (it?.tier === "past") g.past.add(id)
+      else g.watch.add(id)
+      if (actionable && (g.firstId === null || !every.find((i) => i.issue.id === g.firstId && (i.tier === "now" || i.tier === "prepare")))) g.firstId = id
+      else if (g.firstId === null) g.firstId = id
     }
     const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`
-    return [...by.values()].map((g) => {
-      return { project: g.project, firstId: g.firstId, parts: [
-        g.issues.size && `${plural(g.issues.size, "new issue")}`, g.warnings.size && `${plural(g.warnings.size, "new warning")}`, g.resolved.size && `${g.resolved.size} resolved`,
-      ].filter(Boolean) as string[] }
-    }).filter((g) => g.parts.length)
+    return [...by.values()].map((g) => ({
+      project: g.project, firstId: g.firstId ?? "", actionable: g.decide.size > 0 || g.warnings.size > 0,
+      parts: [
+        g.warnings.size && plural(g.warnings.size, "new warning"),
+        g.decide.size && `${plural(g.decide.size, "new issue")} to decide`,
+        g.watch.size && `${plural(g.watch.size, "new issue")} to watch`,
+        // past incidents only matter on their own: next to something to act on they are noise
+        g.past.size && !(g.decide.size || g.warnings.size || g.watch.size) && `${plural(g.past.size, "past incident")} recorded, nothing to decide`,
+        g.resolved.size && `${g.resolved.size} resolved`,
+      ].filter(Boolean) as string[],
+    })).filter((g) => g.parts.length)
   }, [news, every])
   const todo = all.filter((i) => !dec(i).handled)
   const done = all.filter((i) => dec(i).handled)
@@ -83,12 +98,16 @@ export function Portfolio() {
       )}
 
       {summary.length > 0 && (
-        <div className="flex shrink-0 flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="New since the previous report">
-          <span className="font-semibold">{news.from ? `New since ${fmtDate(news.from)}` : "New"}</span>
+        <div className="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-line bg-surface px-3 py-2 text-[13px]" aria-label="New since the previous report">
+          <span className="mr-1 font-semibold">{news.from ? `New since ${fmtDate(news.from)}` : "New"}</span>
           {summary.map((g) => (
-            <button key={g.project} onClick={() => openNew(g.firstId, g.project)} className="text-left hover:underline">
+            <button key={g.project} onClick={() => openNew(g.firstId, g.project)}
+              className={cn("flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-left font-medium hover:bg-bg",
+                g.actionable ? "border-blue-500/50 bg-blue-500/5 text-ink" : "border-line text-ink")}>
               <span className="capitalize">{g.project}</span>
-              <span className="text-muted-ink">: {g.parts.join(", ")}</span>
+              <span className="font-normal text-muted-ink">{g.parts.join(" · ")}</span>
+              <span className={cn("ml-1 text-[12px] font-semibold", g.actionable ? "text-[#0B6DA6]" : "text-muted-ink")}>{g.actionable ? "Review" : "View"}</span>
+              <ChevronRight size={14} className={g.actionable ? "text-[#0B6DA6]" : "text-muted-ink"} aria-hidden />
             </button>
           ))}
         </div>
