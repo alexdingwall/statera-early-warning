@@ -47,7 +47,7 @@ def test_persistence_explanation():
     i = issue(("w1", "2025-01-01", "open"), ("w2", "2025-01-08", "open", 3))
     text = rules.persistence_alerts(i, DOC_TYPES, LABELS)[0].explanation
     assert text == ("Raised in 2 documents in a row since 1 Jan 2025 and still open. "
-                    "Waiting on DNO (regional grid company). 3 chases recorded.")
+                    "Waiting on DNO (regional grid company). At least 3 chases recorded.")
 
 
 def trig(d0, deadline):
