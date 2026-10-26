@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-05-30): Missing swept path analysis. Contractor has not yet provided the swept path analysis for the traffic management condition, which is required for the planning condition discharge.\nEarlier incident (Netherwood, 2025-02-05): Contractor performance not shared between projects. The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there. Outcome recorded: The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there."
+  },
+  "response": {
+    "explanation": "The earlier incident at Netherwood shows the Drumgarve team was unaware of the civils contractor's delay, which may affect the current issue with the swept path analysis not being provided."
+  }
+}

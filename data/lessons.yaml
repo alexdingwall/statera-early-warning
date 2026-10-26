@@ -1,0 +1,28 @@
+# Lessons-learned actions, hand-entered from the Netherwood lessons workshop (net-lessons, 5 Feb 2025).
+# "status" is as recorded in the document at the time of writing. "applies_to" says where the lesson is
+# relevant now: the app lists open issues that match it on the date being replayed.
+lessons:
+  - id: L1
+    source_doc: net-lessons
+    title: "Early warnings were recorded but not escalated"
+    summary: "Both the planning delay and the transformer lead time appeared in weekly reports weeks or months before they hit the programme. Nobody connected the repetition."
+    action: "Introduce a formal escalation trigger for repeated issues"
+    owner: "Project delivery"
+    status: "Not done"
+    applies_to: { alert_rules: [PERSISTENCE, TRIGGER] }
+  - id: L2
+    source_doc: net-lessons
+    title: "Contractor performance is not shared between projects"
+    summary: "The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there."
+    action: "Share contractor performance notes across projects"
+    owner: "Procurement"
+    status: "Not done"
+    applies_to: { counterparty: civils_contractor_nd }
+  - id: L3
+    source_doc: net-lessons
+    title: "Handover was incomplete"
+    summary: "Operations inherited open items with no clear owner."
+    action: "Handover checklist with sign-off"
+    owner: "Operations"
+    status: "Drafted"
+    applies_to: { phase_contains: "Commissioning" }

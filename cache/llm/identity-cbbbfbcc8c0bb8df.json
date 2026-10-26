@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-06-12): Condition 9 landscaping screening details pending. Additional detail on species selection was requested on 02/05, with no response since. 8 weeks have elapsed against a statutory 8 week determination.\nNew mention (2025-06-13): Planning condition 9 overdue. Condition 9 is overdue for determination with the LPA."
+  },
+  "response": {
+    "reason": "Both refer to Condition 9 landscaping screening details pending determination.",
+    "same": true
+  }
+}

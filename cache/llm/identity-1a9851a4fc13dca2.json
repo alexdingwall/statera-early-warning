@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-02-07): Transformer lead time extended. Main transformer lead time has been revised by the supplier from 38 weeks to 54 weeks.\nNew mention (2025-06-13): Transformer delivery delayed. Transformer delivery is confirmed for January 2026."
+  },
+  "response": {
+    "reason": "Transformer delay issue updated with confirmed delivery date.",
+    "same": true
+  }
+}

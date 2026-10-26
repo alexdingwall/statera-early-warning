@@ -1,4 +1,4 @@
-import type { Alert, Bundle, Doc, Issue, Match, Mention, Project, Severity, StatusRow } from "@/types"
+import type { Alert, Bundle, Doc, Issue, Lesson, Match, Mention, Project, Severity, StatusRow } from "@/types"
 
 const SEV_RANK: Record<Severity, number> = { red: 3, amber: 2, info: 1 }
 export const sevRank = (s: Severity) => SEV_RANK[s]
@@ -59,10 +59,12 @@ export const phaseOn = (p: Project, asOf: string): string | null => {
   return phase
 }
 
+/** Latest stated value of each programme field on or before asOf (a board paper may state a forecast but no float). */
 export const latestSnapshot = (b: Bundle, project: string, asOf: string) => {
-  let s = null as Bundle["programme_snapshots"][number] | null
-  for (const x of b.programme_snapshots) if (x.project === project && x.date <= asOf) if (!s || x.date >= s.date) s = x
-  return s
+  const snaps = b.programme_snapshots.filter((x) => x.project === project && x.date <= asOf).sort((x, y) => x.date.localeCompare(y.date))
+  if (!snaps.length) return null
+  const last = <K extends "baseline" | "forecast" | "float_days">(k: K) => [...snaps].reverse().find((x) => x[k] !== null)?.[k] ?? null
+  return { baseline: last("baseline"), forecast: last("forecast"), float_days: last("float_days"), date: snaps[snaps.length - 1].date }
 }
 
 export const docDates = (b: Bundle) => [...new Set(replayDocs(b).map((d) => d.date))].sort()
@@ -95,4 +97,72 @@ export const latestChanges = (b: Bundle, asOf: string, days = 14, max = 6): Chan
     if (inWin(a.fired_on)) out.push({ date: a.fired_on, kind: "alert", text: `Alert: ${a.title}`, issueId: a.issue_id, project: a.project, severity: a.severity })
   }
   return out.sort((x, y) => y.date.localeCompare(x.date) || x.text.localeCompare(y.text)).slice(0, max)
+}
+
+// ---------- Headline status and lessons ----------
+
+export interface Reason { alert: Alert; issue: Issue }
+
+/** Active red/amber alerts, one per issue (the most severe, then newest), most urgent first. */
+export const topReasons = (b: Bundle, asOf: string, project: string): Reason[] => {
+  const issues = issueMap(b)
+  const seen = new Set<string>()
+  const out: Reason[] = []
+  for (const a of activeAlertsOn(b, asOf, project).filter((x) => x.severity !== "info").sort(bySeverityThenNewest)) {
+    if (seen.has(a.issue_id)) continue
+    seen.add(a.issue_id)
+    out.push({ alert: a, issue: issues.get(a.issue_id)! })
+  }
+  return out
+}
+
+export interface Headline { tone: "red" | "amber" | "green" | "grey"; text: string; detail: string | null }
+
+export const headlineFor = (b: Bundle, project: string, asOf: string): Headline => {
+  if (docsUpTo(b, asOf, project).length === 0) return { tone: "grey", text: "No documents yet", detail: null }
+  const st = statusOn(b, project, asOf)
+  const reasons = topReasons(b, asOf, project)
+  const lead = reasons[0]
+  const more = reasons.length > 1 ? ` and ${reasons.length - 1} more` : ""
+  const word = st?.evidence_status === "at_risk" ? "At risk" : st?.evidence_status === "watch" ? "Watch" : "On track"
+  const tone = st?.evidence_status === "at_risk" ? "red" : st?.evidence_status === "watch" ? "amber" : "green"
+  const text = lead ? `${word}: ${lead.issue.title}${more}` : `${word}: no active red or amber alerts`
+  let detail: string | null = null
+  if (st?.divergent) detail = "Reported on programme; evidence says at risk."
+  else if (st?.reported_status === "in_delay" && st.evidence_status !== "on_track") detail = "Report and evidence agree: programme under pressure."
+  return { tone, text, detail }
+}
+
+export interface LessonHit { lesson: Lesson; items: { project: string; issue?: Issue; why: string }[] }
+
+/** Lessons that existed by asOf, with where they apply on that date (outside their source project). */
+export const lessonsAsOf = (b: Bundle, asOf: string, project?: string): LessonHit[] => {
+  const issues = issuesSeen(b, asOf)
+  const active = activeAlertsOn(b, asOf).filter((a) => a.severity !== "info")
+  return b.lessons
+    .filter((l) => docById(b, l.source_doc).date <= asOf)
+    .map((lesson) => {
+      const srcProject = docById(b, lesson.source_doc).project
+      const a = lesson.applies_to
+      const items: LessonHit["items"] = []
+      if (a.alert_rules) {
+        const seen = new Set<string>()
+        for (const al of active.filter((x) => a.alert_rules!.includes(x.rule) && x.project !== srcProject).sort(bySeverityThenNewest)) {
+          if (seen.has(al.issue_id)) continue
+          seen.add(al.issue_id)
+          items.push({ project: al.project, issue: issues.find((i) => i.id === al.issue_id), why: `${al.rule === "PERSISTENCE" ? "Raised repeatedly" : "Deadline set in the report"}, still open` })
+        }
+      }
+      if (a.counterparty) {
+        for (const i of issues.filter((x) => x.counterparty === a.counterparty && x.project !== srcProject && isOpenStatus(issueStatusOn(x, asOf)))) {
+          items.push({ project: i.project, issue: i, why: "Same counterparty as the earlier incident" })
+        }
+      }
+      if (a.phase_contains) {
+        for (const p of b.projects) {
+          if (p.id !== srcProject && (phaseOn(p, asOf) ?? "").includes(a.phase_contains)) items.push({ project: p.id, why: `Now in ${phaseOn(p, asOf)?.toLowerCase()}` })
+        }
+      }
+      return { lesson, items: project ? items.filter((x) => x.project === project) : items }
+    })
 }

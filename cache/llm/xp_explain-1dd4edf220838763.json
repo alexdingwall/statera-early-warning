@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-02-07): Energisation forecast delayed. Energisation forecast moves from Nov 2025 to Mar 2026, a slip of approximately 16 weeks.\nEarlier incident (Netherwood, 2024-12-31): Inconsistent PCS firmware update. PCS firmware was not updated consistently across all units during snagging, resulting in one unit being offline during the update window and missed at handover. Outcome recorded: Firmware versions for PCS units have not been formally recorded at handover, with Operations identifying at least one unit on an earlier version than the rest of the site."
+  },
+  "response": {
+    "explanation": "The earlier incident at Netherwood shows firmware version inconsistencies affecting unit availability, similar to the current issue at Drumgarve with delayed energisation forecasts impacting project timelines."
+  }
+}

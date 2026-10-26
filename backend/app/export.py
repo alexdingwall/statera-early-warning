@@ -80,6 +80,9 @@ def build_bundle(res: Result) -> dict:
         "board_checks": res.board_checks,
         "ground_truth_events": [{**{k: _d(v) for k, v in e.items()}, "issue_id": _gt_issue(res, e["issue_id"])}
                                 for e in data.ground_truth_events],
+        "lessons": [{"id": l["id"], "source_doc": l["source_doc"], "title": l["title"], "summary": l["summary"],
+                     "action": l["action"], "owner": l["owner"], "status": l["status"],
+                     "applies_to": l["applies_to"]} for l in data.lessons],
         "evaluation": res.evaluation,
     }
 

@@ -1,0 +1,66 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue. Cost line items in a budget are not issues unless the document calls them a problem or risk; a cost overrun as a whole may be one issue.\n- Return one mention per distinct underlying issue in this document. Do not split one issue into several: items from one checklist or list of outstanding items (for example handover items) are one issue. Do not merge unrelated issues.\n- title: at most 10 words, neutral wording, no project name. Name the underlying problem (what went wrong, or what is awaited), never the document's lesson, meeting or conclusion about it.\n- description: one or two plain sentences.\n- category, choose the single best fit:\n  grid_connection = connection works, dates or approvals from the network operator;\n  planning = planning permission or planning condition discharge, including documents owed for a condition;\n  procurement_supplier = equipment orders, lead times and supplier delivery (for example transformers);\n  contractor_performance = a contractor's own workmanship or conduct, when no other category fits better;\n  site_access = roads, tracks, crane or delivery access to the site;\n  ground_conditions = drainage, standing water, soil, ground investigation;\n  environmental = ecology, nesting seasons, hedgerows, protected species;\n  weather = weather delays;\n  commissioning = testing, snagging, software or firmware on installed equipment;\n  handover = handover to operations, documentation, training, spares;\n  cost = cost overruns and variations;\n  other = anything else.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status:\n  open = unresolved as of this document and not yet causing a confirmed slip;\n  resolved = the document says it is done or closed;\n  materialised = in a current progress report, the issue has now caused a programme slip or a confirmed adverse date;\n  occurred = a past incident described in a retrospective, summary or lessons document, whatever its impact was.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: normally an empty list. Add a trigger only when a sentence in the document states a condition or a time limit after which the issue becomes critical or the programme is at risk (for example \"if X does not happen within two weeks\", \"will become critical if it slips past June\", \"will change if ... into the autumn\"). The document date, a month in which the document was written, or a forecast energisation date is never a trigger. condition_text must be copied from that sentence. Resolve deadline_date to yyyy-mm-dd using the document date 2025-05-30: a named month means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-dru-visit",
+    "user": "Document date: 2025-05-30\nProject: drumgarve\nDocument type: site_visit\n\n---\nDrumgarve site visit - notes\n30 May 2025\n\nPre-construction walkover with the civils contractor and the\nlandowner.\n\nPoints noted:\n\n- Access track from the B-road is narrower than the drawings\n  indicate at two pinch points. Will not accommodate a container\n  delivery without widening. Contractor says \"we'll manage\" - I\n  am not convinced. Same issue caused a second crane visit at\n  Ashfield.\n\n- Drainage: standing water at the northern end of the site after\n  recent rain. Ground investigation report did not flag this.\n  Worth a second look before foundation design is finalised.\n\n- Landowner raised the hedgerow removal timing. Nesting season\n  restrictions may affect the planned start date. Not currently\n  in the programme risk register.\n\n- Contractor has not yet provided the swept path analysis for the\n  traffic management condition. Chased on site.\n\nGeneral impression: site is workable but there are three or four\nthings here that are not in the risk register and should be.\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": false,
+        "category": "site_access",
+        "chase_count": 1,
+        "counterparty_role": "civils contractor",
+        "description": "Access track from the B-road is narrower than drawings indicate at two pinch points, potentially preventing container delivery without widening.",
+        "evidence_quote": "Access track from the B-road is narrower than the drawings indicate at two pinch points. Will not accommodate a container delivery without widening.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Narrow access track",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "ground_conditions",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "Standing water at the northern end of the site after recent rain was not flagged in the ground investigation report.",
+        "evidence_quote": "Standing water at the northern end of the site after recent rain. Ground investigation report did not flag this.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Standing water on site",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": true,
+        "category": "environmental",
+        "chase_count": null,
+        "counterparty_role": "landowner",
+        "description": "Landowner raised concerns about hedgerow removal timing due to nesting season restrictions, which may affect the planned start date.",
+        "evidence_quote": "Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Hedgerow removal timing",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "planning",
+        "chase_count": 1,
+        "counterparty_role": "contractor",
+        "description": "Contractor has not yet provided the swept path analysis for the traffic management condition, which is required for the planning condition discharge.",
+        "evidence_quote": "Contractor has not yet provided the swept path analysis for the traffic management condition. Chased on site.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Missing swept path analysis",
+        "triggers": []
+      }
+    ],
+    "programme": {
+      "baseline_energisation": null,
+      "float_days": null,
+      "forecast_energisation": null
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-06-13): Access track pinch points not surveyed. Access track pinch points identified at the May walkover have not yet been surveyed.\nEarlier incident (Ashfield, 2025-05-16): Container offload required second crane visit. Container offload required a second crane visit due to access road width. Outcome recorded: Container offload required a second crane visit due to access road width."
+  },
+  "response": {
+    "explanation": "The earlier incident at Ashfield showed that access road width issues required a second crane visit, similar to the current issue at Drumgarve where access track pinch points were not surveyed."
+  }
+}

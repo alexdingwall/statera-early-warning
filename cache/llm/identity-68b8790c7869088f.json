@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-05-30): Narrow access track. Access track from the B-road is narrower than drawings indicate at two pinch points, potentially preventing container delivery without widening.\nNew mention (2025-06-13): Access track pinch points not surveyed. Access track pinch points identified at the May walkover have not yet been surveyed."
+  },
+  "response": {
+    "reason": "First issue describes narrow track issue; second is about unsurveyed pinch points.",
+    "same": false
+  }
+}

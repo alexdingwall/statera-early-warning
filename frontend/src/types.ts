@@ -171,6 +171,17 @@ export interface Evaluation {
   fallbacks: string[]
 }
 
+export interface Lesson {
+  id: string
+  source_doc: string
+  title: string
+  summary: string
+  action: string
+  owner: string
+  status: string
+  applies_to: { alert_rules?: string[]; counterparty?: string; phase_contains?: string }
+}
+
 export interface Bundle {
   meta: {
     generated_at: string
@@ -191,5 +202,6 @@ export interface Bundle {
   status_timeline: StatusRow[]
   board_checks: BoardCheck[]
   ground_truth_events: GroundTruth[]
+  lessons: Lesson[]
   evaluation: Evaluation
 }

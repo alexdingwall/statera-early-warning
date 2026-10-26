@@ -17,3 +17,6 @@
 - Dashboard: Taste inspector (--app) left only defended findings: the plan-mandated uppercase "Project delivery" label, blank space inside stretched cards at 1440×900 (fixed-density views are not padded), and no h1 at 768/390px (the plan asks for a simple "Best viewed on a larger screen." message, not a mobile layout).
 - Identical staged alerts (same issue, rule, stage and day, from triggers in different documents) are merged in rules.compute.
 - Deep links for demos and screenshots: `#/path?asof=2025-06-30&gt=1`.
+- Added data/lessons.yaml (hand-entered from the Netherwood lessons workshop: actions, owners, status as written, and where each applies) so the dashboard can show lessons learned and where they recur. Not extracted by the model.
+- Programme snapshots are read from the documents by regex in LLM mode too (the model invented float values such as 0 days when none was stated); the model is only a fallback. A materialised status on a retrospective document type (commissioning summary, lessons learned) is corrected to occurred in code.
+- LLM-mode programme snapshots come only from the regex parser; the model never supplies them (it invented float and dates for documents without a programme block).

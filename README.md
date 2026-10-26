@@ -62,19 +62,19 @@ cd backend && uv run python -m app.cli all --source llm --refresh
 
 ## Evaluation results
 
-Run on the 12-document sample, qwen3:8b, prompt v1, scored against `data/gold/gold.yaml`. The model extraction is noisy: it over-extracts, often picks the wrong category, and reads staged deadlines poorly. The alert rules and the lead time do not depend on those weaknesses for the Ashfield story.
+Run on the 12-document sample, qwen3:8b, prompt v2, scored against `data/gold/gold.yaml`. Prompt v1 (the plan's first wording) scored category 46%, status 69%, trigger dates 25% and found 2 of 3 expected matches; v2 adds category definitions, status rules for retrospectives, and "triggers are normally empty".
 
 | Measure | Result |
 | --- | --- |
-| Mention recall | 93% |
-| Mention precision | 68% |
-| Category accuracy | 46% |
-| Status accuracy | 69% |
-| Trigger deadline accuracy | 25% |
+| Mention recall | 96% |
+| Mention precision | 71% |
+| Category accuracy | 96% |
+| Status accuracy | 78% |
+| Trigger deadline accuracy | 50% |
 | Evidence quote validity | 100% |
 | Same-issue pairwise precision | 100% |
 | Same-issue pairwise recall | 88% |
-| Expected cross-project matches found | 2 of 3 (Drumgarve access track to Ashfield crane visit not found), 0 false positives |
+| Expected cross-project matches found | 3 of 3, 0 false positives |
 | Board claim "Low risk, expected to be confirmed shortly." | Contradicted by the model, no fallback needed |
 
 Lead time on the Ashfield DNO issue against the actual escalation on 3 Jul 2025:
@@ -85,4 +85,4 @@ Lead time on the Ashfield DNO issue against the actual escalation on 3 Jul 2025:
 | First red alert | 2 Jun 2025 | 31 |
 | Persistence rule alone | 16 May 2025 | 48 |
 
-Known weaknesses of the committed run: several board claims other than the key one are judged more harshly than the human labels; two Drumgarve matches show medium rather than high confidence; some Netherwood past incidents are labelled as live programme impact, which turns Netherwood red. Switch to the gold bundle (`build --source gold`) if a cleaner demo is needed.
+Known weaknesses of the committed run: precision is 71% because the model still lists budget lines and checklist items as issues; some board claims other than the key one are judged more harshly than the human labels; trigger dates are right half the time. Programme figures (baseline, forecast, float) are read from the documents by code, not by the model. The lessons-learned actions on the Lessons tab are hand-entered in `data/lessons.yaml`. Use `build --source gold` if a cleaner demo is needed.

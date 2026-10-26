@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-02-07): Energisation forecast delayed. Energisation forecast moves from Nov 2025 to Mar 2026, a slip of approximately 16 weeks.\nNew mention (2025-05-30): Missing swept path analysis. Contractor has not yet provided the swept path analysis for the traffic management condition, which is required for the planning condition discharge."
+  },
+  "response": {
+    "reason": "Different issues: delayed energisation vs missing swept path analysis.",
+    "same": false
+  }
+}

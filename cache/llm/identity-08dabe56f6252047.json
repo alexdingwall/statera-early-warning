@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-05-16): Container offload required second crane visit. Container offload required a second crane visit due to access road width.\nNew mention (2025-07-04): Risk of further programme slip. A 14-day slip takes the delivery start date into the capacity market window with no spare time, exposing the project to risk if further delays occur."
+  },
+  "response": {
+    "reason": "Different issues: crane access vs. programme slip risk.",
+    "same": false
+  }
+}

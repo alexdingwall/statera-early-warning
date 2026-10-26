@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-02-07): Transformer lead time extended. Main transformer lead time has been revised by the supplier from 38 weeks to 54 weeks.\nEarlier incident (Netherwood, 2024-12-31): Transformer delivery delay. Supplier revised lead time after order placed, causing a three-week delay. Outcome recorded: Transformer lead time delays were noted in weekly reports but not escalated due to lack of a formal escalation trigger."
+  },
+  "response": {
+    "explanation": "The earlier incident shows that lead time revisions caused delays, but were not escalated due to no formal trigger, similar to the current Drumgarve issue."
+  }
+}

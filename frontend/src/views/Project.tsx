@@ -5,6 +5,7 @@ import { useStore } from "@/store"
 import { ageText, categoryLabel, daysBetween, fmtDate, ruleWords, STATUS_WORDS } from "@/lib/format"
 import { activeAlertsOn, bySeverityThenNewest, docsUpTo, isOpenStatus, issueStatusOn, issuesSeen, latestSnapshot, matchesFor, mentionsUpTo, phaseOn, sevRank, statusOn, triggersFor } from "@/lib/selectors"
 import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon, SeverityPill } from "@/components/ui-bits"
+import { LessonsView } from "@/views/Lessons"
 import { IssueTimeline } from "@/components/IssueTimeline"
 import { cn } from "@/lib/utils"
 import type { Issue } from "@/types"
@@ -40,6 +41,12 @@ export function Project() {
   const st = statusOn(bundle, project.id, asOf)
   const snap = latestSnapshot(bundle, project.id, asOf)
 
+  const view = params.get("view") === "lessons" ? "lessons" : "issues"
+  const setView = (v: "issues" | "lessons") => {
+    const next = new URLSearchParams(params)
+    if (v === "lessons") next.set("view", "lessons"); else next.delete("view")
+    setParams(next)
+  }
   const wanted = params.get("issue")
   const selected = sorted.find((i) => i.id === wanted) ?? issues.find((i) => i.id === wanted) ?? sorted[0] ?? null
   const pages = Math.max(1, Math.ceil(sorted.length / PAGE))
@@ -59,7 +66,15 @@ export function Project() {
             <div><div className="text-[12px] text-muted-ink">Evidence</div><EvidencePill status={st?.evidence_status} /></div>
           </div>
         )}
-        <div className="ml-auto flex gap-6 text-[13px]">
+        <div role="tablist" className="flex shrink-0 gap-1">
+          {([["issues", "Issues"], ["lessons", "Lessons"]] as const).map(([v, label]) => (
+            <button key={v} role="tab" aria-selected={view === v} onClick={() => setView(v)}
+              className={cn("rounded-md px-3 py-1.5 text-[13px]", view === v ? "bg-navy-900 font-medium text-white" : "text-muted-ink hover:bg-bg")}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <div className="ml-auto flex gap-5 whitespace-nowrap text-[13px]">
           <div><div className="text-[12px] text-muted-ink">Baseline energisation</div><div className="num font-medium">{fmtDate(project.baseline_energisation)}</div></div>
           <div><div className="text-[12px] text-muted-ink">Latest forecast</div><div className="num font-medium">{snap?.forecast ? fmtDate(snap.forecast) : "—"}</div></div>
           <div className="max-w-[240px]">
@@ -71,6 +86,8 @@ export function Project() {
 
       {docs.length === 0 ? (
         <Panel className="p-6 text-[14px] text-muted-ink">No documents for this project as of {fmtDate(asOf)}.</Panel>
+      ) : view === "lessons" ? (
+        <LessonsView project={project.id} />
       ) : (
         <div className="flex min-h-0 flex-1 gap-3">
           <Panel className="flex w-[38%] shrink-0 flex-col">

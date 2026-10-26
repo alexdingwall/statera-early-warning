@@ -30,6 +30,7 @@ class Data:
     projects: list[dict[str, Any]]
     counterparties: dict[str, Any]
     gold: dict[str, Any]
+    lessons: list[dict[str, Any]]
 
     def doc(self, doc_id: str) -> Document:
         return next(d for d in self.documents if d.id == doc_id)
@@ -56,6 +57,10 @@ def load_all() -> Data:
     ids = [d.id for d in docs]
     if len(set(ids)) != len(ids):
         raise ValueError("Duplicate document ids in manifest")
+    lessons = _yaml(DATA / "lessons.yaml")["lessons"]
+    for les in lessons:
+        if les["source_doc"] not in ids:
+            raise ValueError(f"Lesson {les['id']} references unknown doc {les['source_doc']}")
     gold = _yaml(DATA / "gold" / "gold.yaml")
     for issue in gold["issues"]:
         for men in issue["mentions"]:
@@ -68,4 +73,5 @@ def load_all() -> Data:
         projects=_yaml(DATA / "projects.yaml")["projects"],
         counterparties=_yaml(DATA / "counterparties.yaml"),
         gold=gold,
+        lessons=lessons,
     )

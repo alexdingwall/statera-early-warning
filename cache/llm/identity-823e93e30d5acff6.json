@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-01-20): As-built drawings discrepancies. As-built drawings have not been verified against site, with two discrepancies already identified by Operations in the cable route.\nNew mention (2025-02-05): Contractor performance not shared between projects. The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there."
+  },
+  "response": {
+    "reason": "Different issues: drawing discrepancies vs. contractor communication delay.",
+    "same": false
+  }
+}

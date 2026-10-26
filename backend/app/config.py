@@ -7,7 +7,7 @@ BUNDLE_OUT = ROOT / "frontend" / "public" / "data" / "bundle.json"
 
 LLM_MODEL = "qwen3:8b"
 EMBED_MODEL = "nomic-embed-text"
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"
 LLM_OPTIONS = {"temperature": 0, "seed": 42, "num_ctx": 8192}
 
 IDENTITY_COS_MIN = 0.55          # below this, never the same issue

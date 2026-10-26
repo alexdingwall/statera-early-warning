@@ -1,0 +1,13 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "Two issue records from the same construction project. Decide whether they describe the same underlying issue: the same problem or dependency, possibly worded differently or at a later stage (for example an unconfirmed date that is later confirmed late is the same issue).\nReturn JSON {\"same\": true|false, \"reason\": \"<at most 20 words>\"}.",
+    "tag": "identity",
+    "user": "Earlier issue (first seen 2025-05-16): Snagging on switchroom cable entries. Snagging on the switchroom cable entries remains unresolved.\nNew mention (2025-06-30): Contingency costs incurred. Various contingency costs were drawn down, contributing to the budget overrun."
+  },
+  "response": {
+    "reason": "Different issues: snagging vs. contingency costs and budget overrun.",
+    "same": false
+  }
+}

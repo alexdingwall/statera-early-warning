@@ -1,0 +1,12 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "An earlier incident on another project may be relevant to a new issue.\nWrite one plain sentence (at most 30 words) saying why it is relevant and what happened last time, using only the facts given. No speculation.\nReturn JSON {\"explanation\": \"...\"}.",
+    "tag": "xp_explain",
+    "user": "New issue (Drumgarve, 2025-05-30): Narrow access track. Access track from the B-road is narrower than drawings indicate at two pinch points, potentially preventing container delivery without widening.\nEarlier incident (Ashfield, 2025-05-16): Container offload required second crane visit. Container offload required a second crane visit due to access road width. Outcome recorded: Container offload required a second crane visit due to access road width."
+  },
+  "response": {
+    "explanation": "The earlier incident at Ashfield showed that narrow access roads required a second crane visit for container offload, similar to the current issue at Drumgarve with narrow access track."
+  }
+}

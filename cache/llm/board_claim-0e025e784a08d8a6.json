@@ -1,0 +1,19 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "You check a statement from a board update against the project evidence held on the same date.\nVerdicts:\n- supported: the evidence backs the statement.\n- supported_with_caveat: broadly true, but the evidence shows something the reader should know.\n- contradicted: the evidence shows the statement understates a risk or is wrong.\n- no_evidence: the evidence does not cover this statement.\nReturn JSON {\"verdict\": \"...\", \"reason\": \"<at most 30 words, plain English>\", \"evidence_mention_ids\": [\"...\"]}.",
+    "tag": "board_claim",
+    "user": "Statement: \"Capacity market delivery start 01/12/2025.\"\nEvidence (as of 2025-06-30):\nIssue ASH-001: DNO final connection works confirmation\n  [ash-wk12#1] 2025-03-21 Ashfield weekly report, week 12: open, chases 2, impact potential. \"DNO have not yet confirmed the date for the final connection\n  works. Chased twice. No response since 06/03. Not currently on\n  the critical path but will become so if it slips past June.\"\n  [ash-wk19#2] 2025-05-16 Ashfield weekly report, week 19: open, chases 1, impact potential. \"till no DNO date for the final connection works.** Chased\n  again 09/05\"\nIssue ASH-002: Weather delay on civils\n  [ash-wk12#2] 2025-03-21 Ashfield weekly report, week 12: resolved, impact none_stated. \"Weather delay on civils (2 days). Absorbed within float.\"\nIssue ASH-003: Container offload required second crane visit\n  [ash-wk19#1] 2025-05-16 Ashfield weekly report, week 19: open, impact none_stated. \"Container offload required a second crane visit (access road\n  width).\"\nIssue ASH-004: Snagging on switchroom cable entries\n  [ash-wk19#3] 2025-05-16 Ashfield weekly report, week 19: open, impact none_stated. \"Snagging on the switchroom cable entries - contractor to return.\"\nActive alerts:\n  amber TRIGGER ASH-001 since 2025-05-05\n  amber PERSISTENCE ASH-001 since 2025-05-16\n  amber TRIGGER ASH-001 since 2025-05-16\n  red TRIGGER ASH-001 since 2025-06-02\n  red TRIGGER ASH-001 since 2025-06-30\nProgramme snapshots:\n  2025-03-21 baseline 2025-11-14 forecast 2025-11-14 float 11 days\n  2025-05-16 baseline 2025-11-14 forecast 2025-11-14 float 4 days\n  2025-06-30 baseline 2025-11-14 forecast 2025-11-14 float 0 days"
+  },
+  "response": {
+    "evidence_mention_ids": [
+      "ash-wk12#1",
+      "ash-wk19#2",
+      "ash-wk19#3",
+      "red TRIGGER ASH-001 since 2025-06-30"
+    ],
+    "reason": "Evidence shows DNO final connection works are unresolved and could delay the delivery beyond 01/12/2025.",
+    "verdict": "contradicted"
+  }
+}

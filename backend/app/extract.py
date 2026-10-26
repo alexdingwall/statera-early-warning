@@ -12,18 +12,38 @@ SYSTEM_PROMPT = """You extract project issues from documents about building grid
 Return JSON that matches the schema exactly.
 
 Definitions and rules:
-- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue.
-- Return one mention per distinct issue in this document. Do not merge unrelated issues. Do not split one issue into several.
-- title: at most 10 words, neutral wording, no project name.
+- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue. Cost line items in a budget are not issues unless the document calls them a problem or risk; a cost overrun as a whole may be one issue.
+- Return one mention per distinct underlying issue in this document. Do not split one issue into several: items from one checklist or list of outstanding items (for example handover items) are one issue. Do not merge unrelated issues.
+- title: at most 10 words, neutral wording, no project name. Name the underlying problem (what went wrong, or what is awaited), never the document's lesson, meeting or conclusion about it.
 - description: one or two plain sentences.
+- category, choose the single best fit:
+  grid_connection = connection works, dates or approvals from the network operator;
+  planning = planning permission or planning condition discharge, including documents owed for a condition;
+  procurement_supplier = equipment orders, lead times and supplier delivery (for example transformers);
+  contractor_performance = a contractor's own workmanship or conduct, when no other category fits better;
+  site_access = roads, tracks, crane or delivery access to the site;
+  ground_conditions = drainage, standing water, soil, ground investigation;
+  environmental = ecology, nesting seasons, hedgerows, protected species;
+  weather = weather delays;
+  commissioning = testing, snagging, software or firmware on installed equipment;
+  handover = handover to operations, documentation, training, spares;
+  cost = cost overruns and variations;
+  other = anything else.
 - counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.
-- status: open = unresolved as of this document; resolved = the document says it is done or closed; materialised = it has now caused a programme slip or a confirmed adverse date; occurred = a past incident described for the record or as a lesson.
+- status:
+  open = unresolved as of this document and not yet causing a confirmed slip;
+  resolved = the document says it is done or closed;
+  materialised = in a current progress report, the issue has now caused a programme slip or a confirmed adverse date;
+  occurred = a past incident described in a retrospective, summary or lessons document, whatever its impact was.
 - awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.
 - chase_count: the number of chases or requests the document states for this issue, otherwise null.
 - programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.
-- triggers: only when the document states a condition or deadline after which the issue becomes critical or the programme is at risk. condition_text must be copied from the document. Resolve deadline_date to yyyy-mm-dd using the document date {doc_date}: a month name means the last day of that month; "within N weeks" means the document date plus N weeks; "autumn" means 1 September of that year. If it cannot be resolved, use null.
+- triggers: normally an empty list. Add a trigger only when a sentence in the document states a condition or a time limit after which the issue becomes critical or the programme is at risk (for example "if X does not happen within two weeks", "will become critical if it slips past June", "will change if ... into the autumn"). The document date, a month in which the document was written, or a forecast energisation date is never a trigger. condition_text must be copied from that sentence. Resolve deadline_date to yyyy-mm-dd using the document date {doc_date}: a named month means the last day of that month; "within N weeks" means the document date plus N weeks; "autumn" means 1 September of that year. If it cannot be resolved, use null.
 - evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.
 - programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise."""
+
+
+RETROSPECTIVE_DOC_TYPES = {"commissioning_summary", "lessons_learned"}
 
 
 @dataclass
@@ -153,17 +173,21 @@ def _to_mention(doc: Document, n: int, m: LLMMention, data: Data) -> Mention:
         valid = False
 
     triggers = []
-    for t in m.triggers:
+    for t in ([] if doc.doc_type in RETROSPECTIVE_DOC_TYPES else m.triggers):   # past incidents set no deadlines
         d = parse_iso(t.deadline_date)
         if d is not None and d < doc.date:
             d = None
         triggers.append(MTrigger(t.condition_text.strip(), d))
 
+    status = m.status
+    if status == "materialised" and doc.doc_type in RETROSPECTIVE_DOC_TYPES:
+        status = "occurred"   # a retrospective describes the past; it cannot report a live slip
+
     return Mention(
         id=f"{doc.id}#{n}", doc_id=doc.id, date=doc.date, project=doc.project,
         title=title, description=m.description.strip(), category=m.category,
         counterparty=map_counterparty(data, doc.project, m.counterparty_role),
-        status=m.status, awaiting_third_party=m.awaiting_third_party,
+        status=status, awaiting_third_party=m.awaiting_third_party,
         chase_count=m.chase_count, programme_impact=m.programme_impact,
         triggers=triggers, evidence_quote=quote, quote_span=span, quote_valid=valid,
     )
@@ -176,11 +200,9 @@ def extract_llm(doc: Document, data: Data) -> ExtractResult:
     ex: LLMExtraction = llm.chat_json(system, user, LLMExtraction, tag=f"extract-{doc.id}")
     mentions = [_to_mention(doc, i + 1, m, data) for i, m in enumerate(ex.mentions)]
 
-    snap = None
-    p = ex.programme
-    if p and (p.baseline_energisation or p.forecast_energisation or p.float_days is not None):
-        snap = ProgrammeSnapshot(doc.project, doc.id, doc.date, parse_iso(p.baseline_energisation),
-                                 parse_iso(p.forecast_energisation), p.float_days)
+    # The programme block is structured text, so stated values are read by code. The model's own programme
+    # output is not used: it filled in values the document does not state.
+    snap = parse_programme(doc)
     return ExtractResult(doc.id, mentions, snap)
 
 
