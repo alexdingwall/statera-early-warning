@@ -5,14 +5,21 @@
  */
 import { daysBetween, fmtDate } from "@/lib/format"
 import {
-  activeAlertsOn, docById, issueStatusOn, latestSnapshot, lessonsAsOf, matchesFor, mentionsUpTo, sevRank, topReasons, triggersFor,
+  activeAlertsOn, docById, isOpenStatus, issuesSeen, issueStatusOn, latestSnapshot, lessonsAsOf, matchesFor, mentionsUpTo, sevRank, triggersFor,
 } from "@/lib/selectors"
 import type { Alert, Bundle, Issue, Match } from "@/types"
 
+/** Act now: affecting the programme or a stated deadline within 30 days. Prepare: warned but not yet urgent. Watch: open, no warning. Past: closed or a past incident. */
+export type Tier = "now" | "prepare" | "watch" | "past"
+export const TIER_WORDS: Record<Tier, string> = { now: "Act now", prepare: "Prepare", watch: "Keep an eye on", past: "Past incidents" }
+const TIER_ORDER: Tier[] = ["now", "prepare", "watch", "past"]
+const NOW_WITHIN_DAYS = 30
+
 export interface ActionItem {
+  tier: Tier
   issue: Issue
   project: string
-  severity: "red" | "amber"
+  severity: "red" | "amber" | "info"
   /** Plain-English headline of what to do, with the date it needs doing by. */
   action: string
   owner: string | null
@@ -28,6 +35,8 @@ export interface ActionItem {
     prior?: { id: string; project: string; events: { date: string; docId: string; docTitle: string; status: string; span: [number, number] | null }[] }
   } | null
   alerts: Alert[]
+  /** Related issues from the same report, folded into this one. */
+  also: { id: string; title: string }[]
   /** True when the issue has already affected the programme: a recovery decision, not a prevention one. */
   affecting: boolean
 }
@@ -39,9 +48,11 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
   const lessons = lessonsAsOf(b, asOf)
 
   for (const project of b.projects) {
-    for (const { issue } of topReasons(b, asOf, project.id)) {
-      const alerts = activeAlertsOn(b, asOf, project.id).filter((a) => a.issue_id === issue.id && a.severity !== "info")
-      const severity = alerts.some((a) => a.severity === "red") ? "red" : "amber"
+    const active = activeAlertsOn(b, asOf, project.id).filter((a) => a.severity !== "info")
+    for (const issue of issuesSeen(b, asOf, project.id)) {
+      const alerts = active.filter((a) => a.issue_id === issue.id)
+      const severity = alerts.some((a) => a.severity === "red") ? "red" : alerts.length ? "amber" : "info"
+      const status = issueStatusOn(issue, asOf)
       const ms = mentionsUpTo(issue, asOf)
       const latest = ms[ms.length - 1]
 
@@ -62,12 +73,13 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const decideBy = impact ? null : upcoming?.deadline ?? null
       const daysLeft = decideBy ? daysBetween(asOf, decideBy) : null
 
-      const target = cpLabel ? `Escalate formally to ${cpLabel}` : "Assign an owner and a date"
+      const cpName = cpLabel && /^[A-Z][a-z]/.test(cpLabel) ? cpLabel.charAt(0).toLowerCase() + cpLabel.slice(1) : cpLabel   // "civils contractor", but "DNO"
+      const target = cpName ? `Escalate formally to ${cpName}` : "Assign an owner and a date"
       let action: string
       if (impact) action = `Agree a recovery plan${cpLabel ? ` with ${cpLabel}` : ""} and update the forecast now. This issue has already affected the programme.`
       else if (upcoming) action = `${target} before ${fmtDate(upcoming.deadline!)} (${daysLeft === 0 ? "due today" : `${daysLeft} days left`}, from the ${fmtDate(upcoming.declared_on)} report).`
       else if (passed) action = `${target} now. The deadline set in the report (${fmtDate(passed.deadline!)}) has passed and this is still open.`
-      else action = `${target}. It has been raised in ${Math.max(n, 2)} reports and is still open.${cpLabel ? " Ask for a written answer and a named contact." : ""}`
+      else action = `${cpName ? `Chase ${cpName} for a written date and a named contact` : "Assign an owner and a date"}. It has been raised in ${Math.max(n, 2)} reports and is still open.`
 
       const why: string[] = []
       if (n >= 2 && !impact) why.push(`Raised in ${n} reports in a row since ${fmtDate(firstOpen)}.`)
@@ -75,7 +87,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       const t = upcoming ?? passed
       if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text.replace(/[.\s]+$/, "")}”.`)
       if (impact) why.push(`Already affecting the programme (${docById(b, (ms.find((m) => m.date === impact.fired_on) ?? latest).doc_id).title}, ${fmtDate(impact.fired_on)}).`)
-      if (!why.length) why.push(alerts[0].explanation)
+      if (!why.length) why.push(alerts[0]?.explanation ?? "Open, and no warning has been raised on it yet.")
 
       const snap = latestSnapshot(b, project.id, asOf)
       const stakes: string[] = []
@@ -102,25 +114,33 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       }
       else if (hit) lastTime = { kind: "lesson", text: `${hit.lesson.title}. ${hit.lesson.summary}`, lesson: `Agreed afterwards: ${hit.lesson.action.toLowerCase()} (owner ${hit.lesson.owner}). Status: ${hit.lesson.status.toLowerCase()}.` }
 
+      const open = isOpenStatus(status)
+      const tier: Tier = !open ? "past" : !alerts.length ? "watch"
+        : impact || passed && !upcoming || (daysLeft !== null && daysLeft <= NOW_WITHIN_DAYS) ? "now" : "prepare"
+      if (tier === "watch") action = "Nothing to decide yet. Keep an eye on it."
+      if (tier === "past") action = "Closed. Kept so other projects can learn from it."
       const urgency = passed && !upcoming && !impact ? 0 : daysLeft ?? 30   // no stated deadline: act soon, after anything dated
       items.push({
-        affecting: !!impact, issue, project: project.id, severity, action, owner: project.pm ?? "Project delivery", decideBy, daysLeft,
+        tier, also: [], affecting: !!impact, issue, project: project.id, severity, action, owner: project.pm ?? "Project delivery", decideBy, daysLeft,
         why, stakes, lastTime, alerts, urgency,
       })
     }
   }
 
-  const ranked = items
-    .filter((i) => issueStatusOn(i.issue, asOf) !== "resolved")
-    // Still preventable first, then problems already hurting the programme; then severity, then nearest date.
-    .sort((a, b) => Number(a.affecting) - Number(b.affecting) || sevRank(b.severity) - sevRank(a.severity) || a.urgency - b.urgency || a.issue.first_seen.localeCompare(b.issue.first_seen))
+  const ranked = items.sort((a, b) => TIER_ORDER.indexOf(a.tier) - TIER_ORDER.indexOf(b.tier)
+    // Within a tier: still preventable first, then problems already hurting the programme; then severity, then nearest date.
+    || Number(a.affecting) - Number(b.affecting) || sevRank(b.severity) - sevRank(a.severity) || a.urgency - b.urgency || a.issue.first_seen.localeCompare(b.issue.first_seen))
 
-  // The model sometimes splits one report into several issues about the same counterparty. One decision, not three.
+  // The model sometimes splits one report into several issues. Fold them into one item: related warned issues from the
+  // same counterparty and report, and open issues without a warning when they are the same kind of problem.
   const kept: ActionItem[] = []
   for (const it of ranked) {
     const cp = it.issue.counterparty
-    const twin = cp && cp !== "internal" ? kept.find((k) => k.project === it.project && k.issue.counterparty === cp && k.issue.first_seen === it.issue.first_seen) : undefined
-    if (twin) twin.why.push(`Also recorded in the same report: ${it.issue.title}.`)
+    const lead = cp && cp !== "internal" && (it.tier === "now" || it.tier === "prepare" || it.tier === "watch")
+      ? kept.find((k) => (k.tier === "now" || k.tier === "prepare") && k.project === it.project && k.issue.counterparty === cp && k.issue.first_seen === it.issue.first_seen
+        && (it.tier !== "watch" || k.issue.category === it.issue.category))
+      : undefined
+    if (lead) { lead.also.push({ id: it.issue.id, title: it.issue.title }); lead.why.push(`Also recorded in the same report: ${it.issue.title}.`) }
     else kept.push(it)
   }
   return kept

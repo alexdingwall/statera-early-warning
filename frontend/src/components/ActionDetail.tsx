@@ -1,9 +1,10 @@
-import { BellOff, Check, ChevronRight, History, Megaphone } from "lucide-react"
+import { BellOff, Check, History, Megaphone } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useStore } from "@/store"
 import { ageText, categoryLabel, fmtDate, STATUS_WORDS } from "@/lib/format"
 import { STATE_WORDS, type ActionItem, type ActionState } from "@/lib/actions"
 import { SeverityIcon, btn, btnPrimary } from "@/components/ui-bits"
+import { IssueTabs } from "@/components/IssueTabs"
 
 export function ActionButtons({ item, compact }: { item: ActionItem; compact?: boolean }) {
   const rec = useStore((s) => s.actions[item.issue.id])
@@ -57,35 +58,32 @@ export function ActionDetail({ item }: { item: ActionItem }) {
           </p>
         </div>
         <div className="flex shrink-0 flex-col items-end gap-0.5 text-[12px]">
-          <Link to={`/project/${item.project}?issue=${issue.id}`} className="flex items-center gap-0.5 text-[#0B6DA6] hover:underline">
-            Timeline and evidence <ChevronRight size={13} aria-hidden />
-          </Link>
           {latest && <button className="text-[#0B6DA6] hover:underline" onClick={() => openDrawer({ docId: latest.doc_id, span: latest.quote_span })}>Latest source document</button>}
         </div>
       </div>
 
       <div className="shrink-0 rounded-md border border-blue-500/40 bg-blue-500/5 p-3">
-        <h3 className="mb-1 text-[12px] font-semibold text-[#0B6DA6]">Recommended action</h3>
+        <h3 className="mb-1 text-[12px] font-semibold text-[#0B6DA6]">{item.tier === "watch" ? "Status" : item.tier === "past" ? "Closed" : "Recommended action"}</h3>
         <p className="text-[15px] font-semibold leading-snug">{item.action}</p>
-        <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
+        {(item.tier === "now" || item.tier === "prepare") && <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
           <ActionButtons item={item} />
           <p className="text-[12px] text-muted-ink">
             {item.owner ? `Suggested owner: ${item.owner}` : ""}{item.decideBy ? ` · date stated in report: ${fmtDate(item.decideBy)}` : ""}
           </p>
-        </div>
+        </div>}
       </div>
 
-      <div className="grid shrink-0 grid-cols-[3fr_2fr] gap-5 text-[13px]">
+      <div className={`grid shrink-0 ${item.stakes.length ? "grid-cols-[3fr_2fr]" : "grid-cols-1"} gap-5 text-[13px]`}>
         <Block title="Why now">
           <ul className="list-disc space-y-0.5 pl-4">
             {item.why.slice(0, 3).map((w) => <li key={w}>{w}</li>)}
           </ul>
         </Block>
-        <Block title="What is at stake">
+        {(item.stakes.length > 0 || item.tier === "now" || item.tier === "prepare") && <Block title="What is at stake">
           {item.stakes.length ? (
             <ul className="list-disc space-y-0.5 pl-4">{item.stakes.map((w) => <li key={w}>{w}</li>)}</ul>
           ) : <p className="text-muted-ink">No programme figures reported yet.</p>}
-        </Block>
+        </Block>}
       </div>
 
       {item.lastTime && (
@@ -113,6 +111,8 @@ export function ActionDetail({ item }: { item: ActionItem }) {
           {item.lastTime.lesson && <p className="mt-1 font-medium text-[#8A5A12]">{item.lastTime.lesson}</p>}
         </div>
       )}
+
+      <IssueTabs issue={issue} />
     </div>
   )
 }

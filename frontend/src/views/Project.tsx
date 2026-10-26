@@ -1,46 +1,29 @@
-import { useEffect, useMemo, useState } from "react"
-import { Check } from "lucide-react"
+import { useMemo } from "react"
+import { Eye } from "lucide-react"
 import { useParams, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
-import { ageText, categoryLabel, daysBetween, fmtDate, STATUS_WORDS } from "@/lib/format"
-import { activeAlertsOn, docsUpTo, isOpenStatus, issueStatusOn, issuesSeen, latestSnapshot, matchesFor, mentionsUpTo, phaseOn, sevRank, statusOn, triggersFor } from "@/lib/selectors"
-import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon } from "@/components/ui-bits"
+import { daysBetween, fmtDate } from "@/lib/format"
+import { docsUpTo, latestSnapshot, phaseOn, statusOn } from "@/lib/selectors"
+import { EvidencePill, Panel, ReportedPill, SeverityIcon } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
-import { ActionButtons } from "@/components/ActionDetail"
+import { ActionDetail } from "@/components/ActionDetail"
+import { buildActions, TIER_WORDS, type ActionItem, type Tier } from "@/lib/actions"
 import { watchOn } from "@/lib/watch"
-import { Eye } from "lucide-react"
-import { buildActions } from "@/lib/actions"
-import { IssueStory } from "@/components/IssueStory"
 import { cn } from "@/lib/utils"
-import type { Issue } from "@/types"
 
-const PAGE = 8
-type Tab = "story" | "evidence" | "seen"
+const TIERS: Tier[] = ["now", "prepare", "watch", "past"]
 
 export function Project() {
   const { id } = useParams()
   const bundle = useStore((s) => s.bundle)!
   const asOf = useStore((s) => s.asOf)
+  const actions = useStore((s) => s.actions)
   const [params, setParams] = useSearchParams()
-  const [filter, setFilter] = useState<"open" | "all">("open")
-  const [page, setPage] = useState(0)
-  const [tab, setTab] = useState<Tab>("story")
 
   const project = bundle.projects.find((p) => p.id === id)
   const docs = docsUpTo(bundle, asOf, id)
-  const issues = useMemo(() => issuesSeen(bundle, asOf, id), [bundle, asOf, id])
-  const alerts = activeAlertsOn(bundle, asOf, id)
   const watch = watchOn(bundle, asOf, id)
-
-  const topSev = (i: Issue) => Math.max(0, ...alerts.filter((a) => a.issue_id === i.id).map((a) => sevRank(a.severity)))
-  const sorted = useMemo(
-    () => issues
-      .filter((i) => filter === "all" || isOpenStatus(issueStatusOn(i, asOf)))
-      .sort((a, b) => topSev(b) - topSev(a) || a.first_seen.localeCompare(b.first_seen)),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [issues, filter, asOf, alerts.length],
-  )
-  useEffect(() => setPage(0), [filter, id])
+  const items = useMemo(() => buildActions(bundle, asOf).filter((i) => i.project === id), [bundle, asOf, id])
 
   if (!project) return <p>Unknown project.</p>
   const st = statusOn(bundle, project.id, asOf)
@@ -53,10 +36,10 @@ export function Project() {
     setParams(next)
   }
   const wanted = params.get("issue")
-  const selected = sorted.find((i) => i.id === wanted) ?? issues.find((i) => i.id === wanted) ?? sorted[0] ?? null
-  const pages = Math.max(1, Math.ceil(sorted.length / PAGE))
-  const rows = sorted.slice(page * PAGE, page * PAGE + PAGE)
-  const label = (cp: string | null) => (cp ? (bundle.counterparties[cp]?.label ?? cp).replace(/\s*\(.*\)$/, "") : "No counterparty")
+  const selected = items.find((i) => i.issue.id === wanted || i.also.some((a) => a.id === wanted)) ?? items.find((i) => i.tier === "now" || i.tier === "prepare") ?? items[0] ?? null
+  const byTier = (t: Tier) => items.filter((i) => i.tier === t)
+  const decide = byTier("now").length + byTier("prepare").length
+  const hasDecisions = decide > 0
 
   return (
     <div className="flex h-full flex-col gap-3">
@@ -110,45 +93,28 @@ export function Project() {
         <LessonsView project={project.id} />
       ) : (
         <div className="flex min-h-0 flex-1 gap-3">
-          <Panel className="flex w-[38%] shrink-0 flex-col">
-            <div className="flex h-10 shrink-0 items-center gap-1 px-3">
-              {(["open", "all"] as const).map((f) => (
-                <button key={f} onClick={() => setFilter(f)} aria-pressed={filter === f}
-                  className={cn("rounded-md px-2.5 py-1 text-[13px]", filter === f ? "bg-navy-900 font-medium text-white" : "text-muted-ink hover:bg-bg")}>
-                  {f === "open" ? "Open" : "All"}
-                </button>
-              ))}
-            </div>
-            <ul className="min-h-0 flex-1 px-2">
-              {rows.map((i) => {
-                const sev = topSev(i)
-                const status = issueStatusOn(i, asOf)
-                return (
-                  <li key={i.id}>
-                    <button
-                      onClick={() => setParams({ issue: i.id })}
-                      aria-current={selected?.id === i.id}
-                      className={cn("flex h-[46px] w-full items-center gap-2 rounded-md px-2 text-left hover:bg-bg", selected?.id === i.id && "bg-accent")}
-                    >
-                      {sev ? <SeverityIcon severity={sev === 3 ? "red" : sev === 2 ? "amber" : "info"} /> : <span className="w-4 shrink-0" />}
-                      <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[13px] font-medium">{i.title}</span>
-                        <span className="block truncate text-[12px] text-muted-ink">
-                          {isOpenStatus(status) ? ageText(i.first_seen, asOf) : STATUS_WORDS[status ?? "open"]} · {label(i.counterparty)}
-                        </span>
-                      </span>
-                      <span className="num shrink-0 text-[12px] text-muted-ink" title="Mentions">{mentionsUpTo(i, asOf).length}×</span>
-                    </button>
-                  </li>
-                )
-              })}
-              {rows.length === 0 && <li className="px-2 py-3 text-[13px] text-muted-ink">No issues to show.</li>}
-            </ul>
-            <Pager page={page} pages={pages} onPage={setPage} total={sorted.length} label={sorted.length === 1 ? "issue" : "issues"} />
+          <Panel className="flex w-[38%] shrink-0 flex-col overflow-y-auto px-2 py-2">
+            <p className="px-2 pb-1 text-[12px] text-muted-ink">{decide ? `${decide} to decide` : "Nothing to decide"} · {items.length} {items.length === 1 ? "issue" : "issues"} in all</p>
+            {TIERS.map((t) => {
+              const list = byTier(t)
+              if (!list.length) return null
+              const open = t === "now" || t === "prepare" || selected?.tier === t || !hasDecisions
+              return (
+                <details key={t + (open ? "o" : "c")} open={open} className="mb-1">
+                  <summary className="flex cursor-pointer list-none items-center gap-1.5 px-2 py-1 text-[12px] font-semibold text-muted-ink">
+                    {TIER_WORDS[t]} <span className="num font-normal">{list.length}</span>
+                  </summary>
+                  <ul>
+                    {list.map((i) => <Row key={i.issue.id} item={i} selected={selected?.issue.id === i.issue.id} handled={!!actions[i.issue.id]} onPick={() => setParams({ issue: i.issue.id })} />)}
+                  </ul>
+                </details>
+              )
+            })}
+            {items.length === 0 && <p className="px-2 py-3 text-[13px] text-muted-ink">No issues yet.</p>}
           </Panel>
 
-          <Panel className="min-w-0 flex-1 overflow-y-auto">
-            {selected ? <IssueDetail issue={selected} tab={tab} setTab={setTab} /> : <p className="p-4 text-[13px] text-muted-ink">No issue selected.</p>}
+          <Panel className="min-w-0 flex-1 overflow-hidden">
+            {selected ? <ActionDetail item={selected} /> : <p className="p-4 text-[13px] text-muted-ink">No issue selected.</p>}
           </Panel>
         </div>
       )}
@@ -156,125 +122,21 @@ export function Project() {
   )
 }
 
-function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (t: Tab) => void }) {
-  const bundle = useStore((s) => s.bundle)!
+function Row({ item, selected, handled, onPick }: { item: ActionItem; selected: boolean; handled: boolean; onPick: () => void }) {
   const asOf = useStore((s) => s.asOf)
-  const openDrawer = useStore((s) => s.openDrawer)
-  const status = issueStatusOn(issue, asOf)
-  const ms = mentionsUpTo(issue, asOf)
-  const alerts = bundle.alerts.filter((a) => a.issue_id === issue.id && a.fired_on <= asOf).sort((a, b) => a.fired_on.localeCompare(b.fired_on))
-  const triggers = triggersFor(bundle, issue.id, asOf)
-  const matches = matchesFor(bundle, issue, asOf)
-  const docs = bundle.documents
-  const docOf = (id: string) => docs.find((d) => d.id === id)!
-  const cp = issue.counterparty ? bundle.counterparties[issue.counterparty]?.label ?? issue.counterparty : "None"
-  const [evPage, setEvPage] = useState(0)
-  useEffect(() => setEvPage(0), [issue.id])
-  const evRows = [...ms].reverse()
-  const EV = 3
-  const action = buildActions(bundle, asOf).find((a) => a.issue.id === issue.id)
-
-  const tabs: { id: Tab; label: string; n: number }[] = [
-    { id: "story", label: "What happened", n: ms.length + alerts.length },
-    { id: "evidence", label: "Evidence", n: ms.length },
-    { id: "seen", label: "Seen before", n: matches.length },
-  ]
-
+  const when = item.tier === "past" ? "past incident"
+    : item.daysLeft !== null ? `report says by ${fmtDate(item.decideBy!)} (${item.daysLeft === 0 ? "due today" : `${item.daysLeft} days`})`
+    : item.affecting ? "already affecting programme" : item.tier === "prepare" ? "no date in the report" : `open ${daysBetween(item.issue.first_seen, asOf)} days`
   return (
-    <div className="flex flex-col">
-      <div className="px-4 pt-3">
-        <h2 className="text-[15px] font-semibold leading-snug">{issue.title}</h2>
-        <p className="text-[12px] text-muted-ink">
-          {categoryLabel(issue.category)} · {cp} · {STATUS_WORDS[status ?? "open"]} · first seen {fmtDate(issue.first_seen)} · {isOpenStatus(status) ? ageText(issue.first_seen, asOf) : "closed"}
-        </p>
-      </div>
-      {action && (
-        <div className="mx-4 mt-2 rounded-md border border-blue-500/40 bg-blue-500/5 px-3 py-2">
-          <div className="text-[11px] font-semibold text-[#0B6DA6]">Recommended action</div>
-          <p className="text-[13px] font-medium leading-snug">{action.action}</p>
-          <div className="mt-1.5"><ActionButtons item={action} compact /></div>
-        </div>
-      )}
-      <div role="tablist" className="sticky top-0 z-10 flex shrink-0 gap-1 border-b border-line bg-surface px-3">
-        {tabs.map((t) => (
-          <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => setTab(t.id)}
-            className={cn("-mb-px border-b-2 px-3 py-1.5 text-[13px]", tab === t.id ? "border-blue-500 font-medium text-ink" : "border-transparent text-muted-ink hover:text-ink")}>
-            {t.label} <span className="num text-[12px] text-muted-ink">{t.n}</span>
-          </button>
-        ))}
-      </div>
-      <div className="px-4 py-2 text-[13px]">
-        {tab === "evidence" && (
-          <>
-            <ul className="space-y-1">
-              {evRows.slice(evPage * EV, evPage * EV + EV).map((m) => (
-                <li key={m.id}>
-                  <button onClick={() => openDrawer({ docId: m.doc_id, span: m.quote_span })} className="grid w-full grid-cols-[84px_1fr] gap-x-3 rounded-sm px-1 py-0.5 text-left hover:bg-bg">
-                    <span className="num text-muted-ink">{fmtDate(m.date)}</span>
-                    <span className="min-w-0">
-                      <span className="font-medium">{docOf(m.doc_id).title}</span>
-                      <span className="text-muted-ink"> · {STATUS_WORDS[m.status] ?? m.status}</span>
-                      {(m.evidence_quote || m.description) && <span className="block text-[12px] text-muted-ink">{m.evidence_quote ? `“${m.evidence_quote.replace(/\*\*/g, "")}”` : m.description}</span>}
-                    </span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-            {evRows.length > EV && <Pager page={evPage} pages={Math.ceil(evRows.length / EV)} onPage={setEvPage} total={evRows.length} label="mentions" />}
-          </>
-        )}
-        {tab === "story" && <IssueStory issue={issue} asOf={asOf} alerts={alerts} triggers={triggers} docs={docs} />}
-        {tab === "seen" && <SeenBefore issue={issue} />}
-      </div>
-    </div>
-  )
-}
-
-function readFb(id: string): string | null {
-  try { return localStorage.getItem(`ew-feedback-${id}`) } catch { return null }
-}
-function writeFb(id: string, v: string) {
-  try { localStorage.setItem(`ew-feedback-${id}`, v) } catch { /* storage unavailable */ }
-}
-
-function SeenBefore({ issue }: { issue: Issue }) {
-  const bundle = useStore((s) => s.bundle)!
-  const asOf = useStore((s) => s.asOf)
-  const matches = matchesFor(bundle, issue, asOf)
-  const [fb, setFb] = useState<Record<string, string | null>>({})
-  const get = (id: string) => (id in fb ? fb[id] : readFb(id))
-  if (matches.length === 0) return <p className="text-muted-ink">Nothing similar on another project as of {fmtDate(asOf)}.</p>
-  return (
-    <div>
-      <ul className="space-y-2">
-        {matches.slice(0, 2).map((m) => {
-          const prior = bundle.issues.find((i) => i.id === m.prior_issue_id)!
-          const v = get(m.id)
-          return (
-            <li key={m.id}>
-              <div className="flex items-center gap-2">
-                <span className="font-medium">{prior.title}</span>
-                <span className="capitalize text-muted-ink">({prior.project})</span>
-                <Pill tone={m.confidence === "high" ? "info" : "grey"}>{m.confidence === "high" ? "High confidence" : "Medium confidence"}</Pill>
-              </div>
-              <div className="my-0.5 flex flex-wrap gap-1">
-                {m.reasons.map((r) => <span key={r} className="rounded-sm bg-bg px-1.5 py-0.5 text-[11px] text-muted-ink">{r}</span>)}
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="flex-1 text-[12px] text-muted-ink">{m.explanation}</span>
-                {(["relevant", "not relevant"] as const).map((k) => (
-                  <button key={k} aria-pressed={v === k}
-                    onClick={() => { writeFb(m.id, k); setFb({ ...fb, [m.id]: k }) }}
-                    className={cn("shrink-0 rounded-md border px-2 py-0.5 text-[12px]", v === k ? "border-navy-900 bg-navy-900 text-white" : "border-line hover:bg-bg")}>
-                    {v === k && <Check size={12} className="mr-0.5 inline" aria-hidden />}{k === "relevant" ? "Relevant" : "Not relevant"}
-                  </button>
-                ))}
-              </div>
-            </li>
-          )
-        })}
-      </ul>
-      <p className="mt-1 text-[11px] text-muted-ink">Feedback would train the matcher in a full version.</p>
-    </div>
+    <li>
+      <button onClick={onPick} aria-current={selected}
+        className={cn("flex min-h-[46px] w-full items-center gap-2 rounded-md px-2 py-1 text-left hover:bg-bg", selected && "bg-accent")}>
+        <span className="w-4 shrink-0">{item.severity !== "info" && <SeverityIcon severity={item.severity} />}</span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[13px] font-medium leading-snug">{item.issue.title}</span>
+          <span className="block text-[12px] text-muted-ink">{when}{item.also.length ? ` · +${item.also.length} related` : ""}{handled ? " · handled" : ""}</span>
+        </span>
+      </button>
+    </li>
   )
 }

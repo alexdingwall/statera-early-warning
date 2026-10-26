@@ -4,7 +4,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
 import { watchOn } from "@/lib/watch"
-import { buildActions } from "@/lib/actions"
+import { buildActions, TIER_WORDS } from "@/lib/actions"
 import { docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
 import { ActionDetail } from "@/components/ActionDetail"
 import { EvidencePill, Pager, Panel, PROJECT_COLOUR, ReportedPill, SeverityIcon } from "@/components/ui-bits"
@@ -17,7 +17,7 @@ export function Portfolio() {
   const bundle = useStore((s) => s.bundle)!
   const asOf = useStore((s) => s.asOf)
   const actions = useStore((s) => s.actions)
-  const all = useMemo(() => buildActions(bundle, asOf), [bundle, asOf])
+  const all = useMemo(() => buildActions(bundle, asOf).filter((i) => i.tier === "now" || i.tier === "prepare"), [bundle, asOf])
   const [tab, setTab] = useState<"todo" | "done">("todo")
   const [params] = useSearchParams()
   const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
@@ -48,10 +48,11 @@ export function Portfolio() {
             ))}
           </div>
           <ul className="min-h-0 flex-1 px-2">
-            {rows.map((i) => (
+            {rows.map((i, n) => (
               <li key={i.issue.id}>
+                {(n === 0 || rows[n - 1].tier !== i.tier) && <h3 className="px-2 pb-0.5 pt-1 text-[12px] font-semibold text-muted-ink">{TIER_WORDS[i.tier]}</h3>}
                 <button onClick={() => setSel(i.issue.id)} aria-current={selected?.issue.id === i.issue.id}
-                  className={cn("flex h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected?.issue.id === i.issue.id && "bg-accent")}>
+                  className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected?.issue.id === i.issue.id && "bg-accent")}>
                   <SeverityIcon severity={i.severity} />
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13px] font-medium">{i.issue.title}</span>
