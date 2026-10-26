@@ -15,6 +15,9 @@ const Group = ({ title, children }: { title: string; children: React.ReactNode }
     <ul className="space-y-1">{children}</ul>
   </section>
 )
+const Term = ({ word, children }: { word: string; children: React.ReactNode }) => (
+  <li><span className="font-semibold">{word}</span> <span className="text-muted-ink">{children}</span></li>
+)
 const dot = (c: string) => <span className={cn("inline-block size-2.5 rounded-full", c)} />
 
 type Tab = "about" | "how" | "key"
@@ -89,14 +92,20 @@ function KeyTab() {
             <Row mark={dot("bg-green")}>On track: no red or amber warnings.</Row>
           </Group>
           <Group title="Project tiles">
-            <Row mark={<span className="rounded-sm bg-bg px-1.5 py-px text-[11px] font-medium text-muted-ink">Reported</span>}>What the project’s own latest report says.</Row>
-            <Row mark={<span className="rounded-sm bg-bg px-1.5 py-px text-[11px] font-medium text-muted-ink">Evidence</span>}>What the system finds from all the reports. When the two disagree, the tile says so.</Row>
-            <Row mark={<span className="num text-[12px] font-medium text-muted-ink">1–9</span>}>Number keys jump to the menu items. Arrow keys step between reports. Space plays.</Row>
+            <Term word="Reported">what the project’s own latest report says.</Term>
+            <Term word="Evidence">what the system finds from all the reports. When the two disagree, the tile says so.</Term>
           </Group>
           <Group title="Inside an issue">
             <Row mark={dot("bg-blue-500")}>A report that mentioned the issue.</Row>
             <Row mark={<Flag size={14} className="text-navy-600" aria-hidden />}>A deadline the report itself set.</Row>
             <Row mark={<span className="text-[12px] font-medium text-muted-ink">Faded</span>}>Still ahead of the date you are looking at.</Row>
+          </Group>
+          <Group title="Keyboard">
+            <Term word="← →">step between reports.</Term>
+            <Term word="Space">play or pause the replay.</Term>
+            <Term word="1 to 9">jump to a menu item.</Term>
+            <Term word="G">show what actually happened.</Term>
+            <Term word="?">open or close this panel.</Term>
           </Group>
     </div>
   )
