@@ -147,7 +147,7 @@ export function Project() {
             <Pager page={page} pages={pages} onPage={setPage} total={sorted.length} label={sorted.length === 1 ? "issue" : "issues"} />
           </Panel>
 
-          <Panel className="min-w-0 flex-1 overflow-hidden">
+          <Panel className="min-w-0 flex-1 overflow-y-auto">
             {selected ? <IssueDetail issue={selected} tab={tab} setTab={setTab} /> : <p className="p-4 text-[13px] text-muted-ink">No issue selected.</p>}
           </Panel>
         </div>
@@ -182,7 +182,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
   ]
 
   return (
-    <div className="flex h-full min-h-0 flex-col">
+    <div className="flex flex-col">
       <div className="px-4 pt-3">
         <h2 className="text-[15px] font-semibold leading-snug">{issue.title}</h2>
         <p className="text-[12px] text-muted-ink">
@@ -199,7 +199,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
       <div className="px-4 pt-1">
         <IssueTimeline issue={issue} asOf={asOf} alerts={alerts} triggers={triggers} docs={docs} />
       </div>
-      <div role="tablist" className="flex shrink-0 gap-1 border-b border-line px-3">
+      <div role="tablist" className="sticky top-0 z-10 flex shrink-0 gap-1 border-b border-line bg-surface px-3">
         {tabs.map((t) => (
           <button key={t.id} role="tab" aria-selected={tab === t.id} onClick={() => setTab(t.id)}
             className={cn("-mb-px border-b-2 px-3 py-1.5 text-[13px]", tab === t.id ? "border-blue-500 font-medium text-ink" : "border-transparent text-muted-ink hover:text-ink")}>
@@ -207,7 +207,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
           </button>
         ))}
       </div>
-      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2 text-[13px]">
+      <div className="px-4 py-2 text-[13px]">
         {tab === "evidence" && (
           <>
             <ul className="space-y-1">

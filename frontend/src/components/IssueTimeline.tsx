@@ -33,8 +33,8 @@ export function IssueTimeline({ issue, asOf, alerts, triggers, docs }: { issue: 
   const gt = useStore((s) => s.groundTruth)
   const bundle = useStore((s) => s.bundle)!
   const [ref, W] = useWidth()
-  const H = 166
-  const padL = 20, padR = 24, axisY = 92
+  const H = 126
+  const padL = 20, padR = 24, axisY = 66
 
   const mentions = issue.mentions.filter((m) => m.date <= asOf)
   const deadlines = [...new Set(triggers.filter((t) => t.deadline).map((t) => t.deadline!))].sort()
