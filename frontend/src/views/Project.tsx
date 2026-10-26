@@ -6,6 +6,8 @@ import { ageText, categoryLabel, daysBetween, fmtDate, ruleWords, STATUS_WORDS }
 import { activeAlertsOn, bySeverityThenNewest, docsUpTo, isOpenStatus, issueStatusOn, issuesSeen, latestSnapshot, matchesFor, mentionsUpTo, phaseOn, sevRank, statusOn, triggersFor } from "@/lib/selectors"
 import { EvidencePill, Pager, Panel, Pill, ReportedPill, SeverityIcon, SeverityPill } from "@/components/ui-bits"
 import { LessonsView } from "@/views/Lessons"
+import { ActionButtons } from "@/components/ActionDetail"
+import { buildActions } from "@/lib/actions"
 import { IssueTimeline } from "@/components/IssueTimeline"
 import { cn } from "@/lib/utils"
 import type { Issue } from "@/types"
@@ -151,7 +153,8 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
   const [evPage, setEvPage] = useState(0)
   useEffect(() => setEvPage(0), [issue.id])
   const evRows = [...ms].reverse()
-  const EV = 4
+  const EV = 3
+  const action = buildActions(bundle, asOf).find((a) => a.issue.id === issue.id)
 
   const tabs: { id: Tab; label: string; n: number }[] = [
     { id: "evidence", label: "Evidence", n: ms.length },
@@ -168,6 +171,15 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
           {categoryLabel(issue.category)} · {cp} · {STATUS_WORDS[status ?? "open"]} · first seen {fmtDate(issue.first_seen)} · {isOpenStatus(status) ? ageText(issue.first_seen, asOf) : "closed"}
         </p>
       </div>
+      {action && (
+        <div className="mx-4 mt-2 flex items-center gap-3 rounded-md border border-blue-500/40 bg-blue-500/5 px-3 py-2">
+          <div className="min-w-0 flex-1">
+            <div className="text-[11px] font-semibold text-[#0B6DA6]">Recommended action</div>
+            <p className="line-clamp-2 text-[13px] font-medium leading-snug">{action.action}</p>
+          </div>
+          <ActionButtons item={action} compact />
+        </div>
+      )}
       <div className="px-4 pt-1">
         <IssueTimeline issue={issue} asOf={asOf} alerts={alerts} triggers={triggers} docs={docs} />
       </div>

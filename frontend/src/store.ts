@@ -1,6 +1,10 @@
 import { create } from "zustand"
 import type { Bundle } from "@/types"
 
+import type { ActionState } from "@/lib/actions"
+
+export interface ActionRecord { state: ActionState; on: string }
+
 export interface DrawerState {
   docId: string
   span?: [number, number] | null
@@ -13,11 +17,17 @@ interface State {
   groundTruth: boolean
   playing: boolean
   drawer: DrawerState | null
+  actions: Record<string, ActionRecord>
+  setAction: (issueId: string, rec: ActionRecord | null) => void
   load: () => Promise<void>
   setAsOf: (d: string) => void
   setGroundTruth: (v: boolean) => void
   setPlaying: (v: boolean) => void
   openDrawer: (d: DrawerState | null) => void
+}
+
+function readActions(): Record<string, ActionRecord> {
+  try { return JSON.parse(localStorage.getItem("ew-actions") ?? "{}") } catch { return {} }
 }
 
 export const DEFAULT_AS_OF = "2025-03-21"
@@ -29,6 +39,14 @@ export const useStore = create<State>((set) => ({
   groundTruth: false,
   playing: false,
   drawer: null,
+  actions: readActions(),
+  setAction: (issueId, rec) =>
+    set((s) => {
+      const next = { ...s.actions }
+      if (rec) next[issueId] = rec; else delete next[issueId]
+      try { localStorage.setItem("ew-actions", JSON.stringify(next)) } catch { /* storage unavailable */ }
+      return { actions: next }
+    }),
   load: async () => {
     try {
       const res = await fetch(`${import.meta.env.BASE_URL}data/bundle.json`)
