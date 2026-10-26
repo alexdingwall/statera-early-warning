@@ -25,7 +25,7 @@ export function Alerts() {
   const rows = all.slice(page * PAGE, page * PAGE + PAGE)
 
   return (
-    <Panel className="flex h-full flex-col">
+    <Panel className="flex flex-col">
       <div className="flex shrink-0 items-center gap-3 px-4 py-2.5">
         <h1 className="mr-auto font-heading text-[16px] font-semibold">Alerts fired up to {fmtDate(asOf)}</h1>
         <label className="sr-only" htmlFor="f-project">Project</label>
@@ -44,10 +44,10 @@ export function Alerts() {
           {["PERSISTENCE", "TRIGGER", "IMPACT", "PRIOR_INCIDENT"].map((r) => <option key={r} value={r}>{ruleWords(r, "amber")}</option>)}
         </select>
       </div>
-      <div className="min-h-0 flex-1 overflow-y-auto px-2">
+      <div className="px-2">
         <table className="w-full table-fixed text-[13px]">
           <thead>
-            <tr className="h-8 border-b border-line text-left text-[12px] font-medium text-muted-ink">
+            <tr className="h-8 border-b border-line text-left text-[13px] font-medium text-muted-ink">
               <th className="w-[96px] px-2 font-medium">Fired</th>
               <th className="w-[96px] px-2 font-medium">Project</th>
               <th className="w-[26%] px-2 font-medium">Issue</th>
@@ -64,7 +64,7 @@ export function Alerts() {
                 <td className="px-2 py-1">{a.title}</td>
                 <td className="px-2 py-1">{ruleWords(a.rule, a.severity)}</td>
                 <td className="px-2"><SeverityPill severity={a.severity} /></td>
-                <td className="px-2 py-1 text-[12px] text-muted-ink">{a.explanation}</td>
+                <td className="px-2 py-1 text-[13px] text-muted-ink">{a.explanation}</td>
               </tr>
             ))}
             {rows.length === 0 && <tr><td colSpan={6} className="px-2 py-4 text-muted-ink">No alerts match these filters as of {fmtDate(asOf)}.</td></tr>}

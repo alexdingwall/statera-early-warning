@@ -83,7 +83,7 @@ export function AddReport() {
 
       {online === false && (
         <p className="mt-3 max-w-[640px] rounded-md border border-line bg-bg px-3 py-2 text-[13px]">
-          Adding reports works when the backend is running on this computer: from <code>backend/</code> run <code>uv run uvicorn app.api:app --port 8000</code>, with Ollama running. This copy of the site is read-only.
+          Adding reports works when the backend is running on this computer: from <code className="rounded bg-surface px-1 font-sans text-[12px]">backend/</code> run <code className="rounded bg-surface px-1 font-sans text-[12px]">uv run uvicorn app.api:app --port 8000</code>, with Ollama running. This copy of the site is read-only.
         </p>
       )}
 

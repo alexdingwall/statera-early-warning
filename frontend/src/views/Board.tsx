@@ -25,7 +25,7 @@ export function Board() {
 
   const claims = check?.claims ?? []
   const selected: BoardClaim | undefined =
-    claims.find((c) => c.id === sel) ?? claims.find((c) => c.verdict === "contradicted") ?? claims[0]
+    claims.find((c) => c.id === sel) ?? claims.find((c) => c.verdict === "contradicted" && c.section === "Risks") ?? claims.find((c) => c.verdict === "contradicted") ?? claims[0]
 
   const mentionIndex = useMemo(() => {
     const m = new Map<string, { date: string; docId: string; quote: string | null; span: [number, number] | null }>()
@@ -49,7 +49,7 @@ export function Board() {
   const evidence = (selected?.evidence_mention_ids ?? []).map((id) => mentionIndex.get(id)).filter((x): x is NonNullable<typeof x> => !!x && x.date <= check.as_of)
 
   return (
-    <div className="flex h-full gap-3">
+    <div className="flex items-start gap-3">
       <h1 className="sr-only">Board check</h1>
       <Panel className="flex w-[55%] flex-col">
         <PanelTitle>{doc.title}</PanelTitle>

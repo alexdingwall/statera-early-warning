@@ -8,7 +8,7 @@ export function Sources() {
   const openDrawer = useStore((s) => s.openDrawer)
   const rows = [...bundle.documents].sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
   return (
-    <Panel className="flex h-full flex-col">
+    <Panel className="flex flex-col">
       <h1 className="px-4 py-2.5 font-heading text-[16px] font-semibold">Sources ({rows.length} documents)</h1>
       <div className="min-h-0 flex-1 overflow-hidden px-2">
         <table className="w-full table-fixed text-[13px]">

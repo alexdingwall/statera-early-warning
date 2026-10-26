@@ -13,7 +13,7 @@ export const PROJECT_COLOUR: Record<string, string> = {
 type Tone = "red" | "amber" | "green" | "info" | "grey"
 const TONE: Record<Tone, string> = {
   red: "bg-red/10 text-red",
-  amber: "bg-amber/10 text-amber",
+  amber: "bg-amber/10 text-[#8A5A12]",
   green: "bg-green/10 text-green",
   info: "bg-info/10 text-[#0B6DA6]",
   grey: "bg-navy-600/10 text-navy-600",

@@ -7,7 +7,7 @@ function Stat({ label, value, note }: { label: string; value: string; note: stri
   return (
     <div>
       <div className="flex items-baseline justify-between"><span className="text-[13px] font-medium">{label}</span><span className="num font-heading text-[16px] font-semibold">{value}</span></div>
-      <p className="text-[12px] text-muted-ink">{note}</p>
+      <p className="text-[13px] text-muted-ink">{note}</p>
     </div>
   )
 }
@@ -25,7 +25,7 @@ export function Evaluation() {
   const m = bundle.meta
 
   return (
-    <div className="flex h-full flex-col gap-3">
+    <div className="flex flex-col gap-3">
       <div>
         <h1 className="font-heading text-[18px] font-semibold">How well it worked on the sample</h1>
         <p className="text-[13px] text-muted-ink">
@@ -38,14 +38,14 @@ export function Evaluation() {
           <div className="mt-3 grid grid-cols-3 gap-6">
             {lt.rows.map((r) => (
               <div key={r.label}>
-                <div className="text-[12px] text-muted-ink">{r.label}</div>
+                <div className="text-[13px] text-muted-ink">{r.label}</div>
                 <div className="font-heading text-[20px] font-semibold num">{r.date ? fmtDate(r.date) : "None"}</div>
                 <div className="text-[13px]">{r.days_earlier !== null ? `${r.days_earlier} days before the actual escalation (${fmtDate(gtDate)})` : "No alert fired"}</div>
               </div>
             ))}
           </div>
           {stage28 && (
-            <p className="mt-3 text-[12px] text-muted-ink">
+            <p className="mt-3 text-[13px] text-muted-ink">
               Thresholds are settings. With a 4-week warning instead of 8, the first warning moves to {fmtDate(stage28.fired_on)}.
             </p>
           )}
@@ -74,7 +74,7 @@ export function Evaluation() {
               <Stat label="Same issue, precision" value={pct(ev.identity.pairwise_precision)} note="Pairs joined as one issue that really are one." />
               <Stat label="Same issue, recall" value={pct(ev.identity.pairwise_recall)} note="Pairs that are one issue and were joined." />
               <Stat label="Seen before" value={`${ev.cross_project.found} of ${ev.cross_project.expected}`} note={`Expected matches found. ${ev.cross_project.false_positives} false positives.`} />
-              <ul className="text-[12px]">
+              <ul className="text-[13px]">
                 {ev.cross_project.detail.map((d) => (
                   <li key={d.issue} className="flex items-center gap-1.5">
                     {d.found ? <CheckCircle2 size={13} className="text-green" aria-hidden /> : <XCircle size={13} className="text-red" aria-hidden />}
@@ -86,10 +86,10 @@ export function Evaluation() {
           ) : (
             <p className="text-[13px] text-muted-ink">Matching is shown from the human labels in this run.</p>
           )}
-          <p className="mt-auto pt-2 text-[12px] text-muted-ink">
+          <p className="mt-auto pt-2 text-[13px] text-muted-ink">
             {ev.fallbacks.length ? `Fallbacks: ${ev.fallbacks.join("; ")}` : "No fallbacks used."}
           </p>
-          <p className="text-[12px] text-muted-ink">
+          <p className="text-[13px] text-muted-ink">
             Source {ev.source} · {m.model} · prompt {m.prompt_version} · generated {fmtDate(m.generated_at.slice(0, 10))}
           </p>
         </Panel>
