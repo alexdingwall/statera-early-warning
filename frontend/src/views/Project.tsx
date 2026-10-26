@@ -53,7 +53,7 @@ export function Project() {
   const selected = sorted.find((i) => i.id === wanted) ?? issues.find((i) => i.id === wanted) ?? sorted[0] ?? null
   const pages = Math.max(1, Math.ceil(sorted.length / PAGE))
   const rows = sorted.slice(page * PAGE, page * PAGE + PAGE)
-  const label = (cp: string | null) => (cp ? bundle.counterparties[cp]?.label ?? cp : "No counterparty")
+  const label = (cp: string | null) => (cp ? (bundle.counterparties[cp]?.label ?? cp).replace(/\s*\(.*\)$/, "") : "No counterparty")
 
   return (
     <div className="flex h-full flex-col gap-3">
@@ -79,9 +79,9 @@ export function Project() {
         <div className="ml-auto flex gap-5 whitespace-nowrap text-[13px]">
           <div><div className="text-[12px] text-muted-ink">Baseline energisation</div><div className="num font-medium">{fmtDate(project.baseline_energisation)}</div></div>
           <div><div className="text-[12px] text-muted-ink">Latest forecast</div><div className="num font-medium">{snap?.forecast ? fmtDate(snap.forecast) : "—"}</div></div>
-          <div className="max-w-[240px]">
+          <div className="max-w-[260px] whitespace-normal">
             <div className="text-[12px] text-muted-ink">Commercial</div>
-            <div className="num truncate font-medium">{project.commercial_date ? `${fmtDate(project.commercial_date)} (${daysBetween(asOf, project.commercial_date)} days)` : project.commercial_label}</div>
+            <div className="num font-medium">{project.commercial_date ? `${fmtDate(project.commercial_date)} (${daysBetween(asOf, project.commercial_date)} days)` : project.commercial_label}</div>
           </div>
         </div>
       </Panel>
@@ -172,12 +172,10 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
         </p>
       </div>
       {action && (
-        <div className="mx-4 mt-2 flex items-center gap-3 rounded-md border border-blue-500/40 bg-blue-500/5 px-3 py-2">
-          <div className="min-w-0 flex-1">
-            <div className="text-[11px] font-semibold text-[#0B6DA6]">Recommended action</div>
-            <p className="line-clamp-2 text-[13px] font-medium leading-snug">{action.action}</p>
-          </div>
-          <ActionButtons item={action} compact />
+        <div className="mx-4 mt-2 rounded-md border border-blue-500/40 bg-blue-500/5 px-3 py-2">
+          <div className="text-[11px] font-semibold text-[#0B6DA6]">Recommended action</div>
+          <p className="text-[13px] font-medium leading-snug">{action.action}</p>
+          <div className="mt-1.5"><ActionButtons item={action} compact /></div>
         </div>
       )}
       <div className="px-4 pt-1">
@@ -191,7 +189,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
           </button>
         ))}
       </div>
-      <div className="min-h-0 flex-1 overflow-hidden px-4 py-2 text-[13px]">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-2 text-[13px]">
         {tab === "evidence" && (
           <>
             <ul className="space-y-1">
@@ -202,7 +200,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
                     <span className="min-w-0">
                       <span className="font-medium">{docOf(m.doc_id).title}</span>
                       <span className="text-muted-ink"> · {STATUS_WORDS[m.status] ?? m.status}</span>
-                      {(m.evidence_quote || m.description) && <span className="line-clamp-1 text-[12px] text-muted-ink">{m.evidence_quote ? `“${m.evidence_quote.replace(/\*\*/g, "")}”` : m.description}</span>}
+                      {(m.evidence_quote || m.description) && <span className="block text-[12px] text-muted-ink">{m.evidence_quote ? `“${m.evidence_quote.replace(/\*\*/g, "")}”` : m.description}</span>}
                     </span>
                   </button>
                 </li>
@@ -220,7 +218,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
                   <span className="min-w-0">
                     <span className="font-medium">{ruleWords(a.rule, a.severity)}</span>
                     <span className="num text-muted-ink"> · {fmtDate(a.fired_on)}</span>
-                    <span className="line-clamp-2 text-[12px] text-muted-ink">{a.explanation}</span>
+                    <span className="block text-[12px] text-muted-ink">{a.explanation}</span>
                   </span>
                 </li>
               ))}
@@ -235,7 +233,7 @@ function IssueDetail({ issue, tab, setTab }: { issue: Issue; tab: Tab; setTab: (
                 const left = t.deadline ? daysBetween(asOf, t.deadline) : null
                 return (
                   <li key={t.id}>
-                    <span className="line-clamp-1">“{t.condition_text}”</span>
+                    <span className="block">“{t.condition_text}”</span>
                     <span className="num text-[12px] text-muted-ink">
                       Declared {fmtDate(t.declared_on)} · {t.deadline ? `deadline ${fmtDate(t.deadline)}, ${left! >= 0 ? `${left} days remaining` : `passed ${-left!} days ago`}` : "no date could be set"}
                     </span>
@@ -281,7 +279,7 @@ function SeenBefore({ issue }: { issue: Issue }) {
                 {m.reasons.map((r) => <span key={r} className="rounded-sm bg-bg px-1.5 py-0.5 text-[11px] text-muted-ink">{r}</span>)}
               </div>
               <div className="flex items-center gap-2">
-                <span className="line-clamp-1 flex-1 text-[12px] text-muted-ink">{m.explanation}</span>
+                <span className="flex-1 text-[12px] text-muted-ink">{m.explanation}</span>
                 {(["relevant", "not relevant"] as const).map((k) => (
                   <button key={k} aria-pressed={v === k}
                     onClick={() => { writeFb(m.id, k); setFb({ ...fb, [m.id]: k }) }}
