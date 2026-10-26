@@ -93,7 +93,7 @@ export function ActionDetail({ item }: { item: ActionItem }) {
       </div>
 
       {item.lastTime && (
-        <div className="shrink-0 rounded-md bg-bg px-3 py-2 text-[13px]">
+        <div className="shrink-0 border-t border-line pt-2 text-[13px]">
           <div className="mb-0.5 flex items-center justify-between">
             <h3 className="flex items-center gap-1 text-[12px] font-semibold text-muted-ink"><History size={13} aria-hidden />{item.lastTime.kind === "incident" ? "Last time" : "Lesson from Netherwood"}</h3>
             {item.lastTime.prior && (
