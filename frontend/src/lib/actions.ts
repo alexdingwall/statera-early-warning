@@ -74,7 +74,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       if (chase !== null) why.push(`At least ${chase} ${chase === 1 ? "chase" : "chases"} recorded${waiting ? `, waiting on ${cpLabel}` : ""}.`)
       const t = upcoming ?? passed
       if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text}”.`)
-      if (impact) why.push(`Already affecting the programme (${docById(b, latest.doc_id).title}, ${fmtDate(impact.fired_on)}).`)
+      if (impact) why.push(`Already affecting the programme (${docById(b, (ms.find((m) => m.date === impact.fired_on) ?? latest).doc_id).title}, ${fmtDate(impact.fired_on)}).`)
       if (!why.length) why.push(alerts[0].explanation)
 
       const snap = latestSnapshot(b, project.id, asOf)
@@ -110,10 +110,20 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
     }
   }
 
-  return items
+  const ranked = items
     .filter((i) => issueStatusOn(i.issue, asOf) !== "resolved")
     // Still preventable first, then problems already hurting the programme; then severity, then nearest date.
     .sort((a, b) => Number(a.affecting) - Number(b.affecting) || sevRank(b.severity) - sevRank(a.severity) || a.urgency - b.urgency || a.issue.first_seen.localeCompare(b.issue.first_seen))
+
+  // The model sometimes splits one report into several issues about the same counterparty. One decision, not three.
+  const kept: ActionItem[] = []
+  for (const it of ranked) {
+    const cp = it.issue.counterparty
+    const twin = cp && cp !== "internal" ? kept.find((k) => k.project === it.project && k.issue.counterparty === cp && k.issue.first_seen === it.issue.first_seen) : undefined
+    if (twin) twin.why.push(`Also recorded in the same report: ${it.issue.title}.`)
+    else kept.push(it)
+  }
+  return kept
 }
 
 export type ActionState = "escalated" | "acknowledged" | "snoozed"
