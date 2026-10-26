@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { PROJECT_COLOUR, StatusDot } from "@/components/ui-bits"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { SourceDrawer } from "@/components/SourceDrawer"
+import { Key } from "@/components/Key"
 
 const JUMPS = [
   { label: "Ashfield first raises DNO date (21 Mar 2025)", date: "2025-03-21" },
@@ -90,6 +91,7 @@ export function Shell() {
                 Generated {bundle.meta.generated_at} · prompt {bundle.meta.prompt_version}
               </TooltipContent>
             </Tooltip>
+            <Key />
             <Tooltip>
               <TooltipTrigger render={<button aria-label="Keyboard shortcuts" className="rounded-sm p-1.5 text-white/80 hover:bg-white/10" />}>
                 <Keyboard size={16} />

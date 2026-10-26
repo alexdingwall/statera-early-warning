@@ -87,7 +87,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       if (chase !== null) why.push(`At least ${chase} ${chase === 1 ? "chase" : "chases"} recorded${waiting ? `, waiting on ${cpLabel}` : ""}.`)
       const t = upcoming ?? passed
       if (t) why.push(`The ${fmtDate(t.declared_on)} report said: “${t.condition_text.replace(/[.\s]+$/, "")}”.`)
-      if (impact) why.push(`Already affecting the programme (${docById(b, (ms.find((m) => m.date === impact.fired_on) ?? latest).doc_id).title}, ${fmtDate(impact.fired_on)}).`)
+      if (impact) why.push(`Reported on ${fmtDate(impact.fired_on)} in ${docById(b, (ms.find((m) => m.date === impact.fired_on) ?? latest).doc_id).title}.`)
       if (!why.length) why.push(alerts[0]?.explanation ?? "Open, and no warning has been raised on it yet.")
 
       const snap = latestSnapshot(b, project.id, asOf)
@@ -141,7 +141,7 @@ export function buildActions(b: Bundle, asOf: string): ActionItem[] {
       ? kept.find((k) => (k.tier === "now" || k.tier === "prepare") && k.project === it.project && k.issue.counterparty === cp && k.issue.first_seen === it.issue.first_seen
         && (it.tier !== "watch" || k.issue.category === it.issue.category))
       : undefined
-    if (lead) { lead.also.push({ id: it.issue.id, title: it.issue.title }); lead.why.push(`Also recorded in the same report: ${it.issue.title}.`) }
+    if (lead) { lead.also.push({ id: it.issue.id, title: it.issue.title }) }
     else kept.push(it)
   }
   return kept

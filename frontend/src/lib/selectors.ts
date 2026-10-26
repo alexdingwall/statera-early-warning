@@ -175,7 +175,7 @@ export const previousReportDate = (b: Bundle, asOf: string): string | null => {
   return dates.length >= 2 ? dates[dates.length - 2] : null
 }
 
-export interface NewItem { date: string; project: string; issueId: string; text: string; severity?: Severity }
+export interface NewItem { date: string; project: string; issueId: string; text: string; kind: "issue" | "warning" | "resolved"; severity?: Severity }
 
 /** Plain-words changes after the previous report and up to asOf: new issues, new warnings, resolutions. */
 export const changesSince = (b: Bundle, asOf: string): { from: string | null; items: NewItem[] } => {
@@ -183,11 +183,11 @@ export const changesSince = (b: Bundle, asOf: string): { from: string | null; it
   const inWin = (d: string) => (!from || d > from) && d <= asOf
   const out: NewItem[] = []
   for (const i of b.issues) {
-    if (inWin(i.first_seen)) out.push({ date: i.first_seen, project: i.project, issueId: i.id, text: `New issue: ${i.title}` })
-    for (const m of i.mentions) if (m.status === "resolved" && inWin(m.date)) out.push({ date: m.date, project: i.project, issueId: i.id, text: `Resolved: ${i.title}` })
+    if (inWin(i.first_seen)) out.push({ date: i.first_seen, project: i.project, issueId: i.id, kind: "issue", text: `New issue: ${i.title}` })
+    for (const m of i.mentions) if (m.status === "resolved" && inWin(m.date)) out.push({ date: m.date, project: i.project, issueId: i.id, kind: "resolved", text: `Resolved: ${i.title}` })
   }
   for (const a of b.alerts) {
-    if (a.severity !== "info" && inWin(a.fired_on)) out.push({ date: a.fired_on, project: a.project, issueId: a.issue_id, severity: a.severity, text: `New warning on ${a.title}` })
+    if (a.severity !== "info" && inWin(a.fired_on)) out.push({ date: a.fired_on, project: a.project, issueId: a.issue_id, kind: "warning", severity: a.severity, text: `New warning on ${a.title}` })
   }
   return { from, items: out.sort((x, y) => y.date.localeCompare(x.date) || x.text.localeCompare(y.text)) }
 }

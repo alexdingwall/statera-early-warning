@@ -32,6 +32,24 @@ export function Portfolio() {
     const hit = all.find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
     if (hit) { setTab("todo"); setSel(hit.issue.id) } else navigate(`/project/${project}?issue=${issueId}`)
   }
+  /** One line per project, folded the way the queue folds related issues. */
+  const summary = useMemo(() => {
+    const lead = (id: string) => all.find((i) => i.issue.id === id || i.also.some((a) => a.id === id))?.issue.id ?? id
+    const by = new Map<string, { project: string; firstId: string; issues: Set<string>; warnings: Set<string>; resolved: Set<string> }>()
+    for (const n of news.items) {
+      const g = by.get(n.project) ?? { project: n.project, firstId: lead(n.issueId), issues: new Set(), warnings: new Set(), resolved: new Set() }
+      by.set(n.project, g)
+      const id = lead(n.issueId)
+      if (n.kind === "issue") g.issues.add(id); else if (n.kind === "warning") g.warnings.add(id); else g.resolved.add(id)
+    }
+    const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`
+    return [...by.values()].map((g) => {
+      const warnOnly = [...g.warnings].filter((id) => !g.issues.has(id))
+      return { project: g.project, firstId: g.firstId, parts: [
+        g.issues.size && `${plural(g.issues.size, "new issue")}`, warnOnly.length && `${plural(warnOnly.length, "new warning")}`, g.resolved.size && `${g.resolved.size} resolved`,
+      ].filter(Boolean) as string[] }
+    }).filter((g) => g.parts.length)
+  }, [news, all])
   const todo = all.filter((i) => !dec(i).handled)
   const done = all.filter((i) => dec(i).handled)
   const list = tab === "todo" ? todo : done
@@ -47,15 +65,15 @@ export function Portfolio() {
         {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} />)}
       </div>
 
-      {news.items.length > 0 && (
-        <div className="flex shrink-0 flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="New since the previous report">
+      {summary.length > 0 && (
+        <div className="flex shrink-0 flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="New since the previous report">
           <span className="font-semibold">{news.from ? `New since ${fmtDate(news.from)}` : "New"}</span>
-          {news.items.slice(0, 4).map((n) => (
-            <button key={n.issueId + n.text} onClick={() => openNew(n.issueId, n.project)} className="text-left hover:underline">
-              <span className="capitalize text-muted-ink">{n.project}</span> · {n.text}
+          {summary.map((g) => (
+            <button key={g.project} onClick={() => openNew(g.firstId, g.project)} className="text-left hover:underline">
+              <span className="capitalize">{g.project}</span>
+              <span className="text-muted-ink">: {g.parts.join(", ")}</span>
             </button>
           ))}
-          {news.items.length > 4 && <span className="text-muted-ink">and {news.items.length - 4} more</span>}
         </div>
       )}
 
@@ -76,14 +94,13 @@ export function Portfolio() {
                   className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected?.issue.id === i.issue.id && "bg-accent")}>
                   <SeverityIcon severity={i.severity} />
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[13px] font-medium">{i.issue.title}{isNew(i) && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
+                    <span className="block text-[13px] font-medium">{i.issue.title}{isNew(i) && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
                     <span className="block text-[12px] text-muted-ink">
                       <span className="capitalize">{i.project}</span>
                       {" · "}
                       {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}{dec(i).reopened ? " · back: new information" : ""}
                     </span>
                   </span>
-                  <span className="size-2 shrink-0 rounded-full" style={{ background: PROJECT_COLOUR[i.project] }} aria-hidden />
                 </button>
               </li>
             ))}
