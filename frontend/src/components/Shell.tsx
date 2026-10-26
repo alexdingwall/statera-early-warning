@@ -9,6 +9,7 @@ import { PROJECT_COLOUR, StatusDot } from "@/components/ui-bits"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { SourceDrawer } from "@/components/SourceDrawer"
 import { Key } from "@/components/Key"
+import { OutcomeBanner } from "@/components/OutcomeBanner"
 
 const JUMPS = [
   { label: "Ashfield first raises DNO date (21 Mar 2025)", date: "2025-03-21" },
@@ -162,7 +163,7 @@ export function Shell() {
                       <span className="flex-1">{n.label}</span>
                       {n.project && hasDocs && <StatusDot status={st} />}
                       {n.to === "/alerts" && <span className="num rounded-sm bg-white/15 px-1.5 text-[12px]" aria-label={`${recent} alerts in the last 14 days`}>{recent}</span>}
-                      <span className="sr-only">Shortcut {i + 1}</span>
+                      <span className="num w-3 text-right text-[11px] text-white/40" aria-label={`Shortcut: press ${i + 1}`}>{i + 1}</span>
                     </>
                   )}
                 </NavLink>
@@ -170,6 +171,7 @@ export function Shell() {
             })}
           </nav>
           <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-4">
+            <OutcomeBanner />
             <Outlet />
           </main>
         </div>

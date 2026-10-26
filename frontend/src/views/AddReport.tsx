@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { API, useStore } from "@/store"
-import { DOC_TYPE_LABEL, fmtDate } from "@/lib/format"
+import { DOC_TYPE_LABEL, fmtDate, STATUS_WORDS } from "@/lib/format"
 import { changesSince } from "@/lib/selectors"
 import { btn, btnPrimary, Panel } from "@/components/ui-bits"
 import type { Bundle } from "@/types"
@@ -32,7 +32,7 @@ export function AddReport() {
   const [online, setOnline] = useState<boolean | null>(null)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [done, setDone] = useState<{ title: string; date: string; items: ReturnType<typeof changesSince>["items"]; from: string | null } | null>(null)
+  const [done, setDone] = useState<{ title: string; date: string; items: ReturnType<typeof changesSince>["items"]; from: string | null; found: { title: string; status: string; quote: string }[] } | null>(null)
   const [f, setF] = useState({ file: "", text: "", project: "", type: "weekly_report", date: "", title: "", author: "" })
   const added = bundle.documents.filter((d) => d.uploaded)
   const ok = !!(f.text.trim() && f.project && f.date && f.title.trim() && f.file)
@@ -66,7 +66,8 @@ export function AddReport() {
       setBundle(next)
       if (method === "POST") {
         const c = changesSince(next, f.date)
-        setDone({ title: f.title, date: f.date, items: c.items, from: c.from })
+        const found = next.issues.flatMap((i) => i.mentions.filter((m) => m.doc_id === body.doc_id).map((m) => ({ title: i.title, status: m.status, quote: (m.evidence_quote ?? m.description).replace(/\*\*/g, "") })))
+        setDone({ title: f.title, date: f.date, items: c.items, from: c.from, found })
         setAsOf(f.date)
       }
     } catch (e) {
@@ -128,9 +129,19 @@ export function AddReport() {
       {done && (
         <div className="mt-5 max-w-[640px] rounded-md border border-blue-500/40 bg-blue-500/5 p-3 text-[13px]">
           <p className="font-semibold">Added “{done.title}”, dated {fmtDate(done.date)}.</p>
+          {done.found.length > 0 && (
+            <>
+              <p className="mt-1 text-muted-ink">What the model found in this report:</p>
+              <ul className="mt-0.5 space-y-1 pl-1">
+                {done.found.map((x) => (
+                  <li key={x.title}><span className="font-medium">{x.title}</span> <span className="text-muted-ink">· {STATUS_WORDS[x.status] ?? x.status}</span><span className="block text-[12px] text-muted-ink">“{x.quote}”</span></li>
+                ))}
+              </ul>
+            </>
+          )}
           {done.items.length ? (
             <>
-              <p className="mt-1 text-muted-ink">What changed {done.from ? `since ${fmtDate(done.from)}` : ""}:</p>
+              <p className="mt-2 text-muted-ink">What changed {done.from ? `since ${fmtDate(done.from)}` : ""}:</p>
               <ul className="mt-0.5 list-disc space-y-0.5 pl-5">
                 {done.items.slice(0, 6).map((n) => <li key={n.issueId + n.text}><span className="capitalize">{n.project}</span> · {n.text}</li>)}
               </ul>

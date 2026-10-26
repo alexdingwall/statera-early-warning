@@ -55,6 +55,11 @@ export function Key() {
             <Row mark={dot("bg-amber")}>Watch: an amber warning is active.</Row>
             <Row mark={dot("bg-green")}>On track: no red or amber warnings.</Row>
           </Group>
+          <Group title="Project tiles">
+            <Row mark={<span className="rounded-sm bg-bg px-1.5 py-px text-[11px] font-medium text-muted-ink">Reported</span>}>What the project’s own latest report says.</Row>
+            <Row mark={<span className="rounded-sm bg-bg px-1.5 py-px text-[11px] font-medium text-muted-ink">Evidence</span>}>What the system finds from all the reports. When the two disagree, the tile says so.</Row>
+            <Row mark={<span className="num text-[12px] font-medium text-muted-ink">1–9</span>}>Number keys jump to the menu items. Arrow keys step between reports. Space plays.</Row>
+          </Group>
           <Group title="Inside an issue">
             <Row mark={dot("bg-blue-500")}>A report that mentioned the issue.</Row>
             <Row mark={<Flag size={14} className="text-navy-600" aria-hidden />}>A deadline the report itself set.</Row>

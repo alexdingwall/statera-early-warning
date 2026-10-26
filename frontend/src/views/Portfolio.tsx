@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState } from "react"
 import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { useStore } from "@/store"
 import { fmtDate } from "@/lib/format"
+import { buildActions, decisionFor, TIER_WORDS, type ActionItem } from "@/lib/actions"
 import { watchOn } from "@/lib/watch"
-import { buildActions, decisionFor, TIER_WORDS } from "@/lib/actions"
 import { changesSince, docsUpTo, headlineFor, latestSnapshot, statusOn } from "@/lib/selectors"
 import { ActionDetail } from "@/components/ActionDetail"
 import { EvidencePill, Pager, Panel, PROJECT_COLOUR, ReportedPill, SeverityIcon } from "@/components/ui-bits"
@@ -17,7 +17,11 @@ export function Portfolio() {
   const bundle = useStore((s) => s.bundle)!
   const asOf = useStore((s) => s.asOf)
   const actions = useStore((s) => s.actions)
-  const all = useMemo(() => buildActions(bundle, asOf).filter((i) => i.tier === "now" || i.tier === "prepare"), [bundle, asOf])
+  const every = useMemo(() => buildActions(bundle, asOf), [bundle, asOf])
+  const all = useMemo(() => every.filter((i) => i.tier === "now" || i.tier === "prepare"), [every])
+  /** Open issues whose report has already set a deadline, before any warning has fired. */
+  const radar = useMemo(() => every.filter((i) => i.tier === "watch" && i.daysLeft !== null && i.daysLeft >= 0), [every])
+  const watching = useMemo(() => watchOn(bundle, asOf), [bundle, asOf])
   const [tab, setTab] = useState<"todo" | "done">("todo")
   const [params] = useSearchParams()
   const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
@@ -34,7 +38,7 @@ export function Portfolio() {
   }
   /** One line per project, folded the way the queue folds related issues. */
   const summary = useMemo(() => {
-    const lead = (id: string) => all.find((i) => i.issue.id === id || i.also.some((a) => a.id === id))?.issue.id ?? id
+    const lead = (id: string) => every.find((i) => i.issue.id === id || i.also.some((a) => a.id === id))?.issue.id ?? id
     const by = new Map<string, { project: string; firstId: string; issues: Set<string>; warnings: Set<string>; resolved: Set<string> }>()
     for (const n of news.items) {
       const g = by.get(n.project) ?? { project: n.project, firstId: lead(n.issueId), issues: new Set(), warnings: new Set(), resolved: new Set() }
@@ -44,18 +48,19 @@ export function Portfolio() {
     }
     const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`
     return [...by.values()].map((g) => {
-      const warnOnly = [...g.warnings].filter((id) => !g.issues.has(id))
       return { project: g.project, firstId: g.firstId, parts: [
-        g.issues.size && `${plural(g.issues.size, "new issue")}`, warnOnly.length && `${plural(warnOnly.length, "new warning")}`, g.resolved.size && `${g.resolved.size} resolved`,
+        g.issues.size && `${plural(g.issues.size, "new issue")}`, g.warnings.size && `${plural(g.warnings.size, "new warning")}`, g.resolved.size && `${g.resolved.size} resolved`,
       ].filter(Boolean) as string[] }
     }).filter((g) => g.parts.length)
-  }, [news, all])
+  }, [news, every])
   const todo = all.filter((i) => !dec(i).handled)
   const done = all.filter((i) => dec(i).handled)
   const list = tab === "todo" ? todo : done
   const pages = Math.max(1, Math.ceil(list.length / PAGE))
   useEffect(() => setPage(0), [tab, asOf])
-  const selected = list.find((i) => i.issue.id === sel) ?? list[0]
+  const pool = tab === "todo" ? [...list, ...radar] : list
+  // Open on the item that came back with new information, else the most urgent
+  const selected = pool.find((i) => i.issue.id === sel) ?? list.find((i) => dec(i).reopened) ?? list[0] ?? pool[0]
   const rows = list.slice(page * PAGE, page * PAGE + PAGE)
 
   return (
@@ -64,6 +69,18 @@ export function Portfolio() {
       <div className="grid shrink-0 grid-cols-3 gap-3">
         {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} />)}
       </div>
+
+      {watching.length > 0 && (
+        <div className="flex shrink-0 flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="On watch">
+          <span className="font-semibold">On watch</span>
+          {[...new Set(watching.map((w) => w.note.project))].map((proj) => (
+            <Link key={proj} to={`/project/${proj}`} className="hover:underline">
+              <span className="capitalize">{proj}</span>
+              <span className="text-muted-ink">: {watching.filter((w) => w.note.project === proj).map((w) => w.title).join("; ")}</span>
+            </Link>
+          ))}
+        </div>
+      )}
 
       {summary.length > 0 && (
         <div className="flex shrink-0 flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="New since the previous report">
@@ -90,21 +107,18 @@ export function Portfolio() {
             {rows.map((i, n) => (
               <li key={i.issue.id}>
                 {(n === 0 || rows[n - 1].tier !== i.tier) && <h3 className="px-2 pb-0.5 pt-1 text-[12px] font-semibold text-muted-ink">{TIER_WORDS[i.tier]}</h3>}
-                <button onClick={() => setSel(i.issue.id)} aria-current={selected?.issue.id === i.issue.id}
-                  className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected?.issue.id === i.issue.id && "bg-accent")}>
-                  <SeverityIcon severity={i.severity} />
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-[13px] font-medium">{i.issue.title}{isNew(i) && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
-                    <span className="block text-[12px] text-muted-ink">
-                      <span className="capitalize">{i.project}</span>
-                      {" · "}
-                      {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}{dec(i).reopened ? " · back: new information" : ""}
-                    </span>
-                  </span>
-                </button>
+                <QueueRow item={i} selected={selected?.issue.id === i.issue.id} isNew={isNew(i)} reopened={!!dec(i).reopened} onPick={() => setSel(i.issue.id)} />
               </li>
             ))}
-            {rows.length === 0 && (
+            {tab === "todo" && radar.length > 0 && (
+              <>
+                <li><h3 className="px-2 pb-0.5 pt-2 text-[12px] font-semibold text-muted-ink">On the radar: the report has set a deadline</h3></li>
+                {radar.map((i) => (
+                  <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
+                ))}
+              </>
+            )}
+            {rows.length === 0 && radar.length === 0 && (
               <li className="px-3 py-4 text-[13px] text-muted-ink">
                 {tab === "todo" ? `Nothing needs a decision as of ${fmtDate(asOf)}.` : "No actions handled yet."}
               </li>
@@ -162,5 +176,22 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
         </>
       )}
     </Link>
+  )
+}
+
+function QueueRow({ item: i, selected, isNew, reopened, onPick }: { item: ActionItem; selected: boolean; isNew: boolean; reopened: boolean; onPick: () => void }) {
+  return (
+    <button onClick={onPick} aria-current={selected}
+      className={cn("flex min-h-[54px] w-full items-center gap-2.5 rounded-md px-2 text-left hover:bg-bg", selected && "bg-accent")}>
+      <span className="w-4 shrink-0">{i.severity !== "info" && <SeverityIcon severity={i.severity} />}</span>
+      <span className="min-w-0 flex-1">
+        <span className="block text-[13px] font-medium">{i.issue.title}{isNew && <span className="ml-1.5 rounded-sm bg-blue-500/15 px-1.5 py-px text-[11px] font-medium text-[#0B6DA6]">New</span>}</span>
+        <span className="block text-[12px] text-muted-ink">
+          <span className="capitalize">{i.project}</span>
+          {" · "}
+          {i.daysLeft !== null ? `report says by ${fmtDate(i.decideBy!)} (${i.daysLeft === 0 ? "due today" : `${i.daysLeft} days`})` : i.alerts.some((a) => a.rule === "IMPACT") ? "already affecting programme" : "no date in the report"}{reopened ? " · back: new information" : ""}
+        </span>
+      </span>
+    </button>
   )
 }
