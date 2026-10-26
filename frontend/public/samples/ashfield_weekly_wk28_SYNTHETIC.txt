@@ -1,0 +1,32 @@
+[SYNTHETIC SAMPLE. Written for the demo of adding a report. Not one of the Statera sample documents.]
+
+Ashfield weekly - week ending 11/07/2025
+
+PM: J. Patel
+
+PROGRAMME
+Baseline energisation 14/11/2025
+Current forecast 28/11/2025
+Float: zero, in delay
+
+PROGRESS
+Commissioning preparation is under way. Mechanical and electrical
+installation remain complete.
+
+ISSUES
+DNO connection works date of 10/11/2025 now confirmed in writing
+by the account manager, following the formal escalation. This still
+leaves no contingency before the 14/11 energisation baseline, and
+the forecast of 28/11 relies on the works finishing on time. A request
+to bring the works forward has gone to the account manager; no answer yet.
+
+Switchroom cable entry snagging is still outstanding. The contractor
+has not given a return date. It has been open since week 19.
+
+Commercial implication: capacity market delivery start is 01/12/2025.
+The 28/11 forecast leaves three days. Any further slip puts the
+delivery start at risk.
+
+ACTIONS
+- Chase the DNO account manager for an answer on bringing the works forward
+- Contractor to give a return date for the switchroom snagging

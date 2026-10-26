@@ -71,7 +71,8 @@ def run(res) -> None:
 
     gold_total = sum(len(g["mentions"]) for g in gold["issues"])
     n_pairs = len(pairs)
-    mentions = res.mentions
+    labelled = {gm["doc"] for gi in gold["issues"] for gm in gi["mentions"]}
+    mentions = [m for m in res.mentions if m.doc_id in labelled]   # reports added later have no human labels
     by_id = {m.id: m for m in mentions}
 
     cat_ok = sum(by_id[mid].category == gi["category"] for mid, (_, gi, _) in pairs.items())

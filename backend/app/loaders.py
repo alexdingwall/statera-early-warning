@@ -44,10 +44,11 @@ def _yaml(path):
 def load_all() -> Data:
     manifest = _yaml(DATA / "manifest.yaml")
     docs = []
-    for m in manifest["documents"]:
-        path = DOCS / m["file"]
+    from . import intake
+    for m in [*manifest["documents"], *intake.load_entries()]:
+        path = (intake.UPLOAD_DIR if m.get("uploaded") else DOCS) / m["file"]
         if not path.exists():
-            raise FileNotFoundError(f"Manifest document missing from data/docs: {m['file']}")
+            raise FileNotFoundError(f"Manifest document missing: {path}")
         docs.append(Document(
             id=m["id"], file=m["file"], project=m["project"], doc_type=m["doc_type"],
             date=m["date"], author=m.get("author"), title=m["title"],

@@ -1,0 +1,59 @@
+{
+  "request": {
+    "model": "qwen3:8b",
+    "prompt_version": "v2",
+    "system": "You extract project issues from documents about building grid-scale battery storage sites.\nReturn JSON that matches the schema exactly.\n\nDefinitions and rules:\n- An issue is a risk, problem, delay, unanswered dependency, constraint or past incident that affects or could affect programme, cost or handover. Work that is simply complete is not an issue. Cost line items in a budget are not issues unless the document calls them a problem or risk; a cost overrun as a whole may be one issue.\n- Return one mention per distinct underlying issue in this document. Do not split one issue into several: items from one checklist or list of outstanding items (for example handover items) are one issue. Do not merge unrelated issues.\n- title: at most 10 words, neutral wording, no project name. Name the underlying problem (what went wrong, or what is awaited), never the document's lesson, meeting or conclusion about it.\n- description: one or two plain sentences.\n- category, choose the single best fit:\n  grid_connection = connection works, dates or approvals from the network operator;\n  planning = planning permission or planning condition discharge, including documents owed for a condition;\n  procurement_supplier = equipment orders, lead times and supplier delivery (for example transformers);\n  contractor_performance = a contractor's own workmanship or conduct, when no other category fits better;\n  site_access = roads, tracks, crane or delivery access to the site;\n  ground_conditions = drainage, standing water, soil, ground investigation;\n  environmental = ecology, nesting seasons, hedgerows, protected species;\n  weather = weather delays;\n  commissioning = testing, snagging, software or firmware on installed equipment;\n  handover = handover to operations, documentation, training, spares;\n  cost = cost overruns and variations;\n  other = anything else.\n- counterparty_role: who the issue depends on or was caused by. Use one of: DNO, civils contractor, contractor, transformer supplier, LPA, landowner, internal. Use null if none is clear.\n- status:\n  open = unresolved as of this document and not yet causing a confirmed slip;\n  resolved = the document says it is done or closed;\n  materialised = in a current progress report, the issue has now caused a programme slip or a confirmed adverse date;\n  occurred = a past incident described in a retrospective, summary or lessons document, whatever its impact was.\n- awaiting_third_party: true if the team is waiting on a response or deliverable from someone outside the project team.\n- chase_count: the number of chases or requests the document states for this issue, otherwise null.\n- programme_impact: realised if a slip has happened, potential if the document says it could affect the programme, otherwise none_stated.\n- triggers: normally an empty list. Add a trigger only when a sentence in the document states a condition or a time limit after which the issue becomes critical or the programme is at risk (for example \"if X does not happen within two weeks\", \"will become critical if it slips past June\", \"will change if ... into the autumn\"). The document date, a month in which the document was written, or a forecast energisation date is never a trigger. condition_text must be copied from that sentence. Resolve deadline_date to yyyy-mm-dd using the document date 2025-07-11: a named month means the last day of that month; \"within N weeks\" means the document date plus N weeks; \"autumn\" means 1 September of that year. If it cannot be resolved, use null.\n- evidence_quote: copy an exact, contiguous piece of the document text, at most 200 characters, that supports the mention. Do not paraphrase.\n- programme: fill only values the document states. Dates as yyyy-mm-dd. Use null otherwise.",
+    "tag": "extract-up-1-ashfield-weekly-wk28-synthetic",
+    "user": "Document date: 2025-07-11\nProject: ashfield\nDocument type: weekly_report\n\n---\n[SYNTHETIC SAMPLE. Written for the demo of adding a report. Not one of the Statera sample documents.]\n\nAshfield weekly - week ending 11/07/2025\n\nPM: J. Patel\n\nPROGRAMME\nBaseline energisation 14/11/2025\nCurrent forecast 28/11/2025\nFloat: zero, in delay\n\nPROGRESS\nCommissioning preparation is under way. Mechanical and electrical\ninstallation remain complete.\n\nISSUES\nDNO connection works date of 10/11/2025 now confirmed in writing\nby the account manager, following the formal escalation. This still\nleaves no contingency before the 14/11 energisation baseline, and\nthe forecast of 28/11 relies on the works finishing on time. A request\nto bring the works forward has gone to the account manager; no answer yet.\n\nSwitchroom cable entry snagging is still outstanding. The contractor\nhas not given a return date. It has been open since week 19.\n\nCommercial implication: capacity market delivery start is 01/12/2025.\nThe 28/11 forecast leaves three days. Any further slip puts the\ndelivery start at risk.\n\nACTIONS\n- Chase the DNO account manager for an answer on bringing the works forward\n- Contractor to give a return date for the switchroom snagging\n\n---"
+  },
+  "response": {
+    "mentions": [
+      {
+        "awaiting_third_party": true,
+        "category": "grid_connection",
+        "chase_count": 1,
+        "counterparty_role": "DNO",
+        "description": "The DNO connection works date of 10/11/2025 has been confirmed in writing following formal escalation.",
+        "evidence_quote": "DNO connection works date of 10/11/2025 now confirmed in writing by the account manager, following the formal escalation.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "DNO connection works confirmation",
+        "triggers": [
+          {
+            "condition_text": "A request to bring the works forward has gone to the account manager; no answer yet.",
+            "deadline_date": "2025-11-14"
+          }
+        ]
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "commissioning",
+        "chase_count": 1,
+        "counterparty_role": "contractor",
+        "description": "The switchroom cable entry snagging remains outstanding with no return date provided by the contractor.",
+        "evidence_quote": "Switchroom cable entry snagging is still outstanding. The contractor has not given a return date.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Switchroom cable entry snagging",
+        "triggers": []
+      },
+      {
+        "awaiting_third_party": false,
+        "category": "cost",
+        "chase_count": null,
+        "counterparty_role": "internal",
+        "description": "The forecast energisation date of 28/11/2025 leaves only three days before the capacity market delivery start date of 01/12/2025. Any further slip risks the delivery start.",
+        "evidence_quote": "Commercial implication: capacity market delivery start is 01/12/2025. The 28/11 forecast leaves three days. Any further slip puts the delivery start at risk.",
+        "programme_impact": "potential",
+        "status": "open",
+        "title": "Capacity market delivery start risk",
+        "triggers": []
+      }
+    ],
+    "programme": {
+      "baseline_energisation": "2025-11-14",
+      "float_days": 0,
+      "forecast_energisation": "2025-11-28"
+    }
+  }
+}
