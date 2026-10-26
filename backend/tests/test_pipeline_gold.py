@@ -81,3 +81,8 @@ def test_board_check(bundle):
     assert bc["budget"]["flag_vague"] is True
     assert 0.77 <= bc["budget"]["largest_share"] <= 0.78
     assert bc["budget"]["matches"] is True
+
+
+def test_lead_times(bundle):
+    rows = {r["label"]: r["days_earlier"] for r in bundle["evaluation"]["lead_time"]["rows"]}
+    assert rows == {"First warning": 59, "First red alert": 31, "Persistence rule alone": 48}

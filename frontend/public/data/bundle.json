@@ -1,0 +1,2520 @@
+{
+  "alerts": [
+    {
+      "explanation": "This issue has now affected the programme (Netherwood commissioning snag summary, 31 Dec 2024).",
+      "fired_on": "2024-12-31",
+      "id": "ALR-NET-001-IMPACT-red",
+      "issue_id": "NET-001",
+      "project": "netherwood",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Planning condition discharge delay"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Netherwood commissioning snag summary, 31 Dec 2024).",
+      "fired_on": "2024-12-31",
+      "id": "ALR-NET-002-IMPACT-red",
+      "issue_id": "NET-002",
+      "project": "netherwood",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Transformer delivery delay"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Netherwood commissioning snag summary, 31 Dec 2024).",
+      "fired_on": "2024-12-31",
+      "id": "ALR-NET-003-IMPACT-red",
+      "issue_id": "NET-003",
+      "project": "netherwood",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Inconsistent PCS firmware update"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Netherwood commissioning snag summary, 31 Dec 2024).",
+      "fired_on": "2024-12-31",
+      "id": "ALR-NET-004-IMPACT-red",
+      "issue_id": "NET-004",
+      "project": "netherwood",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Incomplete handover documentation"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Drumgarve transformer lead time issue, 7 Feb 2025).",
+      "fired_on": "2025-02-07",
+      "id": "ALR-DRU-001-IMPACT-red",
+      "issue_id": "DRU-001",
+      "project": "drumgarve",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Transformer supplier lead time extension"
+    },
+    {
+      "explanation": "Similar to Transformer delivery delay at Netherwood (31 Dec 2024). The earlier incident shows that revising lead time after an order caused a delay, similar to the current situation with the Drumgarve transformer.",
+      "fired_on": "2025-02-07",
+      "id": "ALR-DRU-001-PRIOR_INCIDENT-NET-002",
+      "issue_id": "DRU-001",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Transformer supplier lead time extension"
+    },
+    {
+      "explanation": "Similar to Contractor performance not shared between projects at Netherwood (5 Feb 2025). The Netherwood incident is relevant because the civils contractor's delay was not shared with Drumgarve, potentially affecting their transformer delivery timeline.",
+      "fired_on": "2025-02-07",
+      "id": "ALR-DRU-001-PRIOR_INCIDENT-NET-011",
+      "issue_id": "DRU-001",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Transformer supplier lead time extension"
+    },
+    {
+      "explanation": "Similar to Transformer delivery delay at Netherwood (31 Dec 2024). The earlier delay from the same supplier in Netherwood shows unreliable lead times, similar to the current issue in Drumgarve.",
+      "fired_on": "2025-02-07",
+      "id": "ALR-DRU-002-PRIOR_INCIDENT-NET-002",
+      "issue_id": "DRU-002",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Transformer supplier reliability concerns"
+    },
+    {
+      "explanation": "Similar to Contractor performance not shared between projects at Netherwood (5 Feb 2025). The earlier incident shows the civils contractor's delay at Netherwood wasn't shared with Drumgarve, affecting their planning.",
+      "fired_on": "2025-02-07",
+      "id": "ALR-DRU-002-PRIOR_INCIDENT-NET-011",
+      "issue_id": "DRU-002",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Transformer supplier reliability concerns"
+    },
+    {
+      "explanation": "On 21 Mar 2025 the report said: \"if it slips past June\". That point is 56 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-05-05",
+      "id": "ALR-ASH-002-TRIGGER-56",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "Raised in 2 documents in a row since 21 Mar 2025 and still open. Waiting on DNO (regional grid company). 1 chases recorded.",
+      "fired_on": "2025-05-16",
+      "id": "ALR-ASH-002-PERSISTENCE-amber",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "PERSISTENCE",
+      "severity": "amber",
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current snagging issue requiring contractor intervention.",
+      "fired_on": "2025-05-16",
+      "id": "ALR-ASH-004-PRIOR_INCIDENT-NET-001",
+      "issue_id": "ASH-004",
+      "project": "ashfield",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Snagging on switchroom cable entries"
+    },
+    {
+      "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood shows that issues were not escalated due to lack of a formal trigger, similar to the current snagging issue at Ashfield requiring contractor return.",
+      "fired_on": "2025-05-16",
+      "id": "ALR-ASH-004-PRIOR_INCIDENT-NET-010",
+      "issue_id": "ASH-004",
+      "project": "ashfield",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Snagging on switchroom cable entries"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Not currently in the risk register\". That point is 31 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-05-30",
+      "id": "ALR-DRU-003-TRIGGER-56",
+      "issue_id": "DRU-003",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "Narrow access track"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Worth a second look before foundation design is finalised\". That point is 31 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-05-30",
+      "id": "ALR-DRU-004-TRIGGER-56",
+      "issue_id": "DRU-004",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "Standing water on site"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Not currently in the risk register\". That point is 31 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-05-30",
+      "id": "ALR-DRU-005-TRIGGER-56",
+      "issue_id": "DRU-005",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "Hedgerow removal timing"
+    },
+    {
+      "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). Earlier delay in Netherwood due to civils contractor delaying traffic management plan is relevant as it shows similar contractor delays impacting start dates.",
+      "fired_on": "2025-05-30",
+      "id": "ALR-DRU-006-PRIOR_INCIDENT-NET-001",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Chased on site\". That point is 31 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-05-30",
+      "id": "ALR-DRU-006-TRIGGER-56",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "On 21 Mar 2025 the report said: \"if it slips past June\". That point is 28 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-02",
+      "id": "ALR-ASH-002-TRIGGER-28",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Not currently in the risk register\". That point is 28 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-02",
+      "id": "ALR-DRU-003-TRIGGER-28",
+      "issue_id": "DRU-003",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Narrow access track"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Worth a second look before foundation design is finalised\". That point is 28 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-02",
+      "id": "ALR-DRU-004-TRIGGER-28",
+      "issue_id": "DRU-004",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Standing water on site"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Not currently in the risk register\". That point is 28 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-02",
+      "id": "ALR-DRU-005-TRIGGER-28",
+      "issue_id": "DRU-005",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Hedgerow removal timing"
+    },
+    {
+      "explanation": "On 30 May 2025 the report said: \"Chased on site\". That point is 28 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-02",
+      "id": "ALR-DRU-006-TRIGGER-28",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "Raised in 2 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). 3 chases recorded.",
+      "fired_on": "2025-06-12",
+      "id": "ALR-DRU-006-PERSISTENCE-amber",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "PERSISTENCE",
+      "severity": "amber",
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "On 12 Jun 2025 the report said: \"If the contractor does not provide the analysis within two weeks that date is at risk\". That point is 20 days away (2 Jul 2025) and the issue is still open.",
+      "fired_on": "2025-06-12",
+      "id": "ALR-DRU-006-TRIGGER-28-2",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current issue with the landscaping species selection request not being addressed.",
+      "fired_on": "2025-06-12",
+      "id": "ALR-DRU-007-PRIOR_INCIDENT-NET-001",
+      "issue_id": "DRU-007",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood on 2025-02-05 involved unescalated early warnings about planning condition delays, similar to the current issue at Drumgarve where species selection details were not responded to.",
+      "fired_on": "2025-06-12",
+      "id": "ALR-DRU-007-PRIOR_INCIDENT-NET-010",
+      "issue_id": "DRU-007",
+      "project": "drumgarve",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "explanation": "On 12 Jun 2025 the report said: \"8 weeks elapsed against a statutory 8 week determination\". That point is 18 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-12",
+      "id": "ALR-DRU-007-TRIGGER-28",
+      "issue_id": "DRU-007",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "explanation": "Raised in 2 documents in a row since 30 May 2025 and still open.",
+      "fired_on": "2025-06-13",
+      "id": "ALR-DRU-003-PERSISTENCE-amber",
+      "issue_id": "DRU-003",
+      "project": "drumgarve",
+      "rule": "PERSISTENCE",
+      "severity": "amber",
+      "title": "Narrow access track"
+    },
+    {
+      "explanation": "Raised in 2 documents in a row since 30 May 2025 and still open.",
+      "fired_on": "2025-06-13",
+      "id": "ALR-DRU-005-PERSISTENCE-amber",
+      "issue_id": "DRU-005",
+      "project": "drumgarve",
+      "rule": "PERSISTENCE",
+      "severity": "amber",
+      "title": "Hedgerow removal timing"
+    },
+    {
+      "explanation": "Raised in 3 documents in a row since 30 May 2025 and still open. Waiting on Civils contractor (Netherwood, Drumgarve). 4 chases recorded.",
+      "fired_on": "2025-06-13",
+      "id": "ALR-DRU-006-PERSISTENCE-red",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "PERSISTENCE",
+      "severity": "red",
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "Raised in 2 documents in a row since 12 Jun 2025 and still open. Waiting on Landowner (Drumgarve).",
+      "fired_on": "2025-06-13",
+      "id": "ALR-DRU-007-PERSISTENCE-amber",
+      "issue_id": "DRU-007",
+      "project": "drumgarve",
+      "rule": "PERSISTENCE",
+      "severity": "amber",
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "explanation": "On 16 May 2025 the report said: \"within N weeks\". That point is 56 days away (16 Aug 2025) and the issue is still open.",
+      "fired_on": "2025-06-21",
+      "id": "ALR-ASH-002-TRIGGER-56-2",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "amber",
+      "stage_days": 56,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "The deadline set in the report on 21 Mar 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-ASH-002-TRIGGER-0",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "The deadline set in the report on 30 Jun 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-ASH-002-TRIGGER-0-2",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "On 30 Jun 2025 the report said: \"expected to be confirmed shortly\". That point is 0 days away (30 Jun 2025) and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-ASH-002-TRIGGER-28-2",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "The deadline set in the report on 30 May 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-DRU-003-TRIGGER-0",
+      "issue_id": "DRU-003",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Narrow access track"
+    },
+    {
+      "explanation": "The deadline set in the report on 30 May 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-DRU-004-TRIGGER-0",
+      "issue_id": "DRU-004",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Standing water on site"
+    },
+    {
+      "explanation": "The deadline set in the report on 30 May 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-DRU-005-TRIGGER-0",
+      "issue_id": "DRU-005",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Hedgerow removal timing"
+    },
+    {
+      "explanation": "The deadline set in the report on 30 May 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-DRU-006-TRIGGER-0",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "The deadline set in the report on 12 Jun 2025 (30 Jun 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-06-30",
+      "id": "ALR-DRU-007-TRIGGER-0",
+      "issue_id": "DRU-007",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "explanation": "The deadline set in the report on 12 Jun 2025 (2 Jul 2025) has been reached and the issue is still open.",
+      "fired_on": "2025-07-02",
+      "id": "ALR-DRU-006-TRIGGER-0-2",
+      "issue_id": "DRU-006",
+      "project": "drumgarve",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 0,
+      "title": "Missing swept path analysis"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Ashfield weekly report, week 27, 4 Jul 2025).",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-002-IMPACT-red",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "Raised in 3 documents in a row since 21 Mar 2025 and still open. Waiting on DNO (regional grid company).",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-002-PERSISTENCE-red",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "PERSISTENCE",
+      "severity": "red",
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Ashfield weekly report, week 27, 4 Jul 2025).",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-007-IMPACT-red",
+      "issue_id": "ASH-007",
+      "project": "ashfield",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Energisation date slipped by 14 days"
+    },
+    {
+      "explanation": "Similar to Planning condition discharge delay at Netherwood (31 Dec 2024). The earlier delay in Netherwood due to the civils contractor delaying the construction traffic management plan may be relevant as it similarly affected the start date, potentially impacting the energisation date in Ashfield.",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-007-PRIOR_INCIDENT-NET-001",
+      "issue_id": "ASH-007",
+      "project": "ashfield",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Energisation date slipped by 14 days"
+    },
+    {
+      "explanation": "Similar to Repeated issues not escalated at Netherwood (5 Feb 2025). The earlier incident at Netherwood shows that not escalating early warnings about delays led to issues, similar to the current Ashfield energisation date slip.",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-007-PRIOR_INCIDENT-NET-010",
+      "issue_id": "ASH-007",
+      "project": "ashfield",
+      "rule": "PRIOR_INCIDENT",
+      "severity": "info",
+      "title": "Energisation date slipped by 14 days"
+    },
+    {
+      "explanation": "This issue has now affected the programme (Ashfield weekly report, week 27, 4 Jul 2025).",
+      "fired_on": "2025-07-04",
+      "id": "ALR-ASH-008-IMPACT-red",
+      "issue_id": "ASH-008",
+      "project": "ashfield",
+      "rule": "IMPACT",
+      "severity": "red",
+      "title": "Capacity market agreement risk"
+    },
+    {
+      "explanation": "On 16 May 2025 the report said: \"within N weeks\". That point is 28 days away (16 Aug 2025) and the issue is still open.",
+      "fired_on": "2025-07-19",
+      "id": "ALR-ASH-002-TRIGGER-28-3",
+      "issue_id": "ASH-002",
+      "project": "ashfield",
+      "rule": "TRIGGER",
+      "severity": "red",
+      "stage_days": 28,
+      "title": "DNO final connection confirmation pending"
+    }
+  ],
+  "board_checks": [
+    {
+      "as_of": "2025-06-30",
+      "budget": {
+        "computed_total": 400000,
+        "flag_vague": true,
+        "items": [
+          {
+            "amount": 8000,
+            "label": "Second crane mobilisation"
+          },
+          {
+            "amount": 22000,
+            "label": "Civils weather delays"
+          },
+          {
+            "amount": 61000,
+            "label": "Additional cable containment"
+          },
+          {
+            "amount": 309000,
+            "label": "Contingency drawdown, various"
+          }
+        ],
+        "largest_label": "Contingency drawdown, various",
+        "largest_share": 0.7725,
+        "matches": true,
+        "stated_total": 400000
+      },
+      "claims": [
+        {
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2",
+            "ash-wk19#3",
+            "ash-wk19#1"
+          ],
+          "id": "CLM-ash-board-jun-1",
+          "reason": "Construction is not complete; DNO connection is pending and float is at 0 days.",
+          "section": "Headline",
+          "span": [
+            107,
+            129
+          ],
+          "text": "Construction complete.",
+          "verdict": "contradicted"
+        },
+        {
+          "evidence_mention_ids": [],
+          "id": "CLM-ash-board-jun-2",
+          "reason": "Forecast shows no float left, contradicting the 'in line with baseline' statement.",
+          "section": "Headline",
+          "span": [
+            130,
+            186
+          ],
+          "text": "Energisation forecast 14/11/2025, in line with baseline.",
+          "verdict": "contradicted"
+        },
+        {
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2",
+            "ash-wk19#3",
+            "ash-wk12#1"
+          ],
+          "id": "CLM-ash-board-jun-3",
+          "reason": "Evidence shows DNO connection issues are delaying the project, pushing delivery beyond 01/12/2025.",
+          "section": "Headline",
+          "span": [
+            187,
+            229
+          ],
+          "text": "Capacity market delivery start 01/12/2025.",
+          "verdict": "contradicted"
+        },
+        {
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2"
+          ],
+          "id": "CLM-ash-board-jun-4",
+          "reason": "Evidence shows DNO connection date is still pending, contradicting the statement that it is 'not yet confirmed'.",
+          "section": "Risks",
+          "span": [
+            438,
+            482
+          ],
+          "text": "DNO connection works date not yet confirmed.",
+          "verdict": "contradicted"
+        },
+        {
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2"
+          ],
+          "id": "CLM-ash-board-jun-5",
+          "reason": "DNO connection confirmation is pending and has triggered red alerts, indicating a significant risk, not low risk.",
+          "section": "Risks",
+          "span": [
+            483,
+            528
+          ],
+          "text": "Low risk, expected to be confirmed shortly.",
+          "verdict": "contradicted"
+        },
+        {
+          "evidence_mention_ids": [
+            "ash-wk19#2",
+            "ash-wk19#3",
+            "ash-wk12#2",
+            "ash-wk19#1",
+            "ash-wk12#1"
+          ],
+          "id": "CLM-ash-board-jun-6",
+          "reason": "The programme is on schedule but with no float left, indicating potential risk.",
+          "section": "Outlook",
+          "span": [
+            552,
+            587
+          ],
+          "text": "On programme, slightly over budget.",
+          "verdict": "supported_with_caveat"
+        },
+        {
+          "evidence_mention_ids": [
+            "ash-wk12#2",
+            "ash-wk19#2"
+          ],
+          "id": "CLM-ash-board-jun-7",
+          "reason": "Evidence shows DNO connection delay is ongoing and has triggered red alerts, contradicting 'no material concerns'.",
+          "section": "Outlook",
+          "span": [
+            588,
+            609
+          ],
+          "text": "No material concerns.",
+          "verdict": "contradicted"
+        }
+      ],
+      "doc_id": "ash-board-jun"
+    }
+  ],
+  "counterparties": {
+    "ashfield_contractor": {
+      "label": "Ashfield contractor"
+    },
+    "civils_contractor_nd": {
+      "label": "Civils contractor (Netherwood, Drumgarve)"
+    },
+    "dno": {
+      "label": "DNO (regional grid company)"
+    },
+    "internal": {
+      "label": "Internal"
+    },
+    "landowner_drumgarve": {
+      "label": "Landowner (Drumgarve)"
+    },
+    "lpa_drumgarve": {
+      "label": "Local planning authority (Drumgarve)"
+    },
+    "transformer_supplier_nd": {
+      "label": "Transformer supplier (Netherwood, Drumgarve)"
+    }
+  },
+  "documents": [
+    {
+      "author": null,
+      "date": "2024-12-31",
+      "date_note": "Document says December 2024, compiled retrospectively. End of month assumed.",
+      "doc_type": "commissioning_summary",
+      "file": "netherwood commissioning snags 2024.txt",
+      "id": "net-snags",
+      "project": "netherwood",
+      "replay_excluded": false,
+      "text": "Netherwood - commissioning snag summary\n\nDecember 2024 (compiled retrospectively - weekly records\nincomplete for Oct/Nov)\n\nEnergisation achieved 09/12/2024, against a baseline of\n30/09/2024. Total slip approximately 10 weeks.\n\nPrincipal causes, in order of impact:\n\n1. Planning condition discharge (6 weeks). Construction traffic\n   management plan delayed by the civils contractor. Start on\n   site pushed accordingly.\n\n2. Transformer delivery (3 weeks). Supplier revised lead time\n   after order placed.\n\n3. Commissioning snags (1 week). Various, mostly minor. Notable:\n   PCS firmware was not updated consistently across all units\n   during snagging - one unit was offline during the update window\n   and was missed. This was not picked up at handover.\n\nLESSONS\nThe first two causes were both visible months in advance and\nneither was formally escalated until they had already bitten. Our\nweekly reports recorded them as \"issues\" from early on but there\nis no mechanism that turns a repeated issue into an escalation.\n\nHandover documentation to Operations was incomplete. The firmware\npoint above was known to the commissioning team and did not make\nit into the handover pack.\n",
+      "title": "Netherwood commissioning snag summary"
+    },
+    {
+      "author": null,
+      "date": "2025-01-20",
+      "doc_type": "handover_status",
+      "file": "Netherwood handover pack - status.txt",
+      "id": "net-handover",
+      "project": "netherwood",
+      "replay_excluded": false,
+      "text": "NETHERWOOD - HANDOVER TO OPERATIONS\nStatus as at 20/01/2025\n\nEnergisation: 09/12/2024\nHandover meeting: 18/12/2024\nStatus: INCOMPLETE\n\nOutstanding items:\n\n- As-built drawings: issued but not verified against site. Two\n  discrepancies already found by Operations in the cable route.\n- O&M manuals: received for PCS and HVAC, outstanding for the BMS.\n- Commissioning records: partial. Some test sheets missing.\n- Firmware versions: not formally recorded at handover. Operations\n  have since found at least one PCS on an earlier version than the\n  rest of the site.\n- Spares inventory: not provided.\n- Training: two sessions delivered, a third outstanding.\n\nCOMMENT\nOperations have accepted the site into service because commercially\nwe needed to start delivering, but the handover is not complete and\nthe outstanding items are now competing with live operational work\nfor attention.\n\nThis is the third site in a row where handover has been signed off\nas \"complete with exceptions\" and the exceptions have then taken\nmonths to close out.\n",
+      "title": "Netherwood handover to Operations status"
+    },
+    {
+      "author": null,
+      "date": "2025-02-05",
+      "doc_type": "lessons_learned",
+      "file": "netherwood_lessons_learned.md",
+      "id": "net-lessons",
+      "project": "netherwood",
+      "replay_excluded": false,
+      "text": "# Netherwood - Lessons learned workshop\n\n**Date:** 5 February 2025\n**Attendees:** Project delivery, Development, Operations,\nProcurement\n\n## What went well\n- Construction quality, no significant defects\n- Site team / contractor relationship\n- HSE record: zero reportable incidents\n\n## What did not\n\n**1. Early warnings were recorded but not escalated.**\nBoth the planning condition delay and the transformer lead time\nappear in weekly reports weeks or months before they affected the\nprogramme. Nobody connected the repetition. The weekly report\nformat records issues but has no concept of \"this is the fifth\nweek running\".\n\n**2. Contractor performance information is not shared between\nprojects.**\nThe civils contractor's delay at Netherwood was not known to the\nDrumgarve team when they were appointed there.\n\n**3. Handover was incomplete.**\nSee separate handover status note. Operations inherited open items\nwith no clear owner.\n\n## Agreed actions\n1. Introduce a formal escalation trigger for repeated issues -\n   owner: project delivery. **Status at time of writing: not done.**\n2. Share contractor performance notes across projects - owner:\n   procurement. **Status: not done.**\n3. Handover checklist with sign-off - owner: operations.\n   **Status: drafted.**\n",
+      "title": "Netherwood lessons learned workshop"
+    },
+    {
+      "author": "Procurement",
+      "date": "2025-02-07",
+      "doc_type": "procurement_issue",
+      "file": "Drumgarve_transformer_leadtime_Feb2025.txt",
+      "id": "dru-transformer",
+      "project": "drumgarve",
+      "replay_excluded": false,
+      "text": "DRUMGARVE BESS - PROCUREMENT ISSUE\n\nDate raised: 2025-02-07\nRaised by: Procurement\nProject: Drumgarve (40MW)\n\nMain transformer lead time has been revised by the supplier from\n38 weeks to 54 weeks. Notified by email 05/02, no advance warning.\n\nThis pushes delivery from September 2025 to January 2026.\n\nIMPACT\nEnergisation forecast moves from Nov 2025 to Mar 2026, a slip of\napproximately 16 weeks. Drumgarve does not currently hold a\ncapacity market agreement so the direct revenue exposure is lower\nthan it would be at Ashfield, but we lose a winter of trading\nrevenue.\n\nOPTIONS CONSIDERED\n1. Accept the revised date\n2. Source from an alternative supplier - lead times quoted\n   between 45 and 60 weeks, so no benefit\n3. Second-hand / ex-stock unit - one identified, specification\n   does not match\n\nRECOMMENDATION\nAccept and replan. Also: this is the second transformer lead time\nextension from this supplier in 14 months (see Netherwood, Dec\n2023). We should stop treating their quoted lead times as firm\nand build contingency into the programme at the point of order,\nnot when they tell us.\n",
+      "title": "Drumgarve transformer lead time issue"
+    },
+    {
+      "author": "J. Patel",
+      "date": "2025-03-21",
+      "doc_type": "weekly_report",
+      "file": "ASHFIELD_weekly_progress_wk12_2025.txt",
+      "id": "ash-wk12",
+      "project": "ashfield",
+      "replay_excluded": false,
+      "text": "WEEKLY PROGRESS REPORT\nProject: Ashfield BESS (50MW / 100MWh)\nWeek ending: 21/03/2025\nPrepared by: J. Patel, Project Manager\n\nPROGRAMME\nBaseline energisation: 14/11/2025\nCurrent forecast: 14/11/2025\nFloat remaining: 11 days\n\nPROGRESS THIS WEEK\n- Civils: foundation pours complete on plinths 1-4. Plinths 5-6\n  delayed by weather, now scheduled wk13.\n- Electrical: cable pulling commenced in the switchroom.\n- Containers: delivery confirmed for wk18.\n\nISSUES\n- Weather delay on civils (2 days). Absorbed within float.\n- DNO have not yet confirmed the date for the final connection\n  works. Chased twice. No response since 06/03. Not currently on\n  the critical path but will become so if it slips past June.\n\nNEXT WEEK\nComplete plinths 5-6, continue cabling.\n",
+      "title": "Ashfield weekly report, week 12"
+    },
+    {
+      "author": "J. Patel",
+      "date": "2025-05-16",
+      "doc_type": "weekly_report",
+      "file": "ashfield_weekly_wk19.md",
+      "id": "ash-wk19",
+      "project": "ashfield",
+      "replay_excluded": false,
+      "text": "# Ashfield BESS - Weekly Progress\n\n**Week ending:** 16 May 2025\n**PM:** J. Patel\n\n## Programme\n- Baseline energisation: 14/11/2025\n- Current forecast: 14/11/2025\n- Float remaining: 4 days\n\n## Progress\n- Containers delivered wk18, offload complete, all six positioned\n- HV switchgear installed\n- Civils complete\n\n## Issues\n- Container offload required a second crane visit (access road\n  width). Cost variation submitted by the contractor, approx £8k.\n- **Still no DNO date for the final connection works.** Chased\n  again 09/05. Verbal indication of \"late summer\" but nothing in\n  writing. Raised with the connections manager.\n- Snagging on the switchroom cable entries - contractor to return.\n\n## Next\nCommissioning prep, await DNO.\n",
+      "title": "Ashfield weekly report, week 19"
+    },
+    {
+      "author": null,
+      "date": "2025-05-30",
+      "doc_type": "site_visit",
+      "file": "drumgarve_site_visit_2025-05-30.txt",
+      "id": "dru-visit",
+      "project": "drumgarve",
+      "replay_excluded": false,
+      "text": "Drumgarve site visit - notes\n30 May 2025\n\nPre-construction walkover with the civils contractor and the\nlandowner.\n\nPoints noted:\n\n- Access track from the B-road is narrower than the drawings\n  indicate at two pinch points. Will not accommodate a container\n  delivery without widening. Contractor says \"we'll manage\" - I\n  am not convinced. Same issue caused a second crane visit at\n  Ashfield.\n\n- Drainage: standing water at the northern end of the site after\n  recent rain. Ground investigation report did not flag this.\n  Worth a second look before foundation design is finalised.\n\n- Landowner raised the hedgerow removal timing. Nesting season\n  restrictions may affect the planned start date. Not currently\n  in the programme risk register.\n\n- Contractor has not yet provided the swept path analysis for the\n  traffic management condition. Chased on site.\n\nGeneral impression: site is workable but there are three or four\nthings here that are not in the risk register and should be.\n",
+      "title": "Drumgarve pre-construction site visit"
+    },
+    {
+      "author": "A. Lindqvist",
+      "date": "2025-06-12",
+      "doc_type": "planning_status",
+      "file": "drumgarve_planning_conditions.md",
+      "id": "dru-planning",
+      "project": "drumgarve",
+      "replay_excluded": false,
+      "text": "# Drumgarve - Planning condition discharge status\n\n**Date:** 12 June 2025\n**Author:** A. Lindqvist, Development\n\n## Summary\n\nSeven pre-commencement conditions, five discharged. Two\noutstanding:\n\n**Condition 9 (landscaping and screening)**\nSubmitted 14/04. Local authority requested additional detail on\nspecies selection 02/05. Revised submission 19/05. No response\nsince. 8 weeks elapsed against a statutory 8 week determination.\n\n**Condition 14 (construction traffic management)**\nNot yet submitted. Requires a swept path analysis from the civils\ncontractor, who have not provided it despite three requests. This\nis blocking.\n\n## Risk\n\nCondition 14 is pre-commencement. We cannot start on site until\nit is discharged. Programme assumes start 01/08. If the\ncontractor does not provide the analysis within two weeks that\ndate is at risk.\n\n## Note\n\nThe same contractor was late providing equivalent information at\nNetherwood in 2024, which cost us six weeks there. This is a\npattern, not a one-off, and it should be reflected in how we\ncontract with them.\n",
+      "title": "Drumgarve planning condition discharge status"
+    },
+    {
+      "author": "M. Reilly",
+      "date": "2025-06-13",
+      "doc_type": "weekly_report",
+      "file": "drumgarve weekly wk24.txt",
+      "id": "dru-wk24",
+      "project": "drumgarve",
+      "replay_excluded": false,
+      "text": "Drumgarve weekly - week ending 13/06/2025\n\nPM: M. Reilly\n\nPROGRAMME\nBaseline energisation 30/11/2025\nCurrent forecast 20/03/2026 (transformer)\nStatus: in delay\n\nPROGRESS\nPre-construction only. Site not yet started - blocked on planning\ncondition 14.\n\nISSUES\n- Condition 14 still not discharged. Civils contractor has not\n  provided the swept path analysis. Fourth request sent 11/06.\n- Condition 9 overdue for determination with the LPA.\n- Transformer delivery Jan 2026 confirmed.\n- Access track pinch points (raised at the May walkover) not yet\n  surveyed. Needs doing before container delivery is scheduled.\n- Hedgerow / nesting season constraint not yet assessed.\n\nCOMMENT\nThe transformer is the binding constraint so the planning delays\nare not currently costing us programme. That will change if the\ntransformer date improves or if conditions remain outstanding into\nthe autumn.\n",
+      "title": "Drumgarve weekly report, week 24"
+    },
+    {
+      "author": "Project delivery",
+      "date": "2025-06-30",
+      "date_note": "Period is June 2025, no issue date given. End of month assumed.",
+      "doc_type": "board_update",
+      "file": "ashfield_monthly_board_update_June.md",
+      "id": "ash-board-jun",
+      "project": "ashfield",
+      "replay_excluded": false,
+      "text": "# Ashfield - Monthly update to the board\n\n**Period:** June 2025\n**Author:** Project delivery\n\n## Headline\n\nConstruction complete. Energisation forecast 14/11/2025, in line\nwith baseline. Capacity market delivery start 01/12/2025.\n\n## Budget\n\n£0.4m above baseline (1.2%), driven by:\n- Second crane mobilisation (£8k)\n- Civils weather delays (£22k)\n- Additional cable containment (£61k)\n- Contingency drawdown, various (£309k)\n\n## Risks\n\n- DNO connection works date not yet confirmed. Low risk, expected\n  to be confirmed shortly.\n- Weather\n\n## Outlook\n\nOn programme, slightly over budget. No material concerns.\n",
+      "title": "Ashfield board update, June 2025"
+    },
+    {
+      "author": "J. Patel",
+      "date": "2025-07-04",
+      "doc_type": "weekly_report",
+      "file": "ashfield-weekly-wk27.txt",
+      "id": "ash-wk27",
+      "project": "ashfield",
+      "replay_excluded": false,
+      "text": "Ashfield weekly - week ending 04/07/2025\n\nPM: J. Patel\n\nPROGRAMME\nBaseline energisation 14/11/2025\nCurrent forecast 28/11/2025 - FORECAST SLIPPED 14 DAYS\nFloat: zero, now in delay\n\nPROGRESS\nMechanical and electrical installation complete. Site is\neffectively ready for energisation.\n\nISSUES\nDNO have now confirmed the connection works date: 10/11/2025.\nThis leaves no contingency before the 14/11 energisation date and\nthe works themselves are quoted at 5-10 working days.\n\nThis has been flagged in weekly reports since March. The date was\nnever confirmed and we did not escalate it formally. In hindsight\nwe should have, in week 12.\n\nCommercial implication: we have a capacity market agreement with\na delivery start of 01/12/2025. A 14 day slip takes us to 28/11,\nwhich is inside the window but with nothing spare. Any further\nslip and we are exposed.\n\nACTIONS\n- Formal escalation to DNO account manager (done 03/07)\n- Reviewing whether any commissioning activity can be brought\n  forward\n",
+      "title": "Ashfield weekly report, week 27"
+    },
+    {
+      "author": "J. Patel",
+      "date": "2025-07-10",
+      "doc_type": "correspondence_summary",
+      "excluded_reason": "Compiled retrospectively with hindsight. Used only as ground truth, never as replay input.",
+      "file": "ASH_grid_correspondence_summary.txt",
+      "id": "ash-dno-corr",
+      "project": "ashfield",
+      "replay_excluded": true,
+      "text": "Ashfield - DNO correspondence summary\nCompiled 10/07/2025 by J. Patel\n\nChronology of contact regarding final connection works date:\n\n06/02/2025 - Initial request for programme. Acknowledged.\n06/03/2025 - Chased. No response.\n04/04/2025 - Chased. Holding reply, \"with the programming team\".\n09/05/2025 - Chased. Verbal: \"late summer\", nothing written.\n11/06/2025 - Chased. No response.\n26/06/2025 - DNO issue date: 10/11/2025.\n03/07/2025 - Formal escalation to account manager.\n\nFive chases over five months before a date was issued, and the\ndate issued leaves no contingency.\n\nObservation: each chase was recorded in the relevant weekly\nreport as an issue, but because each week it looked like a single\nunanswered email, it never read as urgent. Seen together the\npattern is obvious.\n",
+      "title": "Ashfield DNO correspondence summary"
+    }
+  ],
+  "evaluation": {
+    "cross_project": {
+      "detail": [
+        {
+          "found": true,
+          "issue": "DRU-TRANSFORMER",
+          "prior": "NET-TRANSFORMER"
+        },
+        {
+          "found": true,
+          "issue": "DRU-COND14",
+          "prior": "NET-PLANNING"
+        },
+        {
+          "found": false,
+          "issue": "DRU-ACCESS",
+          "prior": "ASH-CRANE"
+        }
+      ],
+      "expected": 3,
+      "false_positives": 0,
+      "found": 2
+    },
+    "extraction": {
+      "category_accuracy": 0.462,
+      "mention_precision": 0.684,
+      "mention_recall": 0.929,
+      "quote_validity": 1.0,
+      "status_accuracy": 0.692,
+      "trigger_date_accuracy": 0.25
+    },
+    "fallbacks": [],
+    "identity": {
+      "pairwise_precision": 1.0,
+      "pairwise_recall": 0.875
+    },
+    "lead_time": {
+      "ground_truth_date": "2025-07-03",
+      "issue_id": "ASH-002",
+      "rows": [
+        {
+          "date": "2025-05-05",
+          "days_earlier": 59,
+          "label": "First warning"
+        },
+        {
+          "date": "2025-06-02",
+          "days_earlier": 31,
+          "label": "First red alert"
+        },
+        {
+          "date": "2025-05-16",
+          "days_earlier": 48,
+          "label": "Persistence rule alone"
+        }
+      ]
+    },
+    "source": "llm"
+  },
+  "ground_truth_events": [
+    {
+      "date": "2025-07-03",
+      "id": "gt-ash-escalation",
+      "issue_id": "ASH-002",
+      "label": "Formal escalation to DNO account manager",
+      "project": "ashfield",
+      "source_doc": "ash-dno-corr"
+    }
+  ],
+  "issues": [
+    {
+      "category": "planning",
+      "counterparty": "civils_contractor_nd",
+      "description": "Construction traffic management plan delayed by the civils contractor, pushing start on site.",
+      "first_seen": "2024-12-31",
+      "gold_id": "NET-PLANNING",
+      "id": "NET-001",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2024-12-31",
+          "description": "Construction traffic management plan delayed by the civils contractor, pushing start on site.",
+          "doc_id": "net-snags",
+          "evidence_quote": "Planning condition discharge (6 weeks). Construction traffic\n   management plan delayed by the civils contractor. Start on\n   site pushed accordingly.",
+          "id": "net-snags#1",
+          "programme_impact": "realised",
+          "quote_span": [
+            269,
+            419
+          ],
+          "quote_valid": true,
+          "status": "materialised"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Planning condition discharge delay"
+    },
+    {
+      "category": "procurement_supplier",
+      "counterparty": "transformer_supplier_nd",
+      "description": "Supplier revised lead time after order placed, causing a 3-week delay.",
+      "first_seen": "2024-12-31",
+      "gold_id": "NET-TRANSFORMER",
+      "id": "NET-002",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2024-12-31",
+          "description": "Supplier revised lead time after order placed, causing a 3-week delay.",
+          "doc_id": "net-snags",
+          "evidence_quote": "Transformer delivery (3 weeks). Supplier revised lead time\n   after order placed.",
+          "id": "net-snags#2",
+          "programme_impact": "realised",
+          "quote_span": [
+            424,
+            505
+          ],
+          "quote_valid": true,
+          "status": "materialised"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Transformer delivery delay"
+    },
+    {
+      "category": "commissioning",
+      "counterparty": "internal",
+      "description": "PCS firmware was not updated consistently across all units during snagging, resulting in one unit being offline during the update window and missed at handover.",
+      "first_seen": "2024-12-31",
+      "gold_id": "NET-FIRMWARE",
+      "id": "NET-003",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2024-12-31",
+          "description": "PCS firmware was not updated consistently across all units during snagging, resulting in one unit being offline during the update window and missed at handover.",
+          "doc_id": "net-snags",
+          "evidence_quote": "PCS firmware was not updated consistently across all units\n   during snagging - one unit was offline during the update window\n   and was missed. This was not picked up at handover.",
+          "id": "net-snags#3",
+          "programme_impact": "realised",
+          "quote_span": [
+            575,
+            755
+          ],
+          "quote_valid": true,
+          "status": "materialised"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "Firmware versions for PCS are not formally recorded, with at least one PCS found on an earlier version.",
+          "doc_id": "net-handover",
+          "evidence_quote": "Firmware versions: not formally recorded at handover. Operations\n  have since found at least one PCS on an earlier version than the\n  rest of the site.",
+          "id": "net-handover#4",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            411,
+            562
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Inconsistent PCS firmware update"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "Handover documentation to Operations was incomplete, with the firmware issue not included in the handover pack despite being known to the commissioning team.",
+      "first_seen": "2024-12-31",
+      "id": "NET-004",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2024-12-31",
+          "description": "Handover documentation to Operations was incomplete, with the firmware issue not included in the handover pack despite being known to the commissioning team.",
+          "doc_id": "net-snags",
+          "evidence_quote": "Handover documentation to Operations was incomplete. The firmware\npoint above was known to the commissioning team and did not make\nit into the handover pack.",
+          "id": "net-snags#4",
+          "programme_impact": "realised",
+          "quote_span": [
+            1022,
+            1179
+          ],
+          "quote_valid": true,
+          "status": "materialised"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "O&M manuals for the BMS are outstanding, while PCS and HVAC manuals have been received.",
+          "doc_id": "net-handover",
+          "evidence_quote": "O&M manuals: received for PCS and HVAC, outstanding for the BMS.",
+          "id": "net-handover#2",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            284,
+            348
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Incomplete handover documentation"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "As-built drawings have discrepancies in cable routes, identified by Operations.",
+      "first_seen": "2025-01-20",
+      "id": "NET-005",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "As-built drawings have discrepancies in cable routes, identified by Operations.",
+          "doc_id": "net-handover",
+          "evidence_quote": "As-built drawings: issued but not verified against site. Two\n  discrepancies already found by Operations in the cable route.",
+          "id": "net-handover#1",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            157,
+            281
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "As-built drawings discrepancies"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "Commissioning records are partial, with some test sheets missing.",
+      "first_seen": "2025-01-20",
+      "id": "NET-006",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "Commissioning records are partial, with some test sheets missing.",
+          "doc_id": "net-handover",
+          "evidence_quote": "Commissioning records: partial. Some test sheets missing.",
+          "id": "net-handover#3",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            351,
+            408
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Commissioning records incomplete"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "Spares inventory has not been provided as part of the handover.",
+      "first_seen": "2025-01-20",
+      "id": "NET-007",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "Spares inventory has not been provided as part of the handover.",
+          "doc_id": "net-handover",
+          "evidence_quote": "Spares inventory: not provided.",
+          "id": "net-handover#5",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            565,
+            596
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Spares inventory not provided"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "Three training sessions are required, with only two delivered.",
+      "first_seen": "2025-01-20",
+      "id": "NET-008",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "Three training sessions are required, with only two delivered.",
+          "doc_id": "net-handover",
+          "evidence_quote": "Training: two sessions delivered, a third outstanding.",
+          "id": "net-handover#6",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            599,
+            653
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Training sessions incomplete"
+    },
+    {
+      "category": "handover",
+      "counterparty": "internal",
+      "description": "Handover was signed off as 'complete with exceptions', but the exceptions remain unresolved and are now competing with live operational work.",
+      "first_seen": "2025-01-20",
+      "gold_id": "NET-HANDOVER",
+      "id": "NET-009",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-01-20",
+          "description": "Handover was signed off as 'complete with exceptions', but the exceptions remain unresolved and are now competing with live operational work.",
+          "doc_id": "net-handover",
+          "evidence_quote": "This is the third site in a row where handover has been signed off\nas \"complete with exceptions\" and the exceptions have then taken\nmonths to close out.",
+          "id": "net-handover#7",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            882,
+            1034
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-02-05",
+          "description": "Operations inherited open items with no clear owner during handover.",
+          "doc_id": "net-lessons",
+          "evidence_quote": "Operations inherited open items\nwith no clear owner.",
+          "id": "net-lessons#3",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            879,
+            931
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Handover incomplete despite sign-off"
+    },
+    {
+      "category": "planning",
+      "counterparty": "internal",
+      "description": "Early warnings about planning condition delay and transformer lead time were not escalated due to lack of a formal escalation trigger.",
+      "first_seen": "2025-02-05",
+      "gold_id": "NET-TRANSFORMER",
+      "id": "NET-010",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-02-05",
+          "description": "Early warnings about planning condition delay and transformer lead time were not escalated due to lack of a formal escalation trigger.",
+          "doc_id": "net-lessons",
+          "evidence_quote": "Both the planning condition delay and the transformer lead time\nappear in weekly reports weeks or months before they affected the\nprogramme. Nobody connected the repetition.",
+          "id": "net-lessons#1",
+          "programme_impact": "potential",
+          "quote_span": [
+            354,
+            527
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Repeated issues not escalated"
+    },
+    {
+      "category": "procurement_supplier",
+      "counterparty": "internal",
+      "description": "The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there.",
+      "first_seen": "2025-02-05",
+      "gold_id": "NET-PLANNING",
+      "id": "NET-011",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-02-05",
+          "description": "The civils contractor's delay at Netherwood was not known to the Drumgarve team when they were appointed there.",
+          "doc_id": "net-lessons",
+          "evidence_quote": "The civils contractor's delay at Netherwood was not known to the\nDrumgarve team when they were appointed there.",
+          "id": "net-lessons#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            699,
+            810
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "netherwood",
+      "title": "Contractor performance not shared between projects"
+    },
+    {
+      "category": "procurement_supplier",
+      "counterparty": "drumgarve:transformer_supplier",
+      "description": "Main transformer lead time has been revised from 38 weeks to 54 weeks, pushing delivery from September 2025 to January 2026.",
+      "first_seen": "2025-02-07",
+      "gold_id": "DRU-TRANSFORMER",
+      "id": "DRU-001",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-02-07",
+          "description": "Main transformer lead time has been revised from 38 weeks to 54 weeks, pushing delivery from September 2025 to January 2026.",
+          "doc_id": "dru-transformer",
+          "evidence_quote": "Main transformer lead time has been revised by the supplier from\n38 weeks to 54 weeks. Notified by email 05/02, no advance warning.",
+          "id": "dru-transformer#1",
+          "programme_impact": "realised",
+          "quote_span": [
+            110,
+            241
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Transformer supplier lead time extension"
+    },
+    {
+      "category": "procurement_supplier",
+      "counterparty": "drumgarve:transformer_supplier",
+      "description": "This is the second transformer lead time extension from this supplier in 14 months, indicating unreliable lead times.",
+      "first_seen": "2025-02-07",
+      "id": "DRU-002",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-02-07",
+          "description": "This is the second transformer lead time extension from this supplier in 14 months, indicating unreliable lead times.",
+          "doc_id": "dru-transformer",
+          "evidence_quote": "this is the second transformer lead time\nextension from this supplier in 14 months (see Netherwood, Dec\n2023). We should stop treating their quoted lead times as firm\nand build contingency into the programme at the point of order,\nnot when they tell us.",
+          "id": "dru-transformer#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            841,
+            1094
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Transformer supplier reliability concerns"
+    },
+    {
+      "category": "weather",
+      "counterparty": "internal",
+      "description": "Civils work on plinths 5-6 was delayed by weather.",
+      "first_seen": "2025-03-21",
+      "gold_id": "ASH-WEATHER",
+      "id": "ASH-001",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-03-21",
+          "description": "Civils work on plinths 5-6 was delayed by weather.",
+          "doc_id": "ash-wk12",
+          "evidence_quote": "Civils: foundation pours complete on plinths 1-4. Plinths 5-6\n  delayed by weather, now scheduled wk13.",
+          "id": "ash-wk12#1",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            246,
+            349
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-06-30",
+          "description": "Civils weather delays have contributed to the budget overrun.",
+          "doc_id": "ash-board-jun",
+          "evidence_quote": "Civils weather delays (£22k)",
+          "id": "ash-board-jun#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            318,
+            346
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Weather delay on civils"
+    },
+    {
+      "category": "contractor_performance",
+      "counterparty": "dno",
+      "description": "DNO have not yet confirmed the date for the final connection works. Chased twice. No response since 06/03.",
+      "first_seen": "2025-03-21",
+      "gold_id": "ASH-DNO",
+      "id": "ASH-002",
+      "mentions": [
+        {
+          "awaiting_third_party": true,
+          "chase_count": 2,
+          "date": "2025-03-21",
+          "description": "DNO have not yet confirmed the date for the final connection works. Chased twice. No response since 06/03.",
+          "doc_id": "ash-wk12",
+          "evidence_quote": "DNO have not yet confirmed the date for the final connection\n  works. Chased twice. No response since 06/03.",
+          "id": "ash-wk12#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            519,
+            627
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": true,
+          "chase_count": 1,
+          "date": "2025-05-16",
+          "description": "The DNO has not provided a date for the final connection works, which is critical for the programme.",
+          "doc_id": "ash-wk19",
+          "evidence_quote": "till no DNO date for the final connection works.** Chased\n  again 09/05",
+          "id": "ash-wk19#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            456,
+            527
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": true,
+          "chase_count": null,
+          "date": "2025-06-30",
+          "description": "DNO connection works date not yet confirmed.",
+          "doc_id": "ash-board-jun",
+          "evidence_quote": "DNO connection works date not yet confirmed. Low risk, expected\n  to be confirmed shortly.",
+          "id": "ash-board-jun#1",
+          "programme_impact": "potential",
+          "quote_span": [
+            438,
+            528
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-07-04",
+          "description": "DNO confirmed the connection works date as 10/11/2025, leaving no contingency before the 14/11 energisation date.",
+          "doc_id": "ash-wk27",
+          "evidence_quote": "DNO have now confirmed the connection works date: 10/11/2025.\nThis leaves no contingency before the 14/11 energisation date and\nthe works themselves are quoted at 5-10 working days.",
+          "id": "ash-wk27#1",
+          "programme_impact": "realised",
+          "quote_span": [
+            291,
+            472
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "DNO final connection confirmation pending"
+    },
+    {
+      "category": "cost",
+      "counterparty": "ashfield_contractor",
+      "description": "Container offload required a second crane visit due to access road width.",
+      "first_seen": "2025-05-16",
+      "gold_id": "ASH-CRANE",
+      "id": "ASH-003",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-05-16",
+          "description": "Container offload required a second crane visit due to access road width.",
+          "doc_id": "ash-wk19",
+          "evidence_quote": "Container offload required a second crane visit (access road\n  width).",
+          "id": "ash-wk19#1",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            324,
+            394
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Container offload required second crane visit"
+    },
+    {
+      "category": "planning",
+      "counterparty": "ashfield_contractor",
+      "description": "Snagging on the switchroom cable entries remains unresolved, requiring the contractor to return.",
+      "first_seen": "2025-05-16",
+      "gold_id": "ASH-SNAG",
+      "id": "ASH-004",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-05-16",
+          "description": "Snagging on the switchroom cable entries remains unresolved, requiring the contractor to return.",
+          "doc_id": "ash-wk19",
+          "evidence_quote": "Snagging on the switchroom cable entries - contractor to return.",
+          "id": "ash-wk19#3",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            629,
+            693
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Snagging on switchroom cable entries"
+    },
+    {
+      "category": "site_access",
+      "counterparty": "civils_contractor_nd",
+      "description": "Access track from the B-road is narrower than the drawings indicate at two pinch points. Will not accommodate a container delivery without widening.",
+      "first_seen": "2025-05-30",
+      "gold_id": "DRU-ACCESS",
+      "id": "DRU-003",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": 0,
+          "date": "2025-05-30",
+          "description": "Access track from the B-road is narrower than the drawings indicate at two pinch points. Will not accommodate a container delivery without widening.",
+          "doc_id": "dru-visit",
+          "evidence_quote": "Access track from the B-road is narrower than the drawings\n  indicate at two pinch points. Will not accommodate a container\n  delivery without widening.",
+          "id": "dru-visit#1",
+          "programme_impact": "potential",
+          "quote_span": [
+            132,
+            284
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-06-13",
+          "description": "Access track pinch points have not yet been surveyed before container delivery is scheduled.",
+          "doc_id": "dru-wk24",
+          "evidence_quote": "Access track pinch points (raised at the May walkover) not yet\n  surveyed. Needs doing before container delivery is scheduled.",
+          "id": "dru-wk24#3",
+          "programme_impact": "potential",
+          "quote_span": [
+            483,
+            609
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Narrow access track"
+    },
+    {
+      "category": "site_access",
+      "counterparty": "landowner_drumgarve",
+      "description": "Standing water at the northern end of the site after recent rain. Ground investigation report did not flag this.",
+      "first_seen": "2025-05-30",
+      "gold_id": "DRU-DRAINAGE",
+      "id": "DRU-004",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": 0,
+          "date": "2025-05-30",
+          "description": "Standing water at the northern end of the site after recent rain. Ground investigation report did not flag this.",
+          "doc_id": "dru-visit",
+          "evidence_quote": "standing water at the northern end of the site after\n  recent rain. Ground investigation report did not flag this.",
+          "id": "dru-visit#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            407,
+            521
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Standing water on site"
+    },
+    {
+      "category": "site_access",
+      "counterparty": "landowner_drumgarve",
+      "description": "Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.",
+      "first_seen": "2025-05-30",
+      "gold_id": "DRU-HEDGEROW",
+      "id": "DRU-005",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": 0,
+          "date": "2025-05-30",
+          "description": "Landowner raised the hedgerow removal timing. Nesting season restrictions may affect the planned start date.",
+          "doc_id": "dru-visit",
+          "evidence_quote": "Landowner raised the hedgerow removal timing. Nesting season\n  restrictions may affect the planned start date.",
+          "id": "dru-visit#3",
+          "programme_impact": "potential",
+          "quote_span": [
+            586,
+            696
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-06-13",
+          "description": "Hedgerow / nesting season constraint has not yet been assessed.",
+          "doc_id": "dru-wk24",
+          "evidence_quote": "Hedgerow / nesting season constraint not yet assessed.",
+          "id": "dru-wk24#4",
+          "programme_impact": "potential",
+          "quote_span": [
+            612,
+            666
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Hedgerow removal timing"
+    },
+    {
+      "category": "site_access",
+      "counterparty": "civils_contractor_nd",
+      "description": "Contractor has not yet provided the swept path analysis for the traffic management condition. Chased on site.",
+      "first_seen": "2025-05-30",
+      "gold_id": "DRU-COND14",
+      "id": "DRU-006",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": 1,
+          "date": "2025-05-30",
+          "description": "Contractor has not yet provided the swept path analysis for the traffic management condition. Chased on site.",
+          "doc_id": "dru-visit",
+          "evidence_quote": "Contractor has not yet provided the swept path analysis for the\n  traffic management condition. Chased on site.",
+          "id": "dru-visit#4",
+          "programme_impact": "potential",
+          "quote_span": [
+            748,
+            859
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": true,
+          "chase_count": 3,
+          "date": "2025-06-12",
+          "description": "The swept path analysis from the civils contractor is not provided despite three requests, blocking the submission.",
+          "doc_id": "dru-planning",
+          "evidence_quote": "Requires a swept path analysis from the civils\ncontractor, who have not provided it despite three requests. This\nis blocking.",
+          "id": "dru-planning#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            502,
+            627
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": false,
+          "chase_count": 4,
+          "date": "2025-06-13",
+          "description": "Civils contractor has not provided the swept path analysis.",
+          "doc_id": "dru-wk24",
+          "evidence_quote": "Condition 14 still not discharged. Civils contractor has not\n  provided the swept path analysis.",
+          "id": "dru-wk24#1",
+          "programme_impact": "potential",
+          "quote_span": [
+            260,
+            356
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Missing swept path analysis"
+    },
+    {
+      "category": "planning",
+      "counterparty": "landowner_drumgarve",
+      "description": "Additional detail on species selection was requested but no response has been received since 02/05.",
+      "first_seen": "2025-06-12",
+      "gold_id": "DRU-COND9",
+      "id": "DRU-007",
+      "mentions": [
+        {
+          "awaiting_third_party": true,
+          "chase_count": 1,
+          "date": "2025-06-12",
+          "description": "Additional detail on species selection was requested but no response has been received since 02/05.",
+          "doc_id": "dru-planning",
+          "evidence_quote": "No response\nsince. 8 weeks elapsed against a statutory 8 week determination.",
+          "id": "dru-planning#1",
+          "programme_impact": "potential",
+          "quote_span": [
+            354,
+            430
+          ],
+          "quote_valid": true,
+          "status": "open"
+        },
+        {
+          "awaiting_third_party": true,
+          "chase_count": null,
+          "date": "2025-06-13",
+          "description": "Condition 9 is overdue for determination with the LPA.",
+          "doc_id": "dru-wk24",
+          "evidence_quote": "Condition 9 overdue for determination with the LPA.",
+          "id": "dru-wk24#2",
+          "programme_impact": "potential",
+          "quote_span": [
+            386,
+            437
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "drumgarve",
+      "title": "Condition 9 landscaping and screening"
+    },
+    {
+      "category": "cost",
+      "counterparty": "internal",
+      "description": "Additional cable containment has contributed to the budget overrun.",
+      "first_seen": "2025-06-30",
+      "id": "ASH-005",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-06-30",
+          "description": "Additional cable containment has contributed to the budget overrun.",
+          "doc_id": "ash-board-jun",
+          "evidence_quote": "Additional cable containment (£61k)",
+          "id": "ash-board-jun#3",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            349,
+            384
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Additional cable containment costs"
+    },
+    {
+      "category": "cost",
+      "counterparty": "internal",
+      "description": "Contingency drawdown has contributed to the budget overrun.",
+      "first_seen": "2025-06-30",
+      "id": "ASH-006",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-06-30",
+          "description": "Contingency drawdown has contributed to the budget overrun.",
+          "doc_id": "ash-board-jun",
+          "evidence_quote": "Contingency drawdown, various (£309k)",
+          "id": "ash-board-jun#4",
+          "programme_impact": "none_stated",
+          "quote_span": [
+            387,
+            424
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Contingency drawdown costs"
+    },
+    {
+      "category": "planning",
+      "counterparty": "internal",
+      "description": "The baseline energisation date of 14/11/2025 has slipped to 28/11/2025, with no float remaining.",
+      "first_seen": "2025-07-04",
+      "id": "ASH-007",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-07-04",
+          "description": "The baseline energisation date of 14/11/2025 has slipped to 28/11/2025, with no float remaining.",
+          "doc_id": "ash-wk27",
+          "evidence_quote": "Current forecast 28/11/2025 - FORECAST SLIPPED 14 DAYS",
+          "id": "ash-wk27#2",
+          "programme_impact": "realised",
+          "quote_span": [
+            99,
+            153
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Energisation date slipped by 14 days"
+    },
+    {
+      "category": "contractor_performance",
+      "counterparty": "internal",
+      "description": "A 14-day slip would bring the delivery start date inside the capacity market agreement window with no spare time.",
+      "first_seen": "2025-07-04",
+      "id": "ASH-008",
+      "mentions": [
+        {
+          "awaiting_third_party": false,
+          "chase_count": null,
+          "date": "2025-07-04",
+          "description": "A 14-day slip would bring the delivery start date inside the capacity market agreement window with no spare time.",
+          "doc_id": "ash-wk27",
+          "evidence_quote": "Commercial implication: we have a capacity market agreement with\na delivery start of 01/12/2025. A 14 day slip takes us to 28/11,\nwhich is inside the window but with nothing spare. Any further\nslip and we are exposed.",
+          "id": "ash-wk27#3",
+          "programme_impact": "realised",
+          "quote_span": [
+            635,
+            852
+          ],
+          "quote_valid": true,
+          "status": "open"
+        }
+      ],
+      "project": "ashfield",
+      "title": "Capacity market agreement risk"
+    }
+  ],
+  "matches": [
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident shows that revising lead time after an order caused a delay, similar to the current situation with the Drumgarve transformer.",
+      "id": "XP-DRU-001-NET-002",
+      "issue_id": "DRU-001",
+      "prior_issue_id": "NET-002",
+      "reasons": [
+        "Same category: procurement supplier",
+        "Similar wording"
+      ],
+      "score": 0.764
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The Netherwood incident is relevant because the civils contractor's delay was not shared with Drumgarve, potentially affecting their transformer delivery timeline.",
+      "id": "XP-DRU-001-NET-011",
+      "issue_id": "DRU-001",
+      "prior_issue_id": "NET-011",
+      "reasons": [
+        "Same category: procurement supplier",
+        "Similar wording"
+      ],
+      "score": 0.65
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier delay from the same supplier in Netherwood shows unreliable lead times, similar to the current issue in Drumgarve.",
+      "id": "XP-DRU-002-NET-002",
+      "issue_id": "DRU-002",
+      "prior_issue_id": "NET-002",
+      "reasons": [
+        "Same category: procurement supplier",
+        "Similar wording"
+      ],
+      "score": 0.747
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident shows the civils contractor's delay at Netherwood wasn't shared with Drumgarve, affecting their planning.",
+      "id": "XP-DRU-002-NET-011",
+      "issue_id": "DRU-002",
+      "prior_issue_id": "NET-011",
+      "reasons": [
+        "Same category: procurement supplier",
+        "Similar wording"
+      ],
+      "score": 0.641
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current snagging issue requiring contractor intervention.",
+      "id": "XP-ASH-004-NET-001",
+      "issue_id": "ASH-004",
+      "prior_issue_id": "NET-001",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.654
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident at Netherwood shows that issues were not escalated due to lack of a formal trigger, similar to the current snagging issue at Ashfield requiring contractor return.",
+      "id": "XP-ASH-004-NET-010",
+      "issue_id": "ASH-004",
+      "prior_issue_id": "NET-010",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.641
+    },
+    {
+      "confidence": "medium",
+      "explanation": "Earlier delay in Netherwood due to civils contractor delaying traffic management plan is relevant as it shows similar contractor delays impacting start dates.",
+      "id": "XP-DRU-006-NET-001",
+      "issue_id": "DRU-006",
+      "prior_issue_id": "NET-001",
+      "reasons": [
+        "Same counterparty: Civils contractor (Netherwood, Drumgarve)",
+        "Similar wording"
+      ],
+      "score": 0.609
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident involved a delay in the construction traffic management plan due to the civils contractor, similar to the current issue with the landscaping species selection request not being addressed.",
+      "id": "XP-DRU-007-NET-001",
+      "issue_id": "DRU-007",
+      "prior_issue_id": "NET-001",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.662
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident at Netherwood on 2025-02-05 involved unescalated early warnings about planning condition delays, similar to the current issue at Drumgarve where species selection details were not responded to.",
+      "id": "XP-DRU-007-NET-010",
+      "issue_id": "DRU-007",
+      "prior_issue_id": "NET-010",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.63
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier incident at Netherwood shows that not escalating early warnings about delays led to issues, similar to the current Ashfield energisation date slip.",
+      "id": "XP-ASH-007-NET-010",
+      "issue_id": "ASH-007",
+      "prior_issue_id": "NET-010",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.669
+    },
+    {
+      "confidence": "medium",
+      "explanation": "The earlier delay in Netherwood due to the civils contractor delaying the construction traffic management plan may be relevant as it similarly affected the start date, potentially impacting the energisation date in Ashfield.",
+      "id": "XP-ASH-007-NET-001",
+      "issue_id": "ASH-007",
+      "prior_issue_id": "NET-001",
+      "reasons": [
+        "Same category: planning",
+        "Similar wording"
+      ],
+      "score": 0.655
+    }
+  ],
+  "meta": {
+    "embed_model": "nomic-embed-text",
+    "generated_at": "2026-10-26T19:57:22+00:00",
+    "model": "qwen3:8b",
+    "prompt_version": "v1",
+    "source": "llm",
+    "window": {
+      "end": "2025-07-31",
+      "start": "2024-12-01"
+    }
+  },
+  "programme_snapshots": [
+    {
+      "baseline": "2024-09-30",
+      "date": "2024-12-31",
+      "doc_id": "net-snags",
+      "float_days": 10,
+      "forecast": "2024-12-09",
+      "project": "netherwood"
+    },
+    {
+      "baseline": "2024-12-09",
+      "date": "2025-01-20",
+      "doc_id": "net-handover",
+      "float_days": 0,
+      "forecast": "2024-12-09",
+      "project": "netherwood"
+    },
+    {
+      "baseline": "2025-11-30",
+      "date": "2025-02-07",
+      "doc_id": "dru-transformer",
+      "float_days": 16,
+      "forecast": "2026-03-31",
+      "project": "drumgarve"
+    },
+    {
+      "baseline": "2025-11-14",
+      "date": "2025-03-21",
+      "doc_id": "ash-wk12",
+      "float_days": 11,
+      "forecast": "2025-11-14",
+      "project": "ashfield"
+    },
+    {
+      "baseline": "2025-11-14",
+      "date": "2025-05-16",
+      "doc_id": "ash-wk19",
+      "float_days": 4,
+      "forecast": "2025-11-14",
+      "project": "ashfield"
+    },
+    {
+      "baseline": "2025-08-01",
+      "date": "2025-06-12",
+      "doc_id": "dru-planning",
+      "float_days": 0,
+      "forecast": "2025-08-01",
+      "project": "drumgarve"
+    },
+    {
+      "baseline": "2025-11-30",
+      "date": "2025-06-13",
+      "doc_id": "dru-wk24",
+      "float_days": 0,
+      "forecast": "2026-03-20",
+      "project": "drumgarve"
+    },
+    {
+      "baseline": "2025-11-14",
+      "date": "2025-06-30",
+      "doc_id": "ash-board-jun",
+      "float_days": 0,
+      "forecast": "2025-11-14",
+      "project": "ashfield"
+    },
+    {
+      "baseline": "2025-11-14",
+      "date": "2025-07-04",
+      "doc_id": "ash-wk27",
+      "float_days": 0,
+      "forecast": "2025-11-28",
+      "project": "ashfield"
+    }
+  ],
+  "projects": [
+    {
+      "baseline_energisation": "2025-11-14",
+      "capacity": "50 MW / 100 MWh",
+      "commercial_date": "2025-12-01",
+      "commercial_label": "Capacity market delivery start",
+      "id": "ashfield",
+      "name": "Ashfield",
+      "phases": [
+        {
+          "from": "2024-12-01",
+          "phase": "Construction"
+        },
+        {
+          "from": "2025-05-16",
+          "phase": "Commissioning preparation"
+        }
+      ],
+      "pm": "J. Patel"
+    },
+    {
+      "baseline_energisation": "2025-11-30",
+      "capacity": "40 MW",
+      "commercial_date": null,
+      "commercial_label": "No capacity market agreement. Winter trading revenue at risk.",
+      "id": "drumgarve",
+      "name": "Drumgarve",
+      "phases": [
+        {
+          "from": "2024-12-01",
+          "phase": "Pre-construction"
+        }
+      ],
+      "pm": "M. Reilly"
+    },
+    {
+      "actual_energisation": "2024-12-09",
+      "baseline_energisation": "2024-09-30",
+      "capacity": null,
+      "commercial_date": null,
+      "commercial_label": "Energised 9 Dec 2024. In operation, handover incomplete.",
+      "id": "netherwood",
+      "name": "Netherwood",
+      "phases": [
+        {
+          "from": "2024-12-01",
+          "phase": "Operational, handover open"
+        }
+      ],
+      "pm": null
+    }
+  ],
+  "status_timeline": [
+    {
+      "date": "2024-12-01",
+      "divergent": false,
+      "evidence_reasons": [],
+      "evidence_status": "on_track",
+      "project": "ashfield",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2025-03-21",
+      "divergent": false,
+      "evidence_reasons": [],
+      "evidence_status": "on_track",
+      "project": "ashfield",
+      "reported_quote": "Current forecast: 14/11/2025",
+      "reported_source_doc": "ash-wk12",
+      "reported_status": "on_programme"
+    },
+    {
+      "date": "2025-05-05",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-ASH-002-TRIGGER-56"
+      ],
+      "evidence_status": "watch",
+      "project": "ashfield",
+      "reported_quote": "Current forecast: 14/11/2025",
+      "reported_source_doc": "ash-wk12",
+      "reported_status": "on_programme"
+    },
+    {
+      "date": "2025-05-16",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-ASH-002-PERSISTENCE-amber",
+        "ALR-ASH-002-TRIGGER-56"
+      ],
+      "evidence_status": "watch",
+      "project": "ashfield",
+      "reported_quote": "Current forecast: 14/11/2025",
+      "reported_source_doc": "ash-wk19",
+      "reported_status": "on_programme"
+    },
+    {
+      "date": "2025-06-02",
+      "divergent": true,
+      "evidence_reasons": [
+        "ALR-ASH-002-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "ashfield",
+      "reported_quote": "Current forecast: 14/11/2025",
+      "reported_source_doc": "ash-wk19",
+      "reported_status": "on_programme"
+    },
+    {
+      "date": "2025-06-30",
+      "divergent": true,
+      "evidence_reasons": [
+        "ALR-ASH-002-TRIGGER-0",
+        "ALR-ASH-002-TRIGGER-0-2",
+        "ALR-ASH-002-TRIGGER-28",
+        "ALR-ASH-002-TRIGGER-28-2"
+      ],
+      "evidence_status": "at_risk",
+      "project": "ashfield",
+      "reported_quote": "Energisation forecast 14/11/2025, in line with baseline",
+      "reported_source_doc": "ash-board-jun",
+      "reported_status": "on_programme"
+    },
+    {
+      "date": "2025-07-04",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-ASH-002-IMPACT-red",
+        "ALR-ASH-002-PERSISTENCE-red",
+        "ALR-ASH-002-TRIGGER-0",
+        "ALR-ASH-002-TRIGGER-0-2",
+        "ALR-ASH-002-TRIGGER-28",
+        "ALR-ASH-002-TRIGGER-28-2",
+        "ALR-ASH-007-IMPACT-red",
+        "ALR-ASH-008-IMPACT-red"
+      ],
+      "evidence_status": "at_risk",
+      "project": "ashfield",
+      "reported_quote": "FORECAST SLIPPED 14 DAYS",
+      "reported_source_doc": "ash-wk27",
+      "reported_status": "in_delay"
+    },
+    {
+      "date": "2025-07-19",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-ASH-002-IMPACT-red",
+        "ALR-ASH-002-PERSISTENCE-red",
+        "ALR-ASH-002-TRIGGER-0",
+        "ALR-ASH-002-TRIGGER-0-2",
+        "ALR-ASH-002-TRIGGER-28",
+        "ALR-ASH-002-TRIGGER-28-2",
+        "ALR-ASH-002-TRIGGER-28-3",
+        "ALR-ASH-007-IMPACT-red",
+        "ALR-ASH-008-IMPACT-red"
+      ],
+      "evidence_status": "at_risk",
+      "project": "ashfield",
+      "reported_quote": "FORECAST SLIPPED 14 DAYS",
+      "reported_source_doc": "ash-wk27",
+      "reported_status": "in_delay"
+    },
+    {
+      "date": "2024-12-01",
+      "divergent": false,
+      "evidence_reasons": [],
+      "evidence_status": "on_track",
+      "project": "drumgarve",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2025-02-07",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2025-06-02",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red",
+        "ALR-DRU-003-TRIGGER-28",
+        "ALR-DRU-004-TRIGGER-28",
+        "ALR-DRU-005-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2025-06-12",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red",
+        "ALR-DRU-003-TRIGGER-28",
+        "ALR-DRU-004-TRIGGER-28",
+        "ALR-DRU-005-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28-2",
+        "ALR-DRU-007-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2025-06-13",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red",
+        "ALR-DRU-003-TRIGGER-28",
+        "ALR-DRU-004-TRIGGER-28",
+        "ALR-DRU-005-TRIGGER-28",
+        "ALR-DRU-006-PERSISTENCE-red",
+        "ALR-DRU-006-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28-2",
+        "ALR-DRU-007-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": "Status: in delay",
+      "reported_source_doc": "dru-wk24",
+      "reported_status": "in_delay"
+    },
+    {
+      "date": "2025-06-30",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red",
+        "ALR-DRU-003-TRIGGER-0",
+        "ALR-DRU-003-TRIGGER-28",
+        "ALR-DRU-004-TRIGGER-0",
+        "ALR-DRU-004-TRIGGER-28",
+        "ALR-DRU-005-TRIGGER-0",
+        "ALR-DRU-005-TRIGGER-28",
+        "ALR-DRU-006-PERSISTENCE-red",
+        "ALR-DRU-006-TRIGGER-0",
+        "ALR-DRU-006-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28-2",
+        "ALR-DRU-007-TRIGGER-0",
+        "ALR-DRU-007-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": "Status: in delay",
+      "reported_source_doc": "dru-wk24",
+      "reported_status": "in_delay"
+    },
+    {
+      "date": "2025-07-02",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-DRU-001-IMPACT-red",
+        "ALR-DRU-003-TRIGGER-0",
+        "ALR-DRU-003-TRIGGER-28",
+        "ALR-DRU-004-TRIGGER-0",
+        "ALR-DRU-004-TRIGGER-28",
+        "ALR-DRU-005-TRIGGER-0",
+        "ALR-DRU-005-TRIGGER-28",
+        "ALR-DRU-006-PERSISTENCE-red",
+        "ALR-DRU-006-TRIGGER-0",
+        "ALR-DRU-006-TRIGGER-0-2",
+        "ALR-DRU-006-TRIGGER-28",
+        "ALR-DRU-006-TRIGGER-28-2",
+        "ALR-DRU-007-TRIGGER-0",
+        "ALR-DRU-007-TRIGGER-28"
+      ],
+      "evidence_status": "at_risk",
+      "project": "drumgarve",
+      "reported_quote": "Status: in delay",
+      "reported_source_doc": "dru-wk24",
+      "reported_status": "in_delay"
+    },
+    {
+      "date": "2024-12-01",
+      "divergent": false,
+      "evidence_reasons": [],
+      "evidence_status": "on_track",
+      "project": "netherwood",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    },
+    {
+      "date": "2024-12-31",
+      "divergent": false,
+      "evidence_reasons": [
+        "ALR-NET-001-IMPACT-red",
+        "ALR-NET-002-IMPACT-red",
+        "ALR-NET-003-IMPACT-red",
+        "ALR-NET-004-IMPACT-red"
+      ],
+      "evidence_status": "at_risk",
+      "project": "netherwood",
+      "reported_quote": null,
+      "reported_source_doc": null,
+      "reported_status": null
+    }
+  ],
+  "triggers": [
+    {
+      "condition_text": "Construction traffic management plan delayed by the civils contractor.",
+      "deadline": "2024-12-31",
+      "declared_doc_id": "net-snags",
+      "declared_on": "2024-12-31",
+      "id": "TRG-NET-001-net-snags-1",
+      "issue_id": "NET-001"
+    },
+    {
+      "condition_text": "Transformer delivery (3 weeks). Supplier revised lead time after order placed.",
+      "deadline": "2024-12-31",
+      "declared_doc_id": "net-snags",
+      "declared_on": "2024-12-31",
+      "id": "TRG-NET-002-net-snags-1",
+      "issue_id": "NET-002"
+    },
+    {
+      "condition_text": "Various, mostly minor. Notable: PCS firmware was not updated consistently across all units during snagging - one unit was offline during the update window and was missed. This was not picked up at handover.",
+      "deadline": "2024-12-31",
+      "declared_doc_id": "net-snags",
+      "declared_on": "2024-12-31",
+      "id": "TRG-NET-003-net-snags-1",
+      "issue_id": "NET-003"
+    },
+    {
+      "condition_text": "Handover documentation to Operations was incomplete. The firmware point above was known to the commissioning team and did not make it into the handover pack.",
+      "deadline": "2024-12-31",
+      "declared_doc_id": "net-snags",
+      "declared_on": "2024-12-31",
+      "id": "TRG-NET-004-net-snags-1",
+      "issue_id": "NET-004"
+    },
+    {
+      "condition_text": "Nobody connected the repetition.",
+      "deadline": null,
+      "declared_doc_id": "net-lessons",
+      "declared_on": "2025-02-05",
+      "id": "TRG-NET-010-net-lessons-1",
+      "issue_id": "NET-010"
+    },
+    {
+      "condition_text": "Energisation forecast moves from Nov 2025 to Mar 2026, a slip of approximately 16 weeks.",
+      "deadline": "2026-03-31",
+      "declared_doc_id": "dru-transformer",
+      "declared_on": "2025-02-07",
+      "id": "TRG-DRU-001-dru-transformer-1",
+      "issue_id": "DRU-001"
+    },
+    {
+      "condition_text": "We should stop treating their quoted lead times as firm and build contingency into the programme at the point of order, not when they tell us.",
+      "deadline": null,
+      "declared_doc_id": "dru-transformer",
+      "declared_on": "2025-02-07",
+      "id": "TRG-DRU-002-dru-transformer-1",
+      "issue_id": "DRU-002"
+    },
+    {
+      "condition_text": "if it slips past June",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "ash-wk12",
+      "declared_on": "2025-03-21",
+      "id": "TRG-ASH-002-ash-wk12-1",
+      "issue_id": "ASH-002"
+    },
+    {
+      "condition_text": "within N weeks",
+      "deadline": "2025-08-16",
+      "declared_doc_id": "ash-wk19",
+      "declared_on": "2025-05-16",
+      "id": "TRG-ASH-002-ash-wk19-1",
+      "issue_id": "ASH-002"
+    },
+    {
+      "condition_text": "Not currently in the risk register",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "dru-visit",
+      "declared_on": "2025-05-30",
+      "id": "TRG-DRU-003-dru-visit-1",
+      "issue_id": "DRU-003"
+    },
+    {
+      "condition_text": "Worth a second look before foundation design is finalised",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "dru-visit",
+      "declared_on": "2025-05-30",
+      "id": "TRG-DRU-004-dru-visit-1",
+      "issue_id": "DRU-004"
+    },
+    {
+      "condition_text": "Not currently in the risk register",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "dru-visit",
+      "declared_on": "2025-05-30",
+      "id": "TRG-DRU-005-dru-visit-1",
+      "issue_id": "DRU-005"
+    },
+    {
+      "condition_text": "Chased on site",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "dru-visit",
+      "declared_on": "2025-05-30",
+      "id": "TRG-DRU-006-dru-visit-1",
+      "issue_id": "DRU-006"
+    },
+    {
+      "condition_text": "8 weeks elapsed against a statutory 8 week determination",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "dru-planning",
+      "declared_on": "2025-06-12",
+      "id": "TRG-DRU-007-dru-planning-1",
+      "issue_id": "DRU-007"
+    },
+    {
+      "condition_text": "If the contractor does not provide the analysis within two weeks that date is at risk",
+      "deadline": "2025-07-02",
+      "declared_doc_id": "dru-planning",
+      "declared_on": "2025-06-12",
+      "id": "TRG-DRU-006-dru-planning-1",
+      "issue_id": "DRU-006"
+    },
+    {
+      "condition_text": "autumn",
+      "deadline": "2025-09-30",
+      "declared_doc_id": "dru-wk24",
+      "declared_on": "2025-06-13",
+      "id": "TRG-DRU-006-dru-wk24-1",
+      "issue_id": "DRU-006"
+    },
+    {
+      "condition_text": "autumn",
+      "deadline": "2025-09-30",
+      "declared_doc_id": "dru-wk24",
+      "declared_on": "2025-06-13",
+      "id": "TRG-DRU-007-dru-wk24-1",
+      "issue_id": "DRU-007"
+    },
+    {
+      "condition_text": "autumn",
+      "deadline": "2025-09-30",
+      "declared_doc_id": "dru-wk24",
+      "declared_on": "2025-06-13",
+      "id": "TRG-DRU-003-dru-wk24-1",
+      "issue_id": "DRU-003"
+    },
+    {
+      "condition_text": "autumn",
+      "deadline": "2025-09-30",
+      "declared_doc_id": "dru-wk24",
+      "declared_on": "2025-06-13",
+      "id": "TRG-DRU-005-dru-wk24-1",
+      "issue_id": "DRU-005"
+    },
+    {
+      "condition_text": "expected to be confirmed shortly",
+      "deadline": "2025-06-30",
+      "declared_doc_id": "ash-board-jun",
+      "declared_on": "2025-06-30",
+      "id": "TRG-ASH-002-ash-board-jun-1",
+      "issue_id": "ASH-002"
+    },
+    {
+      "condition_text": "A 14 day slip takes us to 28/11, which is inside the window but with nothing spare.",
+      "deadline": "2025-11-28",
+      "declared_doc_id": "ash-wk27",
+      "declared_on": "2025-07-04",
+      "id": "TRG-ASH-002-ash-wk27-1",
+      "issue_id": "ASH-002"
+    },
+    {
+      "condition_text": "Any further slip and we are exposed.",
+      "deadline": "2025-11-28",
+      "declared_doc_id": "ash-wk27",
+      "declared_on": "2025-07-04",
+      "id": "TRG-ASH-007-ash-wk27-1",
+      "issue_id": "ASH-007"
+    },
+    {
+      "condition_text": "A 14 day slip takes us to 28/11, which is inside the window but with nothing spare.",
+      "deadline": "2025-11-28",
+      "declared_doc_id": "ash-wk27",
+      "declared_on": "2025-07-04",
+      "id": "TRG-ASH-008-ash-wk27-1",
+      "issue_id": "ASH-008"
+    }
+  ]
+}

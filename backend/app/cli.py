@@ -2,7 +2,7 @@ import typer
 
 from . import llm
 from .extract import extract_document
-from . import export, pipeline
+from . import evaluate, export, pipeline
 from .loaders import load_all
 
 app = typer.Typer(add_completion=False, no_args_is_help=True)
@@ -41,6 +41,21 @@ def build(source: str = "llm"):
     export.write(res)
     print(f"built {source}: {len(res.issues)} issues, {len(res.alerts)} alerts, "
           f"{len(res.matches)} matches, {len(res.fallbacks)} fallbacks")
+
+
+@app.command(name="eval")
+def eval_(source: str = "llm"):
+    """Print the evaluation table."""
+    print(evaluate.table(pipeline.build(source).evaluation))
+
+
+@app.command()
+def all(source: str = "llm", refresh: bool = False):
+    """extract + build + eval."""
+    extract(source=source, refresh=refresh)
+    res = pipeline.build(source)
+    export.write(res)
+    print(evaluate.table(res.evaluation))
 
 
 if __name__ == "__main__":

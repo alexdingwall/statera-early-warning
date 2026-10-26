@@ -10,6 +10,10 @@ def _d(x):
     return x.isoformat() if isinstance(x, date) else x
 
 
+def _gt_issue(res, gold_id):
+    return next((i.id for i in res.issues.values() if (i.gold_id or i.id) == gold_id), gold_id)
+
+
 def build_bundle(res: Result) -> dict:
     data = res.data
     docs = []
@@ -74,7 +78,8 @@ def build_bundle(res: Result) -> dict:
                                  "float_days": s.float_days} for s in res.snapshots],
         "status_timeline": [{k: _d(v) for k, v in row.items()} for row in res.status_timeline],
         "board_checks": res.board_checks,
-        "ground_truth_events": [{**{k: _d(v) for k, v in e.items()}} for e in data.ground_truth_events],
+        "ground_truth_events": [{**{k: _d(v) for k, v in e.items()}, "issue_id": _gt_issue(res, e["issue_id"])}
+                                for e in data.ground_truth_events],
         "evaluation": res.evaluation,
     }
 

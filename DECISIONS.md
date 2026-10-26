@@ -12,3 +12,4 @@
 - Duplicate alert ids (two triggers staging the same stage on one issue) get a numeric suffix.
 - Gold build also shows two extra cross-project matches beyond the three expected (DRU-COND9 to NET-PLANNING, ASH-SNAG to NET-FIRMWARE), neither on the no-match list.
 - Phase 2 code was committed together with Phase 3.
+- Demo bundle is the LLM build: it passes the plan's gates (first ASH-DNO alert 5 May 2025, "Low risk" claim contradicted with no fallback, 2 of 3 expected matches found). Known weaknesses are shown on the Evaluation page: over-extraction (precision 68%), category accuracy 46%, trigger dates 25%, DRU-ACCESS to ASH-CRANE not matched, and the two Drumgarve matches are medium rather than high confidence.

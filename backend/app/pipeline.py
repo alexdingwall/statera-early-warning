@@ -1,7 +1,7 @@
 """Chronological processing. Each document only sees what earlier documents established."""
 from dataclasses import dataclass, field
 
-from . import identity, rules, status
+from . import evaluate, identity, rules, status
 from .extract import extract_document
 from .loaders import Data, load_all
 from .models import Alert, Issue, Match, Mention, ProgrammeSnapshot, Trigger
@@ -87,3 +87,4 @@ def _derive(res: Result) -> None:
         res.issues, res.alerts, replay_docs(data), res.snapshots,
         [p["id"] for p in data.projects], window)
     res.board_checks = boardcheck.run(res)
+    evaluate.run(res)
