@@ -76,6 +76,31 @@ export function Shell() {
   const recent = alertsFired(bundle, asOf).filter((a) => a.fired_on > addDays(asOf, -14)).length
   const badge = bundle.meta.source === "gold" ? "Gold labels" : "Pre-computed run"
 
+  const navItem = (n: (typeof NAV)[number], i: number) => {
+    const st = n.project ? statusOn(bundle, n.project, asOf)?.evidence_status : undefined
+    const hasDocs = n.project ? replayDocs(bundle).some((d) => d.project === n.project && d.date <= asOf) : true
+    return (
+      <NavLink
+        key={n.to}
+        to={n.to}
+        end={n.to === "/"}
+        className={({ isActive }) =>
+          cn("relative flex h-9 items-center gap-2 rounded-md px-3 text-[14px] text-white/80 hover:bg-navy-800", n.project && "pl-4", isActive && "bg-navy-800 font-medium text-white")
+        }
+      >
+        {({ isActive }) => (
+          <>
+            {isActive && <span className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-teal-400" />}
+            <span className="flex-1">{n.label}</span>
+            {n.project && hasDocs && <StatusDot status={st} />}
+            {n.to === "/alerts" && <span className="num rounded-sm bg-white/15 px-1.5 text-[12px]" title={`${recent} ${recent === 1 ? "warning" : "warnings"} fired in the 14 days up to this date`} aria-label={`${recent} warnings in the last 14 days`}>{recent}</span>}
+            <span className="sr-only">Shortcut: press {i + 1}</span>
+          </>
+        )}
+      </NavLink>
+    )
+  }
+
   return (
     <>
       <div className="flex h-dvh flex-col overflow-hidden max-lg:hidden">
@@ -147,30 +172,11 @@ export function Shell() {
 
         <div className="flex min-h-0 flex-1">
           <nav aria-label="Main" className="flex w-[220px] shrink-0 flex-col gap-0.5 bg-navy-900 px-3 py-4">
-            {NAV.map((n, i) => {
-              const st = n.project ? statusOn(bundle, n.project, asOf)?.evidence_status : undefined
-              const hasDocs = n.project ? replayDocs(bundle).some((d) => d.project === n.project && d.date <= asOf) : true
-              return (
-                <NavLink
-                  key={n.to}
-                  to={n.to}
-                  end={n.to === "/"}
-                  className={({ isActive }) =>
-                    cn("relative flex h-9 items-center gap-2 rounded-md px-3 text-[14px] text-white/80 hover:bg-navy-800", isActive && "bg-navy-800 font-medium text-white")
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      {isActive && <span className="absolute inset-y-2 left-0 w-0.5 rounded-full bg-teal-400" />}
-                      <span className="flex-1">{n.label}</span>
-                      {n.project && hasDocs && <StatusDot status={st} />}
-                      {n.to === "/alerts" && <span className="num rounded-sm bg-white/15 px-1.5 text-[12px]" title={`${recent} ${recent === 1 ? "warning" : "warnings"} fired in the 14 days up to this date`} aria-label={`${recent} warnings in the last 14 days`}>{recent}</span>}
-                      <span className="sr-only">Shortcut: press {i + 1}</span>
-                    </>
-                  )}
-                </NavLink>
-              )
-            })}
+            {navItem(NAV[0], 0)}
+            <div className="my-2 rounded-lg bg-black/25 p-1.5" role="group" aria-label="Projects">
+              {NAV.slice(1, 4).map((n, i) => navItem(n, i + 1))}
+            </div>
+            {NAV.slice(4).map((n, i) => navItem(n, i + 4))}
           </nav>
           <main className="min-h-0 min-w-0 flex-1 overflow-y-auto overflow-x-hidden p-4">
             <OutcomeBanner />
