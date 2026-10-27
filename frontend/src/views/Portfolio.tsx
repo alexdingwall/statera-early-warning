@@ -21,7 +21,9 @@ export function Portfolio() {
   const all = useMemo(() => every.filter((i) => i.tier === "now" || i.tier === "prepare"), [every])
   /** Open issues with no warning yet, but a deadline already set by the report, or a similar problem on another project. */
   const radar = useMemo(() => every.filter((i) => i.tier === "watch" && ((i.daysLeft !== null && i.daysLeft >= 0) || i.lastTime?.kind === "incident")), [every])
-  const watching = useMemo(() => watchOn(bundle, asOf), [bundle, asOf])
+  const past = useMemo(() => every.filter((i) => i.tier === "past"), [every])
+  const extras = useMemo(() => [...radar, ...past], [radar, past])
+  const [more, setMore] = useState(false)
   const [tab, setTab] = useState<"todo" | "done">("todo")
   const [params] = useSearchParams()
   const [sel, setSel] = useState<string | null>(params.get("item"))   // deep link: #/?item=ISSUE_ID
@@ -34,9 +36,9 @@ export function Portfolio() {
   const newIds = new Set(news.items.map((n) => n.issueId))
   const isNew = (i: (typeof all)[number]) => newIds.has(i.issue.id) || i.also.some((a) => newIds.has(a.id))
   const openNew = (issueId: string, project: string) => {
-    const hit = all.find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
+    const hit = [...all, ...extras].find((i) => i.issue.id === issueId || i.also.some((a) => a.id === issueId))
     if (hit) {
-      setTab("todo"); setSel(hit.issue.id)
+      setTab("todo"); setSel(hit.issue.id); if (!all.includes(hit)) setMore(true)
       setFlash(hit.issue.id); window.setTimeout(() => setFlash(null), 1600)
       window.setTimeout(() => document.getElementById("detail-panel")?.scrollIntoView({ behavior: "smooth", block: "start" }), 50)
     } else navigate(`/project/${project}?issue=${issueId}`)
@@ -63,6 +65,7 @@ export function Portfolio() {
     const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`
     return [...by.values()].map((g) => ({
       project: g.project, firstId: g.firstId ?? "", actionable: g.decide.size > 0 || g.warnings.size > 0,
+      decide: g.decide.size, watch: g.watch.size, past: g.past.size, warnings: g.warnings.size, resolved: g.resolved.size,
       parts: [
         g.warnings.size && plural(g.warnings.size, "new warning"),
         g.decide.size && `${plural(g.decide.size, "new issue")} to decide`,
@@ -73,12 +76,34 @@ export function Portfolio() {
       ].filter(Boolean) as string[],
     })).filter((g) => g.parts.length)
   }, [news, every])
+  const totals = useMemo(() => {
+    const sum = (f: (g: (typeof summary)[number]) => number) => summary.reduce((n, g) => n + f(g), 0)
+    const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? "" : "s"}`
+    const decide = sum((g) => g.decide), warn = sum((g) => g.warnings), watch = sum((g) => g.watch), res = sum((g) => g.resolved), pst = sum((g) => g.past)
+    return [warn && plural(warn, "new warning"), decide && `${plural(decide, "new issue")} to decide`, watch && `${plural(watch, "new issue")} to watch`,
+      pst && !(decide || warn || watch) && `${plural(pst, "past incident")} recorded`, res && `${res} resolved`].filter(Boolean) as string[]
+  }, [summary])
+  /** The new items worth stepping through: things to decide first, then things to watch. Past incidents only when nothing else is new. */
+  const stepIds = useMemo(() => {
+    const rank = (t: ActionItem["tier"]) => (t === "now" ? 0 : t === "prepare" ? 1 : t === "watch" ? 2 : 3)
+    const hits = new Map<string, ActionItem>()
+    for (const n of news.items) {
+      if (n.kind === "resolved") continue
+      const it = every.find((i) => i.issue.id === n.issueId || i.also.some((a) => a.id === n.issueId))
+      // stay on this screen: only items the queue or its closed row can show
+      if (it && (all.includes(it) || extras.includes(it))) hits.set(it.issue.id, it)
+    }
+    const sorted = [...hits.values()].sort((a, b) => rank(a.tier) - rank(b.tier))
+    return (sorted.some((i) => i.tier !== "past") ? sorted.filter((i) => i.tier !== "past") : sorted).map((i) => ({ id: i.issue.id, project: i.project }))
+  }, [news, every, all, extras])
+  const [reviewed, setReviewed] = useState(0)
+  useEffect(() => setReviewed(0), [asOf])
   const todo = all.filter((i) => !dec(i).handled)
   const done = all.filter((i) => dec(i).handled)
   const list = tab === "todo" ? todo : done
   const pages = Math.max(1, Math.ceil(list.length / PAGE))
   useEffect(() => setPage(0), [tab, asOf])
-  const pool = tab === "todo" ? [...list, ...radar] : list
+  const pool = tab === "todo" ? [...list, ...extras] : list
   // Open on the item that came back with new information, else the most urgent
   const selected = pool.find((i) => i.issue.id === sel) ?? list.find((i) => dec(i).reopened) ?? list[0] ?? pool[0]
   const rows = list.slice(page * PAGE, page * PAGE + PAGE)
@@ -87,35 +112,20 @@ export function Portfolio() {
     <div className="flex flex-col gap-3">
       <h1 className="sr-only">Portfolio</h1>
       <div className="grid shrink-0 grid-cols-3 gap-3">
-        {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} />)}
+        {bundle.projects.map((p) => <ProjectTile key={p.id} p={p} todo={todo.filter((i) => i.project === p.id).length} fresh={summary.find((g) => g.project === p.id)?.decide ?? 0} />)}
       </div>
 
-      {watching.length > 0 && (
-        <div className="flex shrink-0 flex-wrap items-baseline gap-x-4 gap-y-1 rounded-lg border border-line bg-surface px-3 py-1.5 text-[13px]" aria-label="On watch">
-          <span className="font-semibold">On watch</span>
-          {[...new Set(watching.map((w) => w.note.project))].map((proj) => (
-            <Link key={proj} to={`/project/${proj}`} className="hover:underline">
-              <span className="capitalize">{proj}</span>
-              <span className="text-muted-ink">: {watching.filter((w) => w.note.project === proj).map((w) => w.title).join("; ")}</span>
-            </Link>
-          ))}
-        </div>
-      )}
-
       {summary.length > 0 && (
-        <div className="flex shrink-0 flex-wrap items-center gap-2 rounded-lg border border-line bg-surface px-3 py-2 text-[13px]" aria-label="New since the previous report">
-          <span className="mr-1 font-semibold">{news.from ? `New since ${fmtDate(news.from)}` : "New"}</span>
-          {summary.map((g) => (
-            <button key={g.project} onClick={() => openNew(g.firstId, g.project)}
-              className={cn("flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-left font-medium hover:bg-bg",
-                g.actionable ? "border-blue-500/50 bg-blue-500/5 text-ink" : "border-line text-ink")}>
-              <span className="capitalize">{g.project}</span>
-              <span className="font-normal text-muted-ink">{g.parts.join(" · ")}</span>
-              <span className={cn("ml-1 text-[12px] font-semibold", g.actionable ? "text-[#0B6DA6]" : "text-muted-ink")}>{g.actionable ? "Review" : "View"}</span>
-              <ChevronRight size={14} className={g.actionable ? "text-[#0B6DA6]" : "text-muted-ink"} aria-hidden />
-            </button>
-          ))}
-        </div>
+        <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[13px]" aria-label="New since the previous report">
+          <span>
+            <span className="font-semibold">{news.from ? `Since ${fmtDate(news.from)}: ` : "New: "}</span>
+            <span className="text-muted-ink">{totals.join(", ")}</span>
+          </span>
+          {stepIds.length > 0 && (reviewed < stepIds.length ? (
+            <button onClick={() => { const t = stepIds[reviewed]; openNew(t.id, t.project); setReviewed(reviewed + 1) }}
+              className="flex items-center gap-0.5 font-semibold text-[#0B6DA6] hover:underline">Review {reviewed + 1} of {stepIds.length} <ChevronRight size={14} aria-hidden /></button>
+          ) : <span className="text-muted-ink">All {stepIds.length} reviewed</span>)}
+        </p>
       )}
 
       <div className="flex items-start gap-3">
@@ -134,15 +144,23 @@ export function Portfolio() {
                 <QueueRow item={i} selected={selected?.issue.id === i.issue.id} flash={flash === i.issue.id} isNew={isNew(i)} reopened={!!dec(i).reopened} onPick={() => setSel(i.issue.id)} />
               </li>
             ))}
-            {tab === "todo" && radar.length > 0 && (
-              <>
-                <li><h3 className="px-2 pb-0.5 pt-2 text-[12px] font-semibold text-muted-ink">On the radar: a deadline is set, or it has happened before</h3></li>
-                {radar.map((i) => (
-                  <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} flash={flash === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
-                ))}
-              </>
+            {tab === "todo" && extras.length > 0 && (
+              <li className="mt-1 border-t border-line pt-1">
+                <button onClick={() => setMore(!more)} aria-expanded={more}
+                  className="flex w-full items-center gap-1 rounded-md px-2 py-1.5 text-left text-[13px] text-muted-ink hover:bg-bg">
+                  <ChevronRight size={14} className={cn("transition-transform", (more || extras.some((x) => x.issue.id === selected?.issue.id)) && "rotate-90")} aria-hidden />
+                  {[radar.length > 0 && `Also watching ${radar.length}`, past.length > 0 && `Past incidents ${past.length}`].filter(Boolean).join(" · ")}
+                </button>
+                {(more || extras.some((x) => x.issue.id === selected?.issue.id)) && (
+                  <ul>
+                    {extras.map((i) => (
+                      <li key={i.issue.id}><QueueRow item={i} selected={selected?.issue.id === i.issue.id} flash={flash === i.issue.id} isNew={isNew(i)} reopened={false} onPick={() => setSel(i.issue.id)} /></li>
+                    ))}
+                  </ul>
+                )}
+              </li>
             )}
-            {rows.length === 0 && radar.length === 0 && (
+            {rows.length === 0 && extras.length === 0 && (
               <li className="px-3 py-4 text-[13px] text-muted-ink">
                 {tab === "todo" ? `Nothing needs a decision as of ${fmtDate(asOf)}.` : "No actions handled yet."}
               </li>
@@ -170,14 +188,14 @@ const TONE_ICON = {
   grey: <MinusCircle size={16} className="shrink-0 text-navy-600" aria-hidden />,
 }
 
-function ProjectTile({ p, todo }: { p: Project; todo: number }) {
+function ProjectTile({ p, todo, fresh }: { p: Project; todo: number; fresh: number }) {
   const bundle = useStore((s) => s.bundle)!
   const asOf = useStore((s) => s.asOf)
   const docs = docsUpTo(bundle, asOf, p.id)
   const st = statusOn(bundle, p.id, asOf)
   const head = headlineFor(bundle, p.id, asOf)
   const snap = latestSnapshot(bundle, p.id, asOf)
-  const watching = watchOn(bundle, asOf, p.id).length
+  const watching = watchOn(bundle, asOf, p.id)
   const lead = topReasons(bundle, asOf, p.id)[0]
 
   return (
@@ -187,7 +205,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
           <span className="size-2.5 rounded-full" style={{ background: PROJECT_COLOUR[p.id] }} aria-hidden />
           <span className="font-heading text-[14px] font-semibold">{p.name}</span>
         </span>
-        <span className="text-[12px] text-muted-ink">{docs.length ? `${todo} to decide${watching ? ` · ${watching} on watch` : ""}${snap?.float_days != null ? ` · float ${snap.float_days} d` : ""}` : `No documents yet${watching ? ` · ${watching} on watch` : ""}`}</span>
+        <span className="text-[12px] text-muted-ink">{docs.length ? `${todo} to decide${fresh ? ` · ${fresh} new` : ""}${snap?.float_days != null ? ` · float ${snap.float_days} d` : ""}` : "No documents yet"}</span>
       </div>
       {docs.length > 0 && (
         <>
@@ -199,6 +217,7 @@ function ProjectTile({ p, todo }: { p: Project; todo: number }) {
             <span className="mt-px">{TONE_ICON[head.tone]}</span>
             <span>{st?.divergent && lead ? `The report says on programme, but ${lead.issue.title} is ${lead.alert.severity}` : head.text}</span>
           </p>
+          {watching.length > 0 && <p className="mt-1 text-[12px] text-muted-ink"><span className="font-medium text-ink">Watch: </span>{watching.map((w) => w.title).join("; ")}</p>}
         </>
       )}
     </Link>

@@ -1,4 +1,4 @@
-import { BellOff, Check, History, Megaphone, RotateCcw } from "lucide-react"
+import { BellOff, Check, ChevronRight, Megaphone, RotateCcw } from "lucide-react"
 import { Link } from "react-router-dom"
 import { useStore } from "@/store"
 import { ageText, categoryLabel, fmtDate, STATUS_WORDS } from "@/lib/format"
@@ -100,9 +100,13 @@ export function ActionDetail({ item }: { item: ActionItem }) {
       </div>
 
       {item.lastTime && (
-        <div className="shrink-0 border-t border-line pt-2 text-[13px]">
-          <div className="mb-0.5 flex items-center justify-between">
-            <h3 className="flex items-center gap-1 text-[12px] font-semibold text-muted-ink"><History size={13} aria-hidden />{item.lastTime.kind === "incident" ? "Last time" : "Lesson from Netherwood"}</h3>
+        <details className="group shrink-0 border-t border-line pt-2 text-[13px]" open={item.tier === "watch"}>
+          <summary className="flex cursor-pointer list-none items-center gap-1 text-[13px] font-semibold marker:hidden">
+            <ChevronRight size={14} className="transition-transform group-open:rotate-90" aria-hidden />
+            {item.lastTime.kind === "incident" ? "Last time" : "Lesson from Netherwood"}
+            {item.lastTime.prior && <span className="font-normal text-muted-ink"> · <span className="capitalize">{item.lastTime.prior.project}</span>{item.lastTime.confidence ? `, ${item.lastTime.confidence} match` : ""}</span>}
+          </summary>
+          <div className="mb-0.5 mt-1 flex items-center justify-end">
             {item.lastTime.prior && (
               <Link to={`/project/${item.lastTime.prior.project}?issue=${item.lastTime.prior.id}`} className="text-[12px] text-[#0B6DA6] hover:underline">
                 Open the earlier issue at <span className="capitalize">{item.lastTime.prior.project}</span>
@@ -124,7 +128,7 @@ export function ActionDetail({ item }: { item: ActionItem }) {
           )}
           {item.lastTime.lesson && <p className="mt-1 font-medium text-[#8A5A12]">{item.lastTime.lesson}</p>}
           {item.lastTime.matchId && <Relevance id={item.lastTime.matchId} />}
-        </div>
+        </details>
       )}
 
       <IssueTabs issue={issue} />
