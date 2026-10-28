@@ -1,8 +1,41 @@
 # Early Warning
 
-A proof of concept for Statera. Project reports record issues, but each report is a snapshot, so a request that goes unanswered week after week never turns into an escalation. Early Warning reads the documents, gives each issue an identity over time, raises explainable alerts, links new issues to similar incidents on other projects, and checks a board paper against the evidence held on its date. A replay bar shows exactly what the system knew on any date, using only documents dated on or before it.
+A proof of concept for Statera. Project reports record issues, but each report is a snapshot, so a request that goes unanswered week after week never turns into an escalation. Early Warning reads the documents, gives each issue an identity over time, raises warnings that explain themselves, and shows a project manager what to decide this week.
 
-Hosted copy (read-only, kept out of search engines; the documents are synthetic): https://statera-early-warning.vercel.app
+**Try it:** https://statera-early-warning.vercel.app (read-only, kept out of search engines; the documents are synthetic). Open it, step to 5 May 2025 with the arrow keys, and click Review. Press `?` for a short guide.
+
+It runs on a replay: pick any date and the system shows only what was known on that date, using documents dated on or before it.
+
+## What it found
+
+On the sample (three projects, 12 documents), replayed against what really happened:
+
+- **A warning 59 days early.** Ashfield's grid connection (DNO) date was unconfirmed in March. The first warning came on 5 May 2025; the formal escalation was on 3 Jul 2025. The persistence rule alone fired 48 days before, and the first red alert 31 days before.
+- **Reported status and evidence disagree.** On 3 Jun 2025 Ashfield's report says on programme, while the DNO issue in the same evidence is red. Both are quoted, with a link to the source.
+- **Drumgarve repeats Netherwood's problems.** Its transformer supplier and civils contractor already had a record on Netherwood. A watch note appears five weeks before the transformer issue is first reported.
+- **Board paper claims.** Each claim is checked against the evidence held that day: 3 of 7 claims in the June paper are contradicted (the human labels expect 2).
+
+How far to trust this: one issue in 12 documents is an illustration, not proof. The rules were set after reading the story, and trigger dates are read correctly only half the time. Precision is 71%, so a real queue would need tuning before anyone relied on it. Full numbers are under [Evaluation results](#evaluation-results).
+
+## Who uses it, and what they do differently
+
+| Who | When | What they do differently |
+| --- | --- | --- |
+| Project manager | Before writing the weekly report | Escalates a repeating issue early, with the evidence, instead of writing it up again |
+| Delivery director | Before the board update | Checks each claim against the evidence held that day |
+| Procurement | When appointing a supplier | Sees that supplier's record on other projects before committing |
+| Portfolio lead | Monday morning | Sees which projects are really at risk without reading every report |
+
+A decision stays handled until something new arrives on that issue, then it returns with the reason. It prompts a decision. It does not send anything, change a report or replace the project manager's judgement.
+
+## Judgement calls and scope
+
+- **The model reads, rules decide.** A local model (qwen3:8b through Ollama) extracts issues and quotes. Warnings come from four plain rules with templated explanations, so each one can be audited. No data leaves the computer.
+- **Replay by date.** Nothing dated after the as-of date is used for anything shown at that date, and tests enforce it. This is what makes "did it warn in time" an honest question.
+- **Built on purpose:** the early warning, the replay that checks it against what happened, the watch notes (prevention before any alert), a board-paper check and an Add a report page.
+- **Left out on purpose:** login and a shared database (decisions are saved in the browser only), email or Slack alerts, reading SharePoint directly, editing issues in the app and a mobile layout. Each needs live systems, and I would rather test the queue with a real project manager first.
+- **Known gaps:** a report that gives a new date does not yet replace the old deadline, and a report filed late can shift issue numbers.
+- `DECISIONS.md` lists every other judgement call.
 
 ## Run the dashboard
 
@@ -33,7 +66,7 @@ ollama pull qwen3:8b && ollama pull nomic-embed-text
 cd backend && uv run python -m app.cli all --source llm --refresh
 ```
 
-`--source gold` builds the same bundle from the human labels in `data/gold/gold.yaml`, with no extraction by the model. It is the safety net and the reference the evaluation scores against. API for a live setting: `uv run uvicorn app.api:app --reload --port 8000`.
+`--source gold` builds the same bundle from the human labels in `data/gold/gold.yaml`, with no extraction by the model. It is the reference the evaluation scores against. API for a live setting: `uv run uvicorn app.api:app --reload --port 8000`.
 
 ## How it works
 
@@ -69,7 +102,7 @@ Escalate, Acknowledge and Snooze are stored in the browser only (`localStorage`)
 
 ## Evaluation results
 
-Run on the 12-document sample, qwen3:8b, prompt v2, scored against `data/gold/gold.yaml`. Prompt v1 (the plan's first wording) scored category 46%, status 69%, trigger dates 25% and found 2 of 3 expected matches; v2 adds category definitions, status rules for retrospectives, and "triggers are normally empty".
+Run on the 12-document sample, qwen3:8b, prompt v2, scored against `data/gold/gold.yaml`. The first prompt (v1) scored category 46%, status 69%, trigger dates 25% and found 2 of 3 expected matches; v2 adds category definitions, status rules for retrospectives, and "triggers are normally empty".
 
 | Measure | Result |
 | --- | --- |
@@ -82,7 +115,8 @@ Run on the 12-document sample, qwen3:8b, prompt v2, scored against `data/gold/go
 | Same-issue pairwise precision | 100% |
 | Same-issue pairwise recall | 88% |
 | Expected cross-project matches found | 3 of 3, 0 false positives |
-| Board claim "Low risk, expected to be confirmed shortly." | Contradicted by the model, no fallback needed |
+| Board claim "Low risk, expected to be confirmed shortly." | Contradicted by the model |
+| Board claims contradicted in the June paper | 3 of 7 (the human labels expect 2) |
 
 Lead time on the Ashfield DNO issue against the actual escalation on 3 Jul 2025:
 
@@ -92,4 +126,4 @@ Lead time on the Ashfield DNO issue against the actual escalation on 3 Jul 2025:
 | First red alert | 2 Jun 2025 | 31 |
 | Persistence rule alone | 16 May 2025 | 48 |
 
-Known weaknesses of the committed run: precision is 71% because the model still lists budget lines and checklist items as issues; some board claims other than the key one are judged more harshly than the human labels; trigger dates are right half the time. Programme figures (baseline, forecast, float) are read from the documents by code, not by the model. The lessons-learned actions on the Lessons tab are hand-entered in `data/lessons.yaml`. Use `build --source gold` if a cleaner demo is needed.
+Known weaknesses of the committed run: precision is 71% because the model still lists budget lines and checklist items as issues; some board claims other than the key one are judged more harshly than the human labels; trigger dates are right half the time. Programme figures (baseline, forecast, float) are read from the documents by code, not by the model. The lessons-learned actions on the Lessons tab are hand-entered in `data/lessons.yaml`.
